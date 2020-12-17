@@ -4,7 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Path {
-
-	List <Position> path = new LinkedList<Position>();
+	
+	public List <Position> path = new LinkedList<Position>();
+	
+	public Path(Position p) {
+		path.add(p);
+	}
 	
 }

@@ -5,13 +5,13 @@ import warcraftMain.Position;
 public abstract class Tower {
 
 	//prix de la tour
-	int towerCost;
+	protected int towerCost;
 
 	//potée de la tour 
-	double range; 
+	protected double range; 
 
 	//temps de rechargement
-	int cooldown;
+	protected int cooldown;
 
 	//peut attaquer les cibles volantes 
 	boolean aerialTarget ;

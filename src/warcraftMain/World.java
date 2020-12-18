@@ -81,7 +81,7 @@ public class World {
 	 public void drawInfos() {
 		 StdDraw.picture(0.94, 0.94, "images/parchemin.png", 0.1, 0.1);
 		 drawLife();
-	 }
+	 } 
 	 
 	 public void drawLife() {
 		 StdDraw.setPenColor(StdDraw.BLACK);

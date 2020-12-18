@@ -31,12 +31,12 @@ public class Position {
 	}
 	
 	public Position(Position p) {
-		x = p.x ;
-		y = p.y ;
+		this.x = p.getX() ;
+		this.y = p.getY() ;
 	}
 	
 	public boolean equals(Position p) {
-		return x == p.x && y == p.y;
+		return x == p.getX() && y == p.getY();
 	}
 	
 	/**

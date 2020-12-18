@@ -1,38 +1,102 @@
 package warcraftMain;
 
 import java.util.List;
-
 import warcraftMonster.Monster;
-
-import java.util.LinkedList;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class World {
 	// l'ensemble des monstres, pour gerer (notamment) l'affichage
-	List<Monster> monsters = new ArrayList<Monster>();
-	
+	private List<Monster> monsters = new ArrayList<Monster>();
+
 	// Position par laquelle les monstres vont venir
-	Position spawn;
-	
+	private Position spawn;
+
 	// Information sur la taille du plateau de jeu
-	int width;
-	int height;
-	int nbSquareX;
-	int nbSquareY;
-	double squareWidth;
-	double squareHeight;
-	
+	private int width;
+	private int height;
+	private int nbSquareX;
+	private int nbSquareY;
+	private double squareWidth;
+	private double squareHeight;
+
 	// Nombre de points de vie du joueur
-	int life = 20;
-	
+	private int life = 20;
+
 	// Commande sur laquelle le joueur appuie (sur le clavier)
-	char key;
-	
+	private char key;
+
 	// Condition pour terminer la partie
-	boolean end = false;
-	
+	private boolean end = false;
+
+	public List<Monster> getMonsters() {
+		return monsters;
+	}
+	public void setMonsters(List<Monster> monsters) {
+		this.monsters = monsters;
+	}
+	public Position getSpawn() {
+		return spawn;
+	}
+	public void setSpawn(Position spawn) {
+		this.spawn = spawn;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public int getNbSquareX() {
+		return nbSquareX;
+	}
+	public void setNbSquareX(int nbSquareX) {
+		this.nbSquareX = nbSquareX;
+	}
+	public int getNbSquareY() {
+		return nbSquareY;
+	}
+	public void setNbSquareY(int nbSquareY) {
+		this.nbSquareY = nbSquareY;
+	}
+	public double getSquareWidth() {
+		return squareWidth;
+	}
+	public void setSquareWidth(double squareWidth) {
+		this.squareWidth = squareWidth;
+	}
+	public double getSquareHeight() {
+		return squareHeight;
+	}
+	public void setSquareHeight(double squareHeight) {
+		this.squareHeight = squareHeight;
+	}
+	public int getLife() {
+		return life;
+	}
+	public void setLife(int life) {
+		this.life = life;
+	}
+	public char getKey() {
+		return key;
+	}
+	public void setKey(char key) {
+		this.key = key;
+	}
+	public boolean isEnd() {
+		return end;
+	}
+	public void setEnd(boolean end) {
+		this.end = end;
+	}
+
+
 	/**
 	 * Initialisation du monde en fonction de la largeur, la hauteur et le nombre de cases données
 	 * @param width
@@ -53,91 +117,91 @@ public class World {
 		StdDraw.setCanvasSize(width, height);
 		StdDraw.enableDoubleBuffering();
 	}
-	
+
 	/**
 	 * Définit le décors du plateau de jeu.
 	 * --> "images/grass.jpeg" est utlisé ici
 	 * --> afin de représenter une plaine
 	 * 
 	 */
-	 public void drawBackground() {	
-		 for (int i = 0; i < nbSquareX; i++) {
-			 for (int j = 0; j < nbSquareY; j++)
-				 StdDraw.picture(i * squareWidth + squareWidth / 2, j * squareHeight + squareHeight / 2, "images/grass.jpeg", squareWidth, squareHeight);
-		 }
-	 }
-	 
-	 /**
-	  * Initialise le chemin sur la position du point de départ des monstres. Cette fonction permet d'afficher une route qui sera différente du décors.
-	  */
-	 public void drawPath() {
-		 Position p = new Position(spawn);
-		 StdDraw.picture(p.getX(), p.getY(), "images/path.jpg", squareWidth, squareHeight);
-	 }
-	 
-	 /**
-	  * Affiche certaines informations sur l'écran telles que les points de vie du joueur ou son or
-	  */
-	 public void drawInfos() {
-		 StdDraw.picture(0.94, 0.94, "images/parchemin.png", 0.1, 0.1);
-		 drawLife();
-	 } 
-	 
-	 public void drawLife() {
-		 StdDraw.setPenColor(StdDraw.BLACK);
-		 StdDraw.text(0.95, 0.95, String.valueOf(life));
-	 }
-	 
-	 /**
-	  * Fonction qui récupère le positionnement de la souris et permet d'afficher une image de tour en temps réél
-	  *	lorsque le joueur appuie sur une des touches permettant la construction d'une tour.
-	  */
-	 public void drawMouse() {
+	public void drawBackground() {	
+		for (int i = 0; i < nbSquareX; i++) {
+			for (int j = 0; j < nbSquareY; j++)
+				StdDraw.picture(i * squareWidth + squareWidth / 2, j * squareHeight + squareHeight / 2, "images/grass.jpeg", squareWidth, squareHeight);
+		}
+	}
+
+	/**
+	 * Initialise le chemin sur la position du point de départ des monstres. Cette fonction permet d'afficher une route qui sera différente du décors.
+	 */
+	public void drawPath() {
+		Position p = new Position(spawn);
+		StdDraw.picture(p.getX(), p.getY(), "images/path.jpg", squareWidth, squareHeight);
+	}
+
+	/**
+	 * Affiche certaines informations sur l'écran telles que les points de vie du joueur ou son or
+	 */
+	public void drawInfos() {
+		StdDraw.picture(0.94, 0.94, "images/parchemin.png", 0.1, 0.1);
+		drawLife();
+	} 
+
+	public void drawLife() {
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.text(0.95, 0.95, String.valueOf(life));
+	}
+
+	/**
+	 * Fonction qui récupère le positionnement de la souris et permet d'afficher une image de tour en temps réél
+	 *	lorsque le joueur appuie sur une des touches permettant la construction d'une tour.
+	 */
+	public void drawMouse() {
 		double normalizedX = (int)(StdDraw.mouseX() / squareWidth) * squareWidth + squareWidth / 2;
 		double normalizedY = (int)(StdDraw.mouseY() / squareHeight) * squareHeight + squareHeight / 2;
 		String image = null;
 		switch (key) {
 		case 'a' : 
-			 // TODO Ajouter une image pour représenter une tour d'archers
-			 break;
+			// TODO Ajouter une image pour représenter une tour d'archers
+			break;
 		case 'b' :
 			// TODO Ajouter une image pour représenter une tour à canon
-			 break;
+			break;
 		}
-		 if (image != null)
-			 StdDraw.picture(normalizedX, normalizedY, image, squareWidth, squareHeight);
-	 }
-		 
-	 /**
-	  * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster.
-	  * Modifie la position du monstre au cours du temps à l'aide du paramètre nextP.
-	  */
-	 public void updateMonsters() {
-	 
+		if (image != null)
+			StdDraw.picture(normalizedX, normalizedY, image, squareWidth, squareHeight);
+	}
+
+	/**
+	 * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster.
+	 * Modifie la position du monstre au cours du temps à l'aide du paramètre nextP.
+	 */
+	public void updateMonsters() {
+
 		Iterator<Monster> i = monsters.iterator();
 		Monster m;
 		while (i.hasNext()) {
-			 m = i.next();
-			 m.update();
-			 if(m.getP().getY() < 0) {
-				 m.getP().setY(1);
-			 }
-		 }
-	 }
-	 
-	 /**
-	  * Met à jour toutes les informations du plateau de jeu ainsi que les déplacements des monstres et les attaques des tours.
-	  * @return les points de vie restants du joueur
-	  */
-	 public int update() {
+			m = i.next();
+			m.update();
+			if(m.getP().getY() < 0) {
+				m.getP().setY(1);
+			}
+		}
+	}
+
+	/**
+	 * Met à jour toutes les informations du plateau de jeu ainsi que les déplacements des monstres et les attaques des tours.
+	 * @return les points de vie restants du joueur
+	 */
+	public int update() {
 		drawBackground();
 		drawPath();
 		drawInfos();
 		updateMonsters();
 		drawMouse();
 		return life;
-	 }
-	 
+	}
+
 	/**
 	 * Récupère la touche appuyée par l'utilisateur et affiche les informations pour la touche séléctionnée
 	 * @param key la touche utilisée par le joueur
@@ -161,7 +225,7 @@ public class World {
 			System.out.println("Exiting.");
 		}
 	}
-	
+
 	/**
 	 * Vérifie lorsque l'utilisateur clique sur sa souris qu'il peut: 
 	 * 		- Ajouter une tour à la position indiquée par la souris.
@@ -186,7 +250,7 @@ public class World {
 			break;
 		}
 	}
-	
+
 	/**
 	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités 
 	 * offertes au joueur pour intéragir avec le clavier
@@ -198,24 +262,24 @@ public class World {
 		System.out.println("Click on the grass to build it.");
 		System.out.println("Press S to start.");
 	}
-	
+
 	/**
 	 * Récupère la touche entrée au clavier ainsi que la position de la souris et met à jour le plateau en fonction de ces interractions
 	 */
 	public void run() {
 		printCommands();
 		while(!end) {
-			
+
 			StdDraw.clear();
 			if (StdDraw.hasNextKeyTyped()) {
 				keyPress(StdDraw.nextKeyTyped());
 			}
-			
+
 			if (StdDraw.isMousePressed()) {
 				mouseClick(StdDraw.mouseX(), StdDraw.mouseY());
 				StdDraw.pause(50);
 			}
-			
+
 			update();
 			StdDraw.show();
 			StdDraw.pause(20);			

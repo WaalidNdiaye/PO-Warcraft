@@ -56,13 +56,15 @@ public class World {
 	
 	/**
 	 * Définit le décors du plateau de jeu.
+	 * --> "images/grass.jpeg" est utlisé ici
+	 * --> afin de représenter une plaine
+	 * 
 	 */
 	 public void drawBackground() {	
-		 StdDraw.setPenColor(StdDraw.LIGHT_GREEN);
-		 for (int i = 0; i < nbSquareX; i++)
+		 for (int i = 0; i < nbSquareX; i++) {
 			 for (int j = 0; j < nbSquareY; j++)
-				 StdDraw.filledRectangle(i * squareWidth + squareWidth / 2, j * squareHeight + squareHeight / 2, squareWidth , squareHeight);
-				 //StdDraw.picture(i * squareWidth + squareWidth / 2, j * squareHeight + squareHeight / 2, "images/grass.jpg", squareWidth, squareHeight);
+				 StdDraw.picture(i * squareWidth + squareWidth / 2, j * squareHeight + squareHeight / 2, "images/grass.jpeg", squareWidth, squareHeight);
+		 }
 	 }
 	 
 	 /**
@@ -70,15 +72,20 @@ public class World {
 	  */
 	 public void drawPath() {
 		 Position p = new Position(spawn);
-		 StdDraw.setPenColor(StdDraw.YELLOW);
-		 StdDraw.filledRectangle(p.x, p.y, squareWidth / 2, squareHeight / 2);
+		 StdDraw.picture(p.x, p.y, "images/path.jpg", squareWidth, squareHeight);
 	 }
 	 
 	 /**
 	  * Affiche certaines informations sur l'écran telles que les points de vie du joueur ou son or
 	  */
 	 public void drawInfos() {
+		 StdDraw.picture(0.94, 0.94, "images/parchemin.png", 0.1, 0.1);
+		 drawLife();
+	 }
+	 
+	 public void drawLife() {
 		 StdDraw.setPenColor(StdDraw.BLACK);
+		 StdDraw.text(0.95, 0.95, String.valueOf(life));
 	 }
 	 
 	 /**

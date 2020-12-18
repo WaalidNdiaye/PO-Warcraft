@@ -9,14 +9,15 @@ public class Position {
 	 * @param x
 	 * @param y
 	 */
+	
 	public Position(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 	
 	public Position(Position p) {
-		x = p.x;
-		y = p.y;
+		x = p.x ;
+		y = p.y ;
 	}
 	
 	public boolean equals(Position p) {

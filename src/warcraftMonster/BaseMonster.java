@@ -1,6 +1,7 @@
-package warcraftMain;
+package warcraftMonster;
 
-import warcraftMonster.Monster;
+import warcraftMain.Position;
+import warcraftMain.StdDraw;
 
 public class BaseMonster extends Monster {
 

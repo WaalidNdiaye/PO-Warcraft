@@ -1,8 +1,9 @@
-package warcraftProjectil;
+package warcraftProjectile;
 
 import warcraftMain.Position;
 
-public class Bomb extends Projectil {
+
+public class Bomb extends Projectile{
 
 	public Bomb (Position p) {
 		super(8, 0.02, false, p);

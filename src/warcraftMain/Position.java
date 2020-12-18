@@ -9,14 +9,15 @@ public class Position {
 	 * @param x
 	 * @param y
 	 */
+	
 	public Position(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 	
 	public Position(Position p) {
-		x = p.x;
-		y = p.y;
+		x = p.x ;
+		y = p.y ;
 	}
 	
 	public boolean equals(Position p) {
@@ -30,7 +31,7 @@ public class Position {
 	 */
 	public double dist(Position p) {
 		return Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
-	}
+	} 
 
 	/**
 	 * Retourne la position du point sur l'axe des x et des y

@@ -1,5 +1,6 @@
 package warcraftMain;
 
+import warcraftMonster.BaseMonster;
 import warcraftMonster.Monster;
 
 public class Main {

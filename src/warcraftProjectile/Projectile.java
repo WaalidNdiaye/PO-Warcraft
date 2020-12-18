@@ -1,8 +1,9 @@
-package warcraftProjectil;
+package warcraftProjectile;
 
 import warcraftMain.Position;
 
-public abstract class Projectil {
+
+public abstract class Projectile {
 
 	//Position du projectile à l'instant t
 	Position p;
@@ -18,11 +19,11 @@ public abstract class Projectil {
 
 	//peut attaquer les cibles volantes 
 	boolean aerialTarget ;
-	
+
 	//niveau des projectiles (le premier niveau est le niveau 1)
 	int level ;
 
-	public Projectil(int damage, double speed, boolean aerialTarget, Position p) {
+	public Projectile(int damage, double speed, boolean aerialTarget, Position p) {
 		this.damage = damage;
 		this.speed = speed;
 		this.aerialTarget = aerialTarget ;
@@ -32,7 +33,7 @@ public abstract class Projectil {
 	}
 
 	public abstract void draw() ;
-	
+
 	public abstract void upgrade() ;
 
 }

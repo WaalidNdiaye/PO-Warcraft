@@ -6,22 +6,59 @@ import warcraftMain.Position;
 public abstract class Projectile {
 
 	//Position du projectile à l'instant t
-	Position p;
+	protected Position p;
 
 	//Position du projectile à l'instant t+1
-	Position nextP;
+	protected Position nextP;
 
 	//degat du projectile  
-	int damage ;
+	protected int damage ;
 
 	//vitesse du projectile 
-	double speed ;
+	protected double speed ;
 
 	//peut attaquer les cibles volantes 
-	boolean aerialTarget ;
+	protected boolean aerialTarget ;
 
 	//niveau des projectiles (le premier niveau est le niveau 1)
-	int level ;
+	protected int level ;
+	
+	public Position getP() {
+		return p;
+	}
+	public void setP(Position p) {
+		this.p = p;
+	}
+	public Position getNextP() {
+		return nextP;
+	}
+	public void setNextP(Position nextP) {
+		this.nextP = nextP;
+	}
+	public int getDamage() {
+		return damage;
+	}
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	public double getSpeed() {
+		return speed;
+	}
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+	public boolean isAerialTarget() {
+		return aerialTarget;
+	}
+	public void setAerialTarget(boolean aerialTarget) {
+		this.aerialTarget = aerialTarget;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
 	public Projectile(int damage, double speed, boolean aerialTarget, Position p) {
 		this.damage = damage;

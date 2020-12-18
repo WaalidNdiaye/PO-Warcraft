@@ -15,6 +15,6 @@ public class BaseMonster extends Monster {
 	 */
 	public void draw() {
 		StdDraw.setPenColor(StdDraw.BLUE);
-		StdDraw.filledCircle(p.x, p.y, 0.01);
+		StdDraw.filledCircle(p.getX(), p.getY(), 0.01);
 	}
 }

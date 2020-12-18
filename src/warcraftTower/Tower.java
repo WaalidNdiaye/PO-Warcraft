@@ -14,13 +14,52 @@ public abstract class Tower {
 	protected int cooldown;
 
 	//peut attaquer les cibles volantes 
-	boolean aerialTarget ;
+	protected boolean aerialTarget ;
 
 	// Position de la tour 
-	Position p;
-	
+	protected Position p;
+
 	//niveau de la tour (niveau 1 puis niveau 2 si améliorer)
-	int level;
+	protected int level;
+
+	public int getTowerCost() {
+		return towerCost;
+	}
+	public void setTowerCost(int towerCost) {
+		this.towerCost = towerCost;
+	}
+	public double getRange() {
+		return range;
+	}
+	public void setRange(double range) {
+		this.range = range;
+	}
+	public int getCooldown() {
+		return cooldown;
+	}
+	public void setCooldown(int cooldown) {
+		this.cooldown = cooldown;
+	}
+	public boolean isAerialTarget() {
+		return aerialTarget;
+	}
+	public void setAerialTarget(boolean aerialTarget) {
+		this.aerialTarget = aerialTarget;
+	}
+	public Position getP() {
+		return p;
+	}
+	public void setP(Position p) {
+		this.p = p;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+
 
 	public Tower(int towerCost, double range, int cooldown, boolean aerialTarget , Position p) {
 		this.towerCost = towerCost;
@@ -32,7 +71,7 @@ public abstract class Tower {
 	}
 
 	public abstract void draw();
-	
+
 	public abstract void upgrade();
 
 }

@@ -4,15 +4,46 @@ import warcraftMain.Position;
 
 public abstract class Monster {
 	// Position du monstre à l'instant t
-	public Position p;
+	protected Position p;
 	// Vitesse du monstre
-	public double speed;
+	protected double speed;
 	// Position du monstre à l'instant t+1
-	public Position nextP;
+	protected Position nextP;
 	// Boolean pour savoir si le monstre à atteint le chateau du joueur
-	boolean reached;
+	protected boolean reached;
 	// Compteur de déplacement pour savoir si le monstre à atteint le chateau du joueur
-	int checkpoint = 0;
+	protected int checkpoint = 0;
+	
+	public Position getP() {
+		return p;
+	}
+	public void setP(Position p) {
+		this.p = p;
+	}
+	public double getSpeed() {
+		return speed;
+	}
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+	public Position getNextP() {
+		return nextP;
+	}
+	public void setNextP(Position nextP) {
+		this.nextP = nextP;
+	}
+	public boolean isReached() {
+		return reached;
+	}
+	public void setReached(boolean reached) {
+		this.reached = reached;
+	}
+	public int getCheckpoint() {
+		return checkpoint;
+	}
+	public void setCheckpoint(int checkpoint) {
+		this.checkpoint = checkpoint;
+	}
 	
 	public Monster(Position p) {
 		this.p = p;
@@ -24,14 +55,15 @@ public abstract class Monster {
 	 */
 	public void move() {
 		// Mesure sur quel axe le monstre se dirige.
-		double dx = nextP.x - p.x;
-		double dy = nextP.y - p.y;
+		double dx = nextP.getX() - p.getX();
+		double dy = nextP.getY() - p.getY();
 		if (dy + dx != 0){
 			// Mesure la distance à laquelle le monstre à pu se déplacer.
 			double ratioX = dx/(Math.abs(dx) + Math.abs(dy));
 			double ratioY = dy/(Math.abs(dx) + Math.abs(dy));
-			p.x += ratioX * speed;
-			p.y += ratioY * speed;
+			p.setX(p.getX() +  ratioX * speed);
+			p.setY(p.getY() +  ratioY * speed);
+			
 		}
 	}
 

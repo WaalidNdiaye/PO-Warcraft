@@ -72,7 +72,7 @@ public class World {
 	  */
 	 public void drawPath() {
 		 Position p = new Position(spawn);
-		 StdDraw.picture(p.x, p.y, "images/path.jpg", squareWidth, squareHeight);
+		 StdDraw.picture(p.getX(), p.getY(), "images/path.jpg", squareWidth, squareHeight);
 	 }
 	 
 	 /**
@@ -119,8 +119,8 @@ public class World {
 		while (i.hasNext()) {
 			 m = i.next();
 			 m.update();
-			 if(m.p.y < 0) {
-				 m.p.y = 1;
+			 if(m.getP().getY() < 0) {
+				 m.getP().setY(1);
 			 }
 		 }
 	 }

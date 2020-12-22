@@ -14,6 +14,12 @@ public abstract class Monster {
 	// Compteur de déplacement pour savoir si le monstre à atteint le chateau du joueur
 	protected int checkpoint = 0;
 	
+	//Taille de la hitbox 
+	protected double size;
+	
+	//HitBox 
+	protected MonsterHitbox hitbox ;
+	
 	public Position getP() {
 		return p;
 	}

@@ -1,34 +1,32 @@
 package warcraftMain;
 
 import java.util.List;
-import warcraftMonster.Monster;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import warcraftMonster.BaseMonster;
+import warcraftMonster.Monster;
+import warcraftPath.Patern1;
+
 public class World {
-	// l'ensemble des monstres, pour gerer (notamment) l'affichage
-	private List<Monster> monsters = new ArrayList<Monster>();
-
-	// Position par laquelle les monstres vont venir
-	private Position spawn;
-
 	// Information sur la taille du plateau de jeu
-	private int width;
-	private int height;
-	private int nbSquareX;
-	private int nbSquareY;
-	private double squareWidth;
-	private double squareHeight;
+	private int width;												//Largeur
+	private int height;												//Hauteur
+	private int nbSquareX;											//Nombre de "case" en X
+	private int nbSquareY;											//Nombre de "case" en Y
+	private static double squareWidth;								//Largeur des cases
+	private static double squareHeight;								//Hauteur des cases
+	
+	private List<Monster> monsters = new ArrayList<Monster>();		//Liste des monstres, pour gerer (notamment) l'affichage
+	public List<Position> path;										//Liste des des positions du chemin utilis� durant la vague
+	private Position spawn;											// Position par laquelle les monstres vont venir
+	private int life = 20;											// Nombre de points de vie du joueur
+	private char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
+	private boolean end = false;									// Condition pour terminer la partie
 
-	// Nombre de points de vie du joueur
-	private int life = 20;
-
-	// Commande sur laquelle le joueur appuie (sur le clavier)
-	private char key;
-
-	// Condition pour terminer la partie
-	private boolean end = false;
-
+	/*
+	 * GETTERS AND SETTERS
+	 */
 	public List<Monster> getMonsters() {
 		return monsters;
 	}
@@ -65,17 +63,11 @@ public class World {
 	public void setNbSquareY(int nbSquareY) {
 		this.nbSquareY = nbSquareY;
 	}
-	public double getSquareWidth() {
+	public static double getSquareWidth() {
 		return squareWidth;
 	}
-	public void setSquareWidth(double squareWidth) {
-		this.squareWidth = squareWidth;
-	}
-	public double getSquareHeight() {
+	public static double getSquareHeight() {
 		return squareHeight;
-	}
-	public void setSquareHeight(double squareHeight) {
-		this.squareHeight = squareHeight;
 	}
 	public int getLife() {
 		return life;
@@ -119,33 +111,30 @@ public class World {
 	}
 
 	/**
-	 * Définit le décors du plateau de jeu.
-	 * --> "images/grass.jpeg" est utlisé ici
-	 * --> afin de représenter une plaine
-	 * 
+	 * Definit le decors du plateau de jeu.
+	 * Represente un village.
+	 * --> "images/background.png" est utlise ici.
+	 * --> 0.5, 0.5 repr�sente la position.
+	 * --> 1, 1 repr�sente la taille.
 	 */
-	public void drawBackground() {	
-		for (int i = 0; i < nbSquareX; i++) {
-			for (int j = 0; j < nbSquareY; j++)
-				StdDraw.picture(i * squareWidth + squareWidth / 2, j * squareHeight + squareHeight / 2, "images/grass.jpeg", squareWidth, squareHeight);
-		}
+	public void drawBackground() {
+		StdDraw.picture(0.5, 0.5, "images/background.png", 1, 1);
 	}
 
 	/**
-	 * Initialise le chemin sur la position du point de départ des monstres. Cette fonction permet d'afficher une route qui sera différente du décors.
+	 * Initialise la liste du chemin sur un chemin au hasard parmis la liste de chemins preset.
 	 */
-	public void drawPath() {
-		Position p = new Position(spawn);
-		StdDraw.picture(p.getX(), p.getY(), "images/path.jpg", squareWidth, squareHeight);
+	public void randomPath() {
+		path = Patern1.pathconstruct();
 	}
-
+	
 	/**
 	 * Affiche certaines informations sur l'écran telles que les points de vie du joueur ou son or
 	 */
-	public void drawInfos() {
-		StdDraw.picture(0.94, 0.94, "images/parchemin.png", 0.1, 0.1);
+	/*public void drawInfos() {
+		StdDraw.picture(0.0625, 0.5, "images/background.png", 0.1, 0.1);
 		drawLife();
-	} 
+	}*/ 
 
 	public void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
@@ -173,30 +162,28 @@ public class World {
 	}
 
 	/**
-	 * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster.
-	 * Modifie la position du monstre au cours du temps à l'aide du paramètre nextP.
+	 * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster
+	 * --> Modifie la position du monstre grace au parametre nextP et en utilisant la liste du chemin
 	 */
 	public void updateMonsters() {
-
 		Iterator<Monster> i = monsters.iterator();
 		Monster m;
 		while (i.hasNext()) {
 			m = i.next();
 			m.update();
-			if(m.getP().getY() < 0) {
-				m.getP().setY(1);
+			if(path.indexOf(m.getNextP()) < path.size()-1) {
+				m.setNextP(path.get(path.indexOf(m.getNextP())+1));
 			}
 		}
 	}
 
 	/**
-	 * Met à jour toutes les informations du plateau de jeu ainsi que les déplacements des monstres et les attaques des tours.
+	 * Met à jour toutes les informations du plateau de jeu ainsi que les déplacements des monstres et les attaques des tours
 	 * @return les points de vie restants du joueur
 	 */
 	public int update() {
 		drawBackground();
-		drawPath();
-		drawInfos();
+		//drawInfos();
 		updateMonsters();
 		drawMouse();
 		return life;
@@ -261,12 +248,14 @@ public class World {
 		System.out.println("Press E to update a tower (cost 40g).");
 		System.out.println("Click on the grass to build it.");
 		System.out.println("Press S to start.");
+		System.out.println(path);
 	}
 
 	/**
 	 * Récupère la touche entrée au clavier ainsi que la position de la souris et met à jour le plateau en fonction de ces interractions
 	 */
 	public void run() {
+		randomPath();
 		printCommands();
 		while(!end) {
 

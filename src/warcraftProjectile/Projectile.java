@@ -1,5 +1,6 @@
 package warcraftProjectile;
 
+import warcraftHitbox.ProjectileHitbox;
 import warcraftMain.Position;
 
 
@@ -22,6 +23,9 @@ public abstract class Projectile {
 
 	//niveau des projectiles (le premier niveau est le niveau 1)
 	protected int level ;
+
+	//hitbox
+	protected ProjectileHitbox hitbox ;
 	
 	public Position getP() {
 		return p;
@@ -59,6 +63,12 @@ public abstract class Projectile {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	public ProjectileHitbox getHitbox() {
+		return hitbox;
+	}
+	public void setHitbox(ProjectileHitbox hitbox) {
+		this.hitbox = hitbox;
+	}
 
 	public Projectile(int damage, double speed, boolean aerialTarget, Position p) {
 		this.damage = damage;
@@ -67,10 +77,12 @@ public abstract class Projectile {
 		this.p = p;
 		this.nextP = new Position(p);
 		level = 1;
+		
 	}
 
 	public abstract void draw() ;
 
 	public abstract void upgrade() ;
+
 
 }

@@ -48,7 +48,20 @@ public class Hitbox {
     }
 
     public boolean hit(Hitbox h){
-        return true;
-    }
+		//Renvoi true si les deux hitboxs se touche sinon renvoi false  
+		if(this.getLeftSide() > h.getRightSide()) return false;
+		else if(this.getRightSide() < h.getLeftSide()) return false ;
+		else if(this.getBottomSide() > h.getTopSide()) return false;
+		else if(this.getTopSide() < h.getBottomSide()) return false ;
+		else return true ;
+	}
+	
+	public void move(Position p){
+		//met a jour la position de la hitbox
+		leftSide = p.getX() - this.size;
+		rightSide = p.getX() + this.size; 
+		topSide = p.getY() + this.size;
+		bottomSide = p.getY() - this.size;
+	}
     
 }

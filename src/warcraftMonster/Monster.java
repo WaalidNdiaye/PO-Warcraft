@@ -14,11 +14,11 @@ public abstract class Monster {
 	// Compteur de déplacement pour savoir si le monstre à atteint le chateau du joueur
 	protected int checkpoint = 0;
 	
-	//Taille de la hitbox 
+	//Taille de la Hitbox
 	protected double size;
 	
-	//HitBox 
-	protected MonsterHitbox hitbox ;
+	//Hitbox
+	protected MonsterHitbox hitbox;
 	
 	public Position getP() {
 		return p;
@@ -69,7 +69,7 @@ public abstract class Monster {
 			double ratioY = dy/(Math.abs(dx) + Math.abs(dy));
 			p.setX(p.getX() +  ratioX * speed);
 			p.setY(p.getY() +  ratioY * speed);
-			
+			hitbox.move(p);
 		}
 	}
 

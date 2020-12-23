@@ -48,7 +48,7 @@ public class Hitbox {
     }
 
     public boolean hit(Hitbox h){
-        if ()
+        return true;
     }
     
 }

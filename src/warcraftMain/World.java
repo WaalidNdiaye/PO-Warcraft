@@ -7,6 +7,7 @@ import java.util.Iterator;
 import warcraftMonster.BaseMonster;
 import warcraftMonster.Monster;
 import warcraftPath.Patern1;
+import warcraftWave.wave1;
 
 public class World {
 	// Information sur la taille du plateau de jeu
@@ -19,7 +20,8 @@ public class World {
 	
 	private List<Monster> monsters = new ArrayList<Monster>();		//Liste des monstres, pour gerer (notamment) l'affichage
 	public List<Position> path;										//Liste des des positions du chemin utilisé durant la vague
-	private Position spawn;											// Position par laquelle les monstres vont venir
+	private static Position spawn;											// Position par laquelle les monstres vont venir
+	private Position chateau;
 	private int life = 20;											// Nombre de points de vie du joueur
 	private char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
 	private boolean end = false;									// Condition pour terminer la partie
@@ -33,7 +35,7 @@ public class World {
 	public void setMonsters(List<Monster> monsters) {
 		this.monsters = monsters;
 	}
-	public Position getSpawn() {
+	public static Position getSpawn() {
 		return spawn;
 	}
 	public void setSpawn(Position spawn) {
@@ -98,7 +100,7 @@ public class World {
 	 * @param startSquareX
 	 * @param startSquareY
 	 */
-	public World(int width, int height, int nbSquareX, int nbSquareY, int startSquareX, int startSquareY) {
+	public World(int width, int height, int nbSquareX, int nbSquareY, int startSquareX, int startSquareY, int chateauX, int chateauY) {
 		this.width = width;
 		this.height = height;
 		this.nbSquareX = nbSquareX;
@@ -106,6 +108,7 @@ public class World {
 		squareWidth = (double) 1 / nbSquareX;
 		squareHeight = (double) 1 / nbSquareY;
 		spawn = new Position(startSquareX * squareWidth + squareWidth / 2, startSquareY * squareHeight + squareHeight / 2);
+		chateau = new Position(chateauX * squareWidth + squareWidth / 2, chateauY * squareHeight + squareHeight / 2);
 		StdDraw.setCanvasSize(width, height);
 		StdDraw.enableDoubleBuffering();
 	}
@@ -129,12 +132,18 @@ public class World {
 	}
 	
 	/**
+	 * Initialise les vagues de monstres.
+	 */
+	public void waveBuilder() {
+		monsters = wave1.waveBuild();
+	}
+	
+	/**
 	 * Affiche certaines informations sur l'Ã©cran telles que les points de vie du joueur ou son or
 	 */
-	/*public void drawInfos() {
-		StdDraw.picture(0.0625, 0.5, "images/background.png", 0.1, 0.1);
+	public void drawInfos() {
 		drawLife();
-	}*/ 
+	}
 
 	public void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
@@ -164,15 +173,19 @@ public class World {
 	/**
 	 * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster
 	 * --> Modifie la position du monstre grace au parametre nextP et en utilisant la liste du chemin
+	 * --> Enleve 1 point de vie au joueur quand un monstre arrive au chateau
 	 */
 	public void updateMonsters() {
 		Iterator<Monster> i = monsters.iterator();
 		Monster m;
-		while (i.hasNext()) {
+		while (monsters.size() > 0 && i.hasNext()) {
 			m = i.next();
 			m.update();
-			if(path.indexOf(m.getNextP()) < path.size()-1) {
+			if(path.indexOf(m.getNextP()) < path.size()-1)
 				m.setNextP(path.get(path.indexOf(m.getNextP())+1));
+			if(m.getP().getX() >= chateau.getX()) {
+				life--;
+				monsters.remove(monsters.indexOf(m));
 			}
 		}
 	}
@@ -183,7 +196,7 @@ public class World {
 	 */
 	public int update() {
 		drawBackground();
-		//drawInfos();
+		drawInfos();
 		updateMonsters();
 		drawMouse();
 		return life;
@@ -256,7 +269,9 @@ public class World {
 	 */
 	public void run() {
 		randomPath();
+		waveBuilder();
 		printCommands();
+		System.out.println(wave1.waveBuild());
 		while(!end) {
 
 			StdDraw.clear();
@@ -268,7 +283,7 @@ public class World {
 				mouseClick(StdDraw.mouseX(), StdDraw.mouseY());
 				StdDraw.pause(50);
 			}
-
+			
 			update();
 			StdDraw.show();
 			StdDraw.pause(20);			

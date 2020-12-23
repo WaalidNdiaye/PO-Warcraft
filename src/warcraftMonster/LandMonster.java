@@ -1,6 +1,7 @@
 package warcraftMonster;
 
 import warcraftMain.Position;
+import warcraftMain.StdDraw;
 
 public class LandMonster extends Monster {
 
@@ -12,6 +13,7 @@ public class LandMonster extends Monster {
 	}
 	
 	public void draw() {
-		
+		StdDraw.setPenColor(StdDraw.RED);
+		StdDraw.filledCircle(p.getX(), p.getY(), 0.01);
 	}
 }

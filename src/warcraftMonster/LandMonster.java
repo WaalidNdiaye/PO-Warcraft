@@ -6,10 +6,7 @@ import warcraftMain.StdDraw;
 public class LandMonster extends Monster {
 
 	public LandMonster (Position p) {
-		super(p);
-		speed = 0.01;
-		size = 1.25;
-		hitbox = new MonsterHitbox(p, size);
+		super(p , 1.25 , 0.01);
 	}
 	
 	public void draw() {

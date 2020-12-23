@@ -1,6 +1,7 @@
 package warcraftMonster;
 
 import warcraftMain.Position;
+import warcraftHitbox.MonsterHitbox;
 
 public abstract class Monster {
 	// Position du monstre à l'instant t
@@ -50,10 +51,25 @@ public abstract class Monster {
 	public void setCheckpoint(int checkpoint) {
 		this.checkpoint = checkpoint;
 	}
+	public double getSize() {
+		return size;
+	}
+	public void setSize(double size) {
+		this.size = size;
+	}
+	public MonsterHitbox getHitbox() {
+		return hitbox;
+	}
+	public void setHitbox(MonsterHitbox hitbox) {
+		this.hitbox = hitbox;
+	}
 	
-	public Monster(Position p) {
+	public Monster(Position p, double size , double speed) {
 		this.p = p;
+		this.size = size; 
+		this.speed = speed;
 		this.nextP = new Position(p);
+		this.hitbox = new MonsterHitbox(p, size);
 	}
 	
 	/**
@@ -83,4 +99,6 @@ public abstract class Monster {
 	 * Fonction abstraite qui sera instanciée dans les classes filles pour afficher le monstre sur le plateau de jeu.
 	 */
 	public abstract void draw();
+
+	
 }

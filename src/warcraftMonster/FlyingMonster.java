@@ -5,10 +5,7 @@ import warcraftMain.Position;
 public class FlyingMonster extends Monster {
 	
 	public FlyingMonster (Position p) {
-		super(p);
-		speed = 0.02;
-		size = 1;
-		hitbox = new MonsterHitbox(p, size); 
+		super(p , 1 , 0.02);
 	}
 	
 	public void draw() {

@@ -76,6 +76,7 @@ public abstract class Projectile {
 		this.aerialTarget = aerialTarget ;
 		this.p = p;
 		this.nextP = new Position(p);
+
 		level = 1;
 		
 	}

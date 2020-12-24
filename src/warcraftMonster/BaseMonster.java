@@ -6,7 +6,7 @@ import warcraftMain.StdDraw;
 public class BaseMonster extends Monster {
 
 	public BaseMonster(Position p) {
-		super(p);
+		super(p , 0.2 , 0.2);
 	}
 	
 	/**

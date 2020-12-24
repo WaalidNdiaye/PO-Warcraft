@@ -8,6 +8,7 @@ import warcraftMonster.BaseMonster;
 import warcraftMonster.Monster;
 import warcraftPath.Patern1;
 import warcraftWave.wave1;
+import warcraftTower.*;
 
 public class World {
 	// Information sur la taille du plateau de jeu
@@ -19,7 +20,7 @@ public class World {
 	private static double squareHeight;								//Hauteur des cases
 	
 	private List<Monster> monsters = new ArrayList<Monster>();		//Liste des monstres, pour gerer (notamment) l'affichage
-	public List<Position> path;										//Liste des des positions du chemin utilisé durant la vague
+	public List<Position> path;										//Liste des des positions du chemin utilisï¿½ durant la vague
 	private static Position spawn;											// Position par laquelle les monstres vont venir
 	private Position chateau;
 	private int life = 20;											// Nombre de points de vie du joueur
@@ -117,8 +118,8 @@ public class World {
 	 * Definit le decors du plateau de jeu.
 	 * Represente un village.
 	 * --> "images/background.png" est utlise ici.
-	 * --> 0.5, 0.5 représente la position.
-	 * --> 1, 1 représente la taille.
+	 * --> 0.5, 0.5 reprï¿½sente la position.
+	 * --> 1, 1 reprï¿½sente la taille.
 	 */
 	public void drawBackground() {
 		StdDraw.picture(0.5, 0.5, "images/background.png", 1, 1);
@@ -244,6 +245,8 @@ public class World {
 			break;
 		case 'b':
 			System.out.println("Ici il faut ajouter une tour de bombes");
+			BombTower tower = new BombTower(p);
+			tower.draw();
 			break;
 		case 'e':
 			System.out.println("Ici il est possible de faire Ã©voluÃ© une des tours");

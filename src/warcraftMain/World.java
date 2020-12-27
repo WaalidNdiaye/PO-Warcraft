@@ -21,11 +21,13 @@ public class World {
 	
 	private List<Monster> monsters = new ArrayList<Monster>();		//Liste des monstres, pour gerer (notamment) l'affichage
 	public List<Position> path;										//Liste des des positions du chemin utilis� durant la vague
-	private static Position spawn;											// Position par laquelle les monstres vont venir
+	private List <Tower> tower = new ArrayList<Tower>();
+	private static Position spawn;									// Position par laquelle les monstres vont venir
 	private Position chateau;
 	private int life = 20;											// Nombre de points de vie du joueur
 	private char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
 	private boolean end = false;									// Condition pour terminer la partie
+	private int coin = 150;												// Argent 
 
 	/*
 	 * GETTERS AND SETTERS
@@ -90,6 +92,12 @@ public class World {
 	public void setEnd(boolean end) {
 		this.end = end;
 	}
+	public int getCoin() {
+		return coin;
+	}
+	public void setCoin(int coin) {
+		this.coin = coin;
+	}
 
 
 	/**
@@ -108,8 +116,10 @@ public class World {
 		this.nbSquareY = nbSquareY;
 		squareWidth = (double) 1 / nbSquareX;
 		squareHeight = (double) 1 / nbSquareY;
+
 		spawn = new Position(startSquareX * squareWidth + squareWidth / 2, startSquareY * squareHeight + squareHeight / 2);
 		chateau = new Position(chateauX * squareWidth + squareWidth / 2, chateauY * squareHeight + squareHeight / 2);
+		
 		StdDraw.setCanvasSize(width, height);
 		StdDraw.enableDoubleBuffering();
 	}
@@ -170,6 +180,15 @@ public class World {
 		if (image != null)
 			StdDraw.picture(normalizedX, normalizedY, image, squareWidth, squareHeight);
 	}
+	
+	/**
+	 * Affiche les tours de défence
+	 */
+	public void drawTower(){
+		for(int i = 0 ; i < tower.size() ; i++){
+			tower.get(i).draw();
+		}
+	}
 
 	/**
 	 * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster
@@ -198,6 +217,7 @@ public class World {
 	public int update() {
 		drawBackground();
 		drawInfos();
+		drawTower();
 		updateMonsters();
 		drawMouse();
 		return life;
@@ -226,6 +246,26 @@ public class World {
 			System.out.println("Exiting.");
 		}
 	}
+	//verifi qu'il est possible de poser un tour 
+	public boolean creatTower(Position p , int cost){
+		for (int i = 0 ; i < path.size(); i++){
+			if(p.equalsP(path.get(i))){
+				System.out.println("Position impossible ! Vous etes sur le chemin.");
+				return false;
+			} 
+		}
+		for(int i = 0 ; i < tower.size() ; i++){
+			if(p.equalsP(tower.get(i).getP()) ) {
+				System.out.println("Position impossible ! Une tour est deja présente");
+				return false ; 
+			}
+		}
+		if(coin < cost) {
+			System.out.println("Il vous faut plus d'argent ! ");
+			return false ;
+		}
+		return true;
+	}
 
 	/**
 	 * Vérifie lorsque l'utilisateur clique sur sa souris qu'il peut: 
@@ -236,17 +276,31 @@ public class World {
 	 * @param y
 	 */
 	public void mouseClick(double x, double y) {
-		double normalizedX = (int)(x / squareWidth) * squareWidth + squareWidth / 2;
-		double normalizedY = (int)(y / squareHeight) * squareHeight + squareHeight / 2;
+		//dimension d'une case 
+		double caseWidth = (1.0/24.0);
+		double caseHeigth = (1.0/15.0);
+
+		y = y - 0.04;
+
+		//coordonée du centre de la tour (ici un rectangle)
+		double normalizedX = x - (x % caseWidth ) + caseWidth / 2.0;
+		double normalizedY = y  - (y % caseHeigth ) + caseHeigth / 2.0  ;
+
 		Position p = new Position(normalizedX, normalizedY);
 		switch (key) {
 		case 'a':
-			System.out.println("il faut ajouter une tour d'archers si l'utilisateur à de l'or !!");
+			System.out.println("Il faut ajouter une tour d'archers si l'utilisateur à de l'or !!");
+			if(creatTower(p, 50)) {
+				tower.add(new ArcheryTower(p));
+				this.coin -= 50 ; 
+			}
 			break;
 		case 'b':
 			System.out.println("Ici il faut ajouter une tour de bombes");
-			BombTower tower = new BombTower(p);
-			tower.draw();
+			if(creatTower(p, 60)) {
+				tower.add(new BombTower(p));
+				this.coin -= 60; 
+			}
 			break;
 		case 'e':
 			System.out.println("Ici il est possible de faire évolué une des tours");
@@ -292,4 +346,6 @@ public class World {
 			StdDraw.pause(20);			
 		}
 	}
+
+	
 }

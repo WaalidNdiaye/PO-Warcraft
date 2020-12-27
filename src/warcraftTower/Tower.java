@@ -7,7 +7,7 @@ public abstract class Tower {
 	//prix de la tour
 	protected int towerCost;
 
-	//potée de la tour 
+	//potï¿½e de la tour 
 	protected double range; 
 
 	//temps de rechargement
@@ -19,7 +19,7 @@ public abstract class Tower {
 	// Position de la tour 
 	protected Position p;
 
-	//niveau de la tour (niveau 1 puis niveau 2 si améliorer)
+	//niveau de la tour (niveau 1 puis niveau 2 si amï¿½liorer)
 	protected int level;
 
 	public int getTowerCost() {
@@ -69,6 +69,7 @@ public abstract class Tower {
 		this.p = p;
 		this.level = 1 ;
 	}
+
 
 	public abstract void draw();
 

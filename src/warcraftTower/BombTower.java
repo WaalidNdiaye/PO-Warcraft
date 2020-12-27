@@ -13,12 +13,7 @@ public class BombTower extends Tower{
 	
 	public void draw() {
 
-		double x = p.getX() - (p.getX() % 0.04 );
-		double y = p.getY() - (p.getY() % 0.06 );
-
-		System.out.println("Bomb afficher au coordonées " + x + " " + y);
-		StdDraw.setPenColor(StdDraw.BLUE);;
-		StdDraw.rectangle(x, y, 0.3 , 0.2);
+		StdDraw.picture(p.getX() , p.getY(), "images/BombTower.png", (1.0/24.0) , (1.0/15.0) );
 		
 	}
 	

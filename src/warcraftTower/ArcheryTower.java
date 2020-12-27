@@ -1,4 +1,5 @@
 package warcraftTower;
+import warcraftMain.StdDraw;
 
 import warcraftMain.Position;
 
@@ -9,7 +10,8 @@ public class ArcheryTower extends Tower {
 	}
 	
 	public void draw() {
-		
+
+		StdDraw.picture(p.getX() , p.getY(), "images/ArcheryTower.jpg", (1.0/24.0) , (1.0/15.0) );
 	}
 	
 	public void upgrade() {

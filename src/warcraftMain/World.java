@@ -18,7 +18,7 @@ public class World {
 	private int nbSquareY;											//Nombre de "case" en Y
 	private static double squareWidth;								//Largeur des cases
 	private static double squareHeight;								//Hauteur des cases
-	
+
 	private List<Monster> monsters = new ArrayList<Monster>();		//Liste des monstres, pour gerer (notamment) l'affichage
 	public List<Position> path;										//Liste des des positions du chemin utilis� durant la vague
 	private List <Tower> tower = new ArrayList<Tower>();
@@ -27,7 +27,7 @@ public class World {
 	private int life = 20;											// Nombre de points de vie du joueur
 	private char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
 	private boolean end = false;									// Condition pour terminer la partie
-	private int coin = 150;												// Argent 
+	private int coin = 150;												// Argent
 
 	/*
 	 * GETTERS AND SETTERS
@@ -119,7 +119,7 @@ public class World {
 
 		spawn = new Position(startSquareX * squareWidth + squareWidth / 2, startSquareY * squareHeight + squareHeight / 2);
 		chateau = new Position(chateauX * squareWidth + squareWidth / 2, chateauY * squareHeight + squareHeight / 2);
-		
+
 		StdDraw.setCanvasSize(width, height);
 		StdDraw.enableDoubleBuffering();
 	}
@@ -141,14 +141,14 @@ public class World {
 	public void randomPath() {
 		path = Patern1.pathconstruct();
 	}
-	
+
 	/**
 	 * Initialise les vagues de monstres.
 	 */
 	public void waveBuilder() {
 		monsters = wave1.waveBuild();
 	}
-	
+
 	/**
 	 * Affiche certaines informations sur l'écran telles que les points de vie du joueur ou son or
 	 */
@@ -170,7 +170,7 @@ public class World {
 		double normalizedY = (int)(StdDraw.mouseY() / squareHeight) * squareHeight + squareHeight / 2;
 		String image = null;
 		switch (key) {
-		case 'a' : 
+		case 'a' :
 			// TODO Ajouter une image pour représenter une tour d'archers
 			break;
 		case 'b' :
@@ -179,15 +179,6 @@ public class World {
 		}
 		if (image != null)
 			StdDraw.picture(normalizedX, normalizedY, image, squareWidth, squareHeight);
-	}
-	
-	/**
-	 * Affiche les tours de défence
-	 */
-	public void drawTower(){
-		for(int i = 0 ; i < tower.size() ; i++){
-			tower.get(i).draw();
-		}
 	}
 
 	/**
@@ -209,6 +200,13 @@ public class World {
 			}
 		}
 	}
+	
+	//Met a jour les tours 
+	public void updateTowers(){
+		for(int i = 0 ; i < tower.size() ; i++){
+			tower.get(i).update(monsters);
+		}
+	}
 
 	/**
 	 * Met à jour toutes les informations du plateau de jeu ainsi que les déplacements des monstres et les attaques des tours
@@ -217,8 +215,8 @@ public class World {
 	public int update() {
 		drawBackground();
 		drawInfos();
-		drawTower();
 		updateMonsters();
+		updateTowers();
 		drawMouse();
 		return life;
 	}
@@ -246,18 +244,18 @@ public class World {
 			System.out.println("Exiting.");
 		}
 	}
-	//verifi qu'il est possible de poser un tour 
+	//verifi qu'il est possible de poser un tour
 	public boolean creatTower(Position p , int cost){
 		for (int i = 0 ; i < path.size(); i++){
 			if(p.equalsP(path.get(i))){
 				System.out.println("Position impossible ! Vous etes sur le chemin.");
 				return false;
-			} 
+			}
 		}
 		for(int i = 0 ; i < tower.size() ; i++){
 			if(p.equalsP(tower.get(i).getP()) ) {
 				System.out.println("Position impossible ! Une tour est deja présente");
-				return false ; 
+				return false ;
 			}
 		}
 		if(coin < cost) {
@@ -268,7 +266,7 @@ public class World {
 	}
 
 	/**
-	 * Vérifie lorsque l'utilisateur clique sur sa souris qu'il peut: 
+	 * Vérifie lorsque l'utilisateur clique sur sa souris qu'il peut:
 	 * 		- Ajouter une tour à la position indiquée par la souris.
 	 * 		- Améliorer une tour existante.
 	 * Puis l'ajouter à la liste des tours
@@ -276,7 +274,7 @@ public class World {
 	 * @param y
 	 */
 	public void mouseClick(double x, double y) {
-		//dimension d'une case 
+		//dimension d'une case
 		double caseWidth = (1.0/24.0);
 		double caseHeigth = (1.0/15.0);
 
@@ -289,17 +287,17 @@ public class World {
 		Position p = new Position(normalizedX, normalizedY);
 		switch (key) {
 		case 'a':
-			System.out.println("Il faut ajouter une tour d'archers si l'utilisateur à de l'or !!");
+			System.out.println("l faut ajouter une tour d'archers si l'utilisateur à de l'or !!");
 			if(creatTower(p, 50)) {
 				tower.add(new ArcheryTower(p));
-				this.coin -= 50 ; 
+				this.coin -= 50 ;
 			}
 			break;
 		case 'b':
 			System.out.println("Ici il faut ajouter une tour de bombes");
 			if(creatTower(p, 60)) {
 				tower.add(new BombTower(p));
-				this.coin -= 60; 
+				this.coin -= 60;
 			}
 			break;
 		case 'e':
@@ -309,7 +307,7 @@ public class World {
 	}
 
 	/**
-	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités 
+	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités
 	 * offertes au joueur pour intéragir avec le clavier
 	 */
 	public void printCommands() {
@@ -340,12 +338,12 @@ public class World {
 				mouseClick(StdDraw.mouseX(), StdDraw.mouseY());
 				StdDraw.pause(50);
 			}
-			
+
 			update();
 			StdDraw.show();
-			StdDraw.pause(20);			
+			StdDraw.pause(20);
 		}
 	}
 
-	
+
 }

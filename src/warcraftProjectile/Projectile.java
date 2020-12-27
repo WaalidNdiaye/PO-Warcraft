@@ -2,6 +2,7 @@ package warcraftProjectile;
 
 import warcraftHitbox.ProjectileHitbox;
 import warcraftMain.Position;
+import warcraftMonster.*;
 
 
 public abstract class Projectile {
@@ -26,6 +27,9 @@ public abstract class Projectile {
 
 	//hitbox
 	protected ProjectileHitbox hitbox ;
+
+	//Cible du projectile 
+	protected Monster target ;
 	
 	public Position getP() {
 		return p;
@@ -69,15 +73,25 @@ public abstract class Projectile {
 	public void setHitbox(ProjectileHitbox hitbox) {
 		this.hitbox = hitbox;
 	}
+	public Monster getTarget() {
+		return target;
+	}
+	public void setTarget(Monster cible) {
+		this.target = cible;
+	}
 
-	public Projectile(int damage, double speed, boolean aerialTarget, Position p) {
+	public Projectile(int damage, double speed, boolean aerialTarget, Position p, Monster target) {
 		this.damage = damage;
 		this.speed = speed;
 		this.aerialTarget = aerialTarget ;
 		this.p = p;
 		this.nextP = new Position(p);
+		this.target = target;
 
 		level = 1;
+	}
+
+	public void move(){
 		
 	}
 

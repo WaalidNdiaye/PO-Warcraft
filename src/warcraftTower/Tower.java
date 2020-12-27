@@ -1,6 +1,8 @@
 package warcraftTower;
 
+import java.util.ArrayList;
 import warcraftMain.Position;
+import warcraftMonster.Monster;
 
 public abstract class Tower {
 
@@ -74,5 +76,7 @@ public abstract class Tower {
 	public abstract void draw();
 
 	public abstract void upgrade();
+
+	public abstract void update(ArrayList <Monster> monsters);
 
 }

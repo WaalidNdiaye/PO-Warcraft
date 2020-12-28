@@ -12,22 +12,22 @@ import warcraftTower.*;
 
 public class World {
 	// Information sur la taille du plateau de jeu
-	private int width;												//Largeur
-	private int height;												//Hauteur
-	private int nbSquareX;											//Nombre de "case" en X
-	private int nbSquareY;											//Nombre de "case" en Y
-	private static double squareWidth;								//Largeur des cases
-	private static double squareHeight;								//Hauteur des cases
+	private int width;													// Largeur
+	private int height;													// Hauteur
+	private int nbSquareX;												// Nombre de "case" en X
+	private int nbSquareY;												// Nombre de "case" en Y
+	private static double squareWidth;									// Largeur des cases
+	private static double squareHeight;									// Hauteur des cases
 
-	private List<Monster> monsters = new ArrayList<Monster>();		//Liste des monstres, pour gerer (notamment) l'affichage
-	public List<Position> path;										//Liste des des positions du chemin utilis� durant la vague
-	private List <Tower> tower = new ArrayList<Tower>();
-	private static Position spawn;									// Position par laquelle les monstres vont venir
-	private Position chateau;
-	private int life = 20;											// Nombre de points de vie du joueur
-	private char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
-	private boolean end = false;									// Condition pour terminer la partie
-	private int coin = 150;												// Argent
+	private ArrayList<Monster> monsters = new ArrayList<Monster>();		// Liste des monstres, pour gerer (notamment) l'affichage
+	public List<Position> path;											// Liste des des positions du chemin utilis� durant la vague
+	private ArrayList <Tower> tower = new ArrayList<Tower>();			// Liste des tours sur le plateau 
+	private static Position spawn;										// Position par laquelle les monstres vont venir
+	private Position chateau;											// Position du chateau 
+	private int life = 20;												// Nombre de points de vie du joueur
+	private char key;													// Commande sur laquelle le joueur appuie (sur le clavier)
+	private boolean end = false;										// Condition pour terminer la partie
+	private int coin = 150;												// Argent (pour acheter les tours)
 
 	/*
 	 * GETTERS AND SETTERS
@@ -35,7 +35,7 @@ public class World {
 	public List<Monster> getMonsters() {
 		return monsters;
 	}
-	public void setMonsters(List<Monster> monsters) {
+	public void setMonsters(ArrayList<Monster> monsters) {
 		this.monsters = monsters;
 	}
 	public static Position getSpawn() {
@@ -154,11 +154,16 @@ public class World {
 	 */
 	public void drawInfos() {
 		drawLife();
+		drawCoin();
 	}
 
 	public void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.95, String.valueOf(life));
+	}
+	public void drawCoin() {
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.text(0.95, 0.90 , String.valueOf(coin));
 	}
 
 	/**
@@ -191,6 +196,11 @@ public class World {
 		Monster m;
 		while (monsters.size() > 0 && i.hasNext()) {
 			m = i.next();
+			if(m.getLife() <= 0 ){
+				coin += m.getDropCoin();
+				monsters.remove(m);
+			}
+			
 			m.update();
 			if(path.indexOf(m.getNextP()) < path.size()-1)
 				m.setNextP(path.get(path.indexOf(m.getNextP())+1));
@@ -245,7 +255,7 @@ public class World {
 		}
 	}
 	//verifi qu'il est possible de poser un tour
-	public boolean creatTower(Position p , int cost){
+	public boolean canCreatTower(Position p , int cost){
 		for (int i = 0 ; i < path.size(); i++){
 			if(p.equalsP(path.get(i))){
 				System.out.println("Position impossible ! Vous etes sur le chemin.");
@@ -284,19 +294,19 @@ public class World {
 		double normalizedX = x - (x % caseWidth ) + caseWidth / 2.0;
 		double normalizedY = y  - (y % caseHeigth ) + caseHeigth / 2.0  ;
 
-		Position p = new Position(normalizedX, normalizedY);
+		Position pTower = new Position(normalizedX, normalizedY);
 		switch (key) {
 		case 'a':
 			System.out.println("l faut ajouter une tour d'archers si l'utilisateur à de l'or !!");
-			if(creatTower(p, 50)) {
-				tower.add(new ArcheryTower(p));
+			if(canCreatTower(pTower, 50)) {
+				tower.add(new ArcheryTower(pTower));
 				this.coin -= 50 ;
 			}
 			break;
 		case 'b':
 			System.out.println("Ici il faut ajouter une tour de bombes");
-			if(creatTower(p, 60)) {
-				tower.add(new BombTower(p));
+			if(canCreatTower(pTower, 60)) {
+				tower.add(new BombTower(pTower));
 				this.coin -= 60;
 			}
 			break;

@@ -1,6 +1,7 @@
 package warcraftTower;
 
 import java.util.ArrayList;
+
 import warcraftMain.Position;
 import warcraftMonster.Monster;
 
@@ -9,7 +10,7 @@ public abstract class Tower {
 	//prix de la tour
 	protected int towerCost;
 
-	//pot�e de la tour 
+	//potee de la tour 
 	protected double range; 
 
 	//temps de rechargement
@@ -19,7 +20,7 @@ public abstract class Tower {
 	protected boolean aerialTarget ;
 
 	// Position de la tour 
-	protected Position p;
+	private Position p ;
 
 	//niveau de la tour (niveau 1 puis niveau 2 si am�liorer)
 	protected int level;
@@ -51,17 +52,12 @@ public abstract class Tower {
 	public Position getP() {
 		return p;
 	}
-	public void setP(Position p) {
-		this.p = p;
-	}
 	public int getLevel() {
 		return level;
 	}
 	public void setLevel(int level) {
 		this.level = level;
 	}
-
-
 
 	public Tower(int towerCost, double range, int cooldown, boolean aerialTarget , Position p) {
 		this.towerCost = towerCost;
@@ -71,7 +67,7 @@ public abstract class Tower {
 		this.p = p;
 		this.level = 1 ;
 	}
-
+	
 
 	public abstract void draw();
 

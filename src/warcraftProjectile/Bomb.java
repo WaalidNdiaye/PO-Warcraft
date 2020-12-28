@@ -15,9 +15,17 @@ public class Bomb extends Projectile{
 	public void draw() {
 		
 	}
+
+	public void move(){
+
+	}
 	
 	public void upgrade (){
 		level++;
 		damage += 1;
+	}
+
+	public  void update(){
+
 	}
 }

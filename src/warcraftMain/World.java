@@ -29,7 +29,8 @@ public class World {
 	private boolean start = false;
 	private boolean end = false;										// Condition pour terminer la partie
 	private int coin = 150;												// Argent (pour acheter les tours)
-
+	private double mouseX = -1;
+	private double mouseY = -1;
 	/*
 	 * GETTERS AND SETTERS
 	 */
@@ -130,6 +131,7 @@ public class World {
 	 */
 	public void drawMenu() {
 		StdDraw.picture(0.5, 0.5, "images/menu.png", 1, 1);
+		StdDraw.picture(normalizedX(mouseX), normalizedY(mouseY), "images/select.png", squareWidth, squareHeight);
 	}
 	
 	/**
@@ -153,7 +155,7 @@ public class World {
 	/**
 	 * Initialise les vagues de monstres.
 	 */
-	public void waveBuilder() {
+	public void waveBuilder(int nbr) {
 		monsters = wave1.waveBuild();
 	}
 
@@ -245,10 +247,14 @@ public class World {
 	 * @return les points de vie restants du joueur
 	 */
 	public int update() {
-		drawBackground();
-		drawInfos();
-		updateMonsters();
-		updateTowers();
+		if(!start) {
+			drawMenu();
+		}else {
+			drawBackground();
+			drawInfos();
+			updateMonsters();
+			updateTowers();
+		}
 		drawMouse();
 		return life;
 	}
@@ -311,10 +317,10 @@ public class World {
 		double caseWidth = (1.0/24.0);
 		double caseHeigth = (1.0/15.0);
 
-		y = y - 0.04;
+		//y = y - 0.04;
 
 		//coordonée du centre de la tour (ici un rectangle)
-		double normalizedX = x - (x % caseWidth ) + caseWidth / 2.0;
+		double normalizedX = x - (x % caseWidth) + caseWidth / 2.0;
 		double normalizedY = y  - (y % caseHeigth ) + caseHeigth / 2.0  ;
 
 		Position pTower = new Position(normalizedX, normalizedY);
@@ -337,8 +343,53 @@ public class World {
 			System.out.println("Ici il est possible de faire évolué une des tours");
 			break;
 		}
+		
+		//MOUSE CLICK DANS LE MENU AVANT QUE LA PARTIE DEMARRE
+		if(!start) {
+			StdDraw.setPenColor(183, 38, 80);
+			if(compareNormalized(normalizedX(x), normalizedX(8 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			} else if(compareNormalized(normalizedX(x), normalizedX(9 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			} else if(compareNormalized(normalizedX(x), normalizedX(10 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			} else if(compareNormalized(normalizedX(x), normalizedX(11 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			} else if(compareNormalized(normalizedX(x), normalizedX(12 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			} else if(compareNormalized(normalizedX(x), normalizedX(13 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			} else if(compareNormalized(normalizedX(x), normalizedX(14 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			} else if(compareNormalized(normalizedX(x), normalizedX(15 * World.getSquareWidth() + World.getSquareWidth() / 2), normalizedY(y), normalizedY(8 * World.getSquareWidth() + World.getSquareWidth() / 2))) {
+				mouseX = x;
+				mouseY = y;
+			}
+		}
+	}
+	
+	public double normalizedX(double x) {
+		double normalized = x - (x % squareWidth) + squareWidth / 2.0;
+		return normalized;
+	}
+	
+	public double normalizedY(double y) {
+		double normalized = y  - (y % squareHeight ) + squareHeight / 2.0 ;
+		return normalized;
 	}
 
+	public boolean compareNormalized(double x, double x2, double y, double y2){
+		if(x == x2 && y == y2)
+			return true;
+		return false;
+	}
 	/**
 	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités
 	 * offertes au joueur pour intéragir avec le clavier
@@ -356,15 +407,15 @@ public class World {
 	 * Récupère la touche entrée au clavier ainsi que la position de la souris et met à jour le plateau en fonction de ces interractions
 	 */
 	public void run() {
-		drawMenu();
-		StdDraw.show();
 		randomPath();
-		waveBuilder();
+		waveBuilder(1);
 		printCommands();
-		System.out.println(wave1.waveBuild());
+		
 		while(!end) {
-
+			
 			StdDraw.clear();
+			update();
+			
 			if (StdDraw.hasNextKeyTyped()) {
 				keyPress(StdDraw.nextKeyTyped());
 			}
@@ -374,11 +425,7 @@ public class World {
 				StdDraw.pause(50);
 			}
 
-			if(start) {
-				update();
-				StdDraw.show();
-				StdDraw.pause(20);
-			}
+			StdDraw.show();
 		}
 	}
 

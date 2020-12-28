@@ -9,13 +9,13 @@ public abstract class Projectile {
 
 	protected Position p;						//Position du projectile à l'instant t  
 	protected int damage ;						//Degat du projectile
-	protected double speed ;					//Vitesse du projectile 
+	protected float speed ;						//Vitesse du projectile 
 	protected boolean aerialTarget ;			//Attaque les cibles volantes 
 	protected int level ;						//Niveau des projectiles (le premier niveau est le niveau 1)
 	protected ProjectileHitbox hitbox ;			//Hitbox
 	protected Monster target ;					//Cible du projectile  
 	protected Boolean hit = false; 				//Le projectile atteint sa cible 
-	protected double size;
+	protected float size;
 	
 	/*
 	 * GETTERS AND SETTERS
@@ -32,10 +32,10 @@ public abstract class Projectile {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-	public double getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
-	public void setSpeed(double speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 	public boolean isAerialTarget() {
@@ -70,7 +70,7 @@ public abstract class Projectile {
 	}
 
 
-	public Projectile(int damage, double speed, boolean aerialTarget, Position p, Monster target, double size) {
+	public Projectile(int damage, float speed, boolean aerialTarget, Position p, Monster target, float size) {
 		this.damage = damage;
 		this.speed = speed;
 		this.aerialTarget = aerialTarget ;
@@ -86,11 +86,11 @@ public abstract class Projectile {
 		if(target.getP().getX() > p.getX()){
 			//losque le monstre est en haut a droite de la tour  
 			if(target.getP().getY() > p.getY()) {
-				double AB = Math.abs(target.getP().getX() - p.getX());
-				double BC = Math.abs(target.getP().getY() - p.getY());
+				float AB = Math.abs(target.getP().getX() - p.getX());
+				float BC = Math.abs(target.getP().getY() - p.getY());
 
 				//distance entre la tour et le monstre 
-				double distance = Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+				float distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
 
 				//deplace le projectile
 				this.p.setX( p.getX() + (speed/distance) * AB);
@@ -98,9 +98,9 @@ public abstract class Projectile {
 			}	
 			//losque le monstre est en bas a droite de la tour 
 			else {
-				double AB = Math.abs(target.getP().getX() - p.getX());
-				double BC = Math.abs( p.getY() - target.getP().getY());
-				double distance = Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+				float AB = Math.abs(target.getP().getX() - p.getX());
+				float BC = Math.abs( p.getY() - target.getP().getY());
+				float distance = (float)Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
 				this.p.setX( p.getX() + (speed/distance) * AB);
 				this.p.setY( p.getY() - (speed/distance) * BC);
 			}
@@ -108,17 +108,17 @@ public abstract class Projectile {
 		else {
 			//losque le monstre est en haut a gauche de la tour 
 			if(target.getP().getY() > p.getY()) {
-				double AB = Math.abs(p.getX() - target.getP().getX());
-				double BC = Math.abs(target.getP().getY() - p.getY());
-				double distance = Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+				float AB = Math.abs(p.getX() - target.getP().getX());
+				float BC = Math.abs(target.getP().getY() - p.getY());
+				float distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
 				this.p.setX( p.getX() - (speed/distance) * AB);
 				this.p.setY( p.getY() + (speed/distance) * BC);
 			}
 			else{
 				//losque le monstre est en bas a gauche de la tour 
-				double AB = Math.abs(p.getX() - target.getP().getX());
-				double BC = Math.abs( p.getY() - target.getP().getY());
-				double distance = Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+				float AB = Math.abs(p.getX() - target.getP().getX());
+				float BC = Math.abs( p.getY() - target.getP().getY());
+				float distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
 				this.p.setX( p.getX() - (speed/distance) * AB);
 				this.p.setY( p.getY() - (speed/distance) * BC);
 			}

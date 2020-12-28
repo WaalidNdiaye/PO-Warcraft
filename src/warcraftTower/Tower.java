@@ -8,7 +8,7 @@ import warcraftMonster.Monster;
 public abstract class Tower {
 
 	protected int towerCost;					// Prix de la tour
-	protected double range; 					// Portee de la tour 
+	protected float range; 					// Portee de la tour 
 	protected int cooldown;						// Temps de rechargement
 	protected boolean aerialTarget ;			// Attaquer les cibles volantes 
 	private Position p ;						// Position de la tour 
@@ -23,10 +23,10 @@ public abstract class Tower {
 	public void setTowerCost(int towerCost) {
 		this.towerCost = towerCost;
 	}
-	public double getRange() {
+	public float getRange() {
 		return range;
 	}
-	public void setRange(double range) {
+	public void setRange(float range) {
 		this.range = range;
 	}
 	public int getCooldown() {
@@ -51,7 +51,7 @@ public abstract class Tower {
 		this.level = level;
 	}
 
-	public Tower(int towerCost, double range, int cooldown, boolean aerialTarget , Position p) {
+	public Tower(int towerCost, float range, int cooldown, boolean aerialTarget , Position p) {
 		this.towerCost = towerCost;
 		this.range = range ;
 		this.cooldown = cooldown ;

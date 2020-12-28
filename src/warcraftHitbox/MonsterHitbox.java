@@ -4,7 +4,7 @@ import warcraftMain.Position;
 
 public class MonsterHitbox extends Hitbox {
 	
-	public MonsterHitbox(Position p , double size) {
+	public MonsterHitbox(Position p , float size) {
 		super(p , size);
 	}
 

@@ -20,7 +20,7 @@ public class ArcheryTower extends Tower {
 	}
 
 	public ArcheryTower(Position p) {
-		super(50, 0.2, 15, true, p);
+		super(50, (float)0.2, 15, true, p);
 		System.out.println("\n--- Nouvelle tour d'archer creer!---");
 	}
 	
@@ -41,21 +41,20 @@ public class ArcheryTower extends Tower {
 	 */
 	public Monster activate(ArrayList <Monster> monsters){
 
-		double distanceMin = range + 0.01;
+		float distanceMin = (float) (range + 0.01);
 		Monster closest = null;
 		for(int i = 0 ; i < monsters.size() ; i++){
 
-			double AB = monsters.get(i).getP().getX() - getP().getX();
-			double BC = monsters.get(i).getP().getY()  - getP().getY();
+			float AB = monsters.get(i).getP().getX() - getP().getX();
+			float BC = monsters.get(i).getP().getY()  - getP().getY();
 			// Mesure la distance entre la tour et le monstre (AC2 = AB2 + BC2)
-			double distance = Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+			float distance = (float) (Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2)));
 			if(distanceMin > distance) {
 				distanceMin = distance; 
 				closest = monsters.get(i);
 			}
 		} 
 		if(distanceMin < range) {
-			System.out.println("....Monstre a porté....");
 			return closest;
 		}
 		else return null;

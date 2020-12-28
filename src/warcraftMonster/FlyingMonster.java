@@ -5,7 +5,7 @@ import warcraftMain.Position;
 public class FlyingMonster extends Monster {
 	
 	public FlyingMonster (Position p) {
-		super(p , 0.03 , 0.001, 3, 8);
+		super(p , (float)0.03 , (float)0.001, 3, 8);
 		flying = true;
 	}
 	

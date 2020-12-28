@@ -8,7 +8,7 @@ import warcraftMain.Position;
 public class BombTower extends Tower{
 	
 	public BombTower(Position p) {
-		super(60, 0.2, 20, false, p);
+		super(60, (float)0.2, 20, false, p);
 	}
 	
 	public void draw() {
@@ -18,10 +18,10 @@ public class BombTower extends Tower{
 	public void activate(ArrayList <Monster> monsters){
 		for(int i = 0 ; i < monsters.size() ; i++){
 
-			double AB = monsters.get(i).getP().getX() - getP().getX();
-			double BC = monsters.get(i).getP().getY()  - getP().getY();
+			float AB = monsters.get(i).getP().getX() - getP().getX();
+			float BC = monsters.get(i).getP().getY()  - getP().getY();
 			// Mesure la distance entre la tour et le monstre (AC2 = AB2 + BC2)
-			double distance = Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+			float distance = (float)(Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2)));
 			if(distance < range && !monsters.get(i).isFlying());
 			
 		} 

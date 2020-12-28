@@ -15,8 +15,8 @@ public class World {
 	private int height;													// Hauteur
 	private int nbSquareX;												// Nombre de "case" en X
 	private int nbSquareY;												// Nombre de "case" en Y
-	private static double squareWidth;									// Largeur des cases
-	private static double squareHeight;									// Hauteur des cases
+	private static float squareWidth;									// Largeur des cases
+	private static float squareHeight;									// Hauteur des cases
 
 	private ArrayList<Monster> monsters = new ArrayList<Monster>();		// Liste des monstres, pour gerer (notamment) l'affichage
 	public List<Position> path;											// Liste des des positions du chemin utilis� durant la vague
@@ -28,8 +28,8 @@ public class World {
 	private boolean start = false;
 	private boolean end = false;										// Condition pour terminer la partie
 	private int coin = 150;												// Argent (pour acheter les tours)
-	private double mouseX = -1;
-	private double mouseY = -1;
+	private float mouseX = -1;
+	private float mouseY = -1;
 	
 	/*
 	 * GETTERS AND SETTERS
@@ -70,10 +70,10 @@ public class World {
 	public void setNbSquareY(int nbSquareY) {
 		this.nbSquareY = nbSquareY;
 	}
-	public static double getSquareWidth() {
+	public static float getSquareWidth() {
 		return squareWidth;
 	}
-	public static double getSquareHeight() {
+	public static float getSquareHeight() {
 		return squareHeight;
 	}
 	public int getLife() {
@@ -116,8 +116,8 @@ public class World {
 		this.height = height;
 		this.nbSquareX = nbSquareX;
 		this.nbSquareY = nbSquareY;
-		squareWidth = (double) 1 / nbSquareX;
-		squareHeight = (double) 1 / nbSquareY;
+		squareWidth = (float) 1 / nbSquareX;
+		squareHeight = (float) 1 / nbSquareY;
 
 		spawn = new Position(startSquareX * squareWidth + squareWidth / 2, startSquareY * squareHeight + squareHeight / 2);
 		chateau = new Position(chateauX * squareWidth + squareWidth / 2, chateauY * squareHeight + squareHeight / 2);
@@ -181,8 +181,8 @@ public class World {
 	 *	lorsque le joueur appuie sur une des touches permettant la construction d'une tour.
 	 */
 	public void drawMouse() {
-		double normalizedX = (int)(StdDraw.mouseX() / squareWidth) * squareWidth + squareWidth / 2;
-		double normalizedY = (int)(StdDraw.mouseY() / squareHeight) * squareHeight + squareHeight / 2;
+		float normalizedX = (int)(StdDraw.mouseX() / squareWidth) * squareWidth + squareWidth / 2;
+		float normalizedY = (int)(StdDraw.mouseY() / squareHeight) * squareHeight + squareHeight / 2;
 		String image = null;
 		switch (key) {
 		case 'a' :
@@ -222,12 +222,12 @@ public class World {
 	}
 	
 	public boolean casePosition(Monster m) {
-	    double mCaseX = m.getP().getX() - (m.getP().getX() % squareWidth ) + squareWidth / 2.0;
-	    double mCaseY = m.getP().getY() - (m.getP().getY() % squareHeight ) + squareHeight / 2.0;
+	    float mCaseX = (float) (m.getP().getX() - (m.getP().getX() % squareWidth ) + squareWidth / 2.0 );
+	    float mCaseY = (float) (m.getP().getY() - (m.getP().getY() % squareHeight ) + squareHeight / 2.0 );
 	    Position posM = new Position(mCaseX, mCaseY);
 
-	    double mCaseNextX = m.getNextP().getX() - (m.getNextP().getX() % squareWidth ) + squareWidth / 2.0;
-	    double mCaseNextY = m.getNextP().getY() - (m.getNextP().getY() % squareHeight ) + squareHeight / 2.0;
+	    float mCaseNextX = (float) (m.getNextP().getX() - (m.getNextP().getX() % squareWidth ) + squareWidth / 2.0);
+	    float mCaseNextY = (float) (m.getNextP().getY() - (m.getNextP().getY() % squareHeight ) + squareHeight / 2.0);
 	    Position nextPosM = new Position(mCaseNextX, mCaseNextY);
 	    
 	    if(posM.getX() == nextPosM.getX() && posM.getY() == nextPosM.getY())
@@ -312,16 +312,16 @@ public class World {
 	 * @param x
 	 * @param y
 	 */
-	public void mouseClick(double x, double y) {
+	public void mouseClick(float x, float y) {
 		//dimension d'une case
-		double caseWidth = (1.0/24.0);
-		double caseHeigth = (1.0/15.0);
+		float caseWidth = (float)(1.0/24.0);
+		float caseHeigth = (float)(1.0/15.0);
 
 		//y = y - 0.04;
 
 		//coordonée du centre de la tour (ici un rectangle)
-		double normalizedX = x - (x % caseWidth) + caseWidth / 2.0;
-		double normalizedY = y  - (y % caseHeigth ) + caseHeigth / 2.0  ;
+		float normalizedX = (float) (x - (x % caseWidth) + caseWidth / 2.0);
+		float normalizedY = (float) (y  - (y % caseHeigth ) + caseHeigth / 2.0);
 
 		Position pTower = new Position(normalizedX, normalizedY);
 		switch (key) {
@@ -375,17 +375,17 @@ public class World {
 		}
 	}
 	
-	public double normalizedX(double x) {
-		double normalized = x - (x % squareWidth) + squareWidth / 2.0;
+	public float normalizedX(float x) {
+		float normalized = (float) (x - (x % squareWidth) + squareWidth / 2.0);
 		return normalized;
 	}
 	
-	public double normalizedY(double y) {
-		double normalized = y  - (y % squareHeight ) + squareHeight / 2.0 ;
+	public float normalizedY(float y) {
+		float normalized = (float) (y  - (y % squareHeight ) + squareHeight / 2.0);
 		return normalized;
 	}
 
-	public boolean compareNormalized(double x, double x2, double y, double y2){
+	public boolean compareNormalized(float x, float x2, float y, float y2){
 		if(x == x2 && y == y2)
 			return true;
 		return false;
@@ -421,7 +421,7 @@ public class World {
 			}
 
 			if (StdDraw.isMousePressed()) {
-				mouseClick(StdDraw.mouseX(), StdDraw.mouseY());
+				mouseClick((float)StdDraw.mouseX(),(float)StdDraw.mouseY());
 				StdDraw.pause(50);
 			}
 

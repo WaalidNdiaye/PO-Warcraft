@@ -8,7 +8,7 @@ public abstract class Monster {
 
 	
 	protected Position p;				// Position du monstre à l'instant t
-	protected double speed;				// Vitesse du monstre
+	protected float speed;				// Vitesse du monstre
 	protected Position nextP;			// Position du monstre à l'instant t+1
 	protected boolean reached;			// A atteint le chateau du joueur
 	protected int checkpoint = 0;		// Compteur de déplacement pour savoir si le monstre à atteint le chateau du joueur
@@ -16,7 +16,7 @@ public abstract class Monster {
 	protected int life;					//Point de vie du monstre 
 	protected int dropCoin;				//Argent gagné lors de la mort du monstre 
 	protected MonsterHitbox hitbox;		//Hitbox
-	protected double size;				//Taille de la Hitbox
+	protected float size;				//Taille de la Hitbox
 
 	
 	/*
@@ -28,10 +28,10 @@ public abstract class Monster {
 	public void setP(Position p) {
 		this.p = p;
 	}
-	public double getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
-	public void setSpeed(double speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 	public Position getNextP() {
@@ -52,10 +52,10 @@ public abstract class Monster {
 	public void setCheckpoint(int checkpoint) {
 		this.checkpoint = checkpoint;
 	}
-	public double getSize() {
+	public float getSize() {
 		return size;
 	}
-	public void setSize(double size) {
+	public void setSize(float size) {
 		this.size = size;
 	}
 	public MonsterHitbox getHitbox() {
@@ -83,7 +83,7 @@ public abstract class Monster {
 		this.dropCoin = dropCoin;
 	}
 	
-	public Monster(Position p, double size, double speed, int life, int dropCoin ) {
+	public Monster(Position p, float size, float speed, int life, int dropCoin ) {
 		this.p = p;
 		this.size = size; 
 		this.speed = speed;
@@ -98,12 +98,12 @@ public abstract class Monster {
 	 */
 	public void move() {
 		// Mesure sur quel axe le monstre se dirige.
-		double dx = nextP.getX() - p.getX();
-		double dy = nextP.getY() - p.getY();
+		float dx = nextP.getX() - p.getX();
+		float dy = nextP.getY() - p.getY();
 		if (dy + dx != 0){
 			// Mesure la distance à laquelle le monstre à pu se déplacer.
-			double ratioX = dx/(Math.abs(dx) + Math.abs(dy));
-			double ratioY = dy/(Math.abs(dx) + Math.abs(dy));
+			float ratioX = dx/(Math.abs(dx) + Math.abs(dy));
+			float ratioY = dy/(Math.abs(dx) + Math.abs(dy));
 
 			p.setX(p.getX() +  ratioX * speed);
 			p.setY(p.getY() +  ratioY * speed);

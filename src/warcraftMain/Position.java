@@ -2,19 +2,19 @@ package warcraftMain;
 
 public class Position {
 	
-	private double x;
-	private double y;
+	private float x;
+	private float y;
 	
-	public double getX() {
+	public float getX() {
 		return x;
 	}
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
-	public double getY() {
+	public float getY() {
 		return y;
 	}
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
@@ -24,7 +24,7 @@ public class Position {
 	 * @param x
 	 * @param y
 	 */
-	public Position(double x, double y) {
+	public Position(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -43,8 +43,8 @@ public class Position {
 	 * @param p
 	 * @return
 	 */
-	public double dist(Position p) {
-		return Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
+	public float dist(Position p) {
+		return (float) Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
 	} 
 
 	/**

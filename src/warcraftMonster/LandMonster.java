@@ -6,7 +6,7 @@ import warcraftMain.StdDraw;
 public class LandMonster extends Monster {
 
 	public LandMonster (Position p) {
-		super(p , 0.04 , 0.002 , 5 , 5);
+		super(p , (float)0.04 , (float)0.002 , 5 , 5);
 	}
 	
 	public void draw() {

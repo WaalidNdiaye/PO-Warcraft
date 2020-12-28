@@ -5,41 +5,41 @@ import warcraftMain.Position;
 public class Hitbox {
 
     //bords de la hitBox 
-	protected double leftSide;
-	protected double rightSide;
-	protected double topSide;
-	protected double bottomSide;
+	protected float leftSide;
+	protected float rightSide;
+	protected float topSide;
+	protected float bottomSide;
 
 	//taille de la hitbox 
-	protected double size ;
+	protected float size ;
 	
 	
-	public double getLeftSide() {
+	public float getLeftSide() {
 		return leftSide;
 	}
-	public void setLeftSide(double leftSide) {
+	public void setLeftSide(float leftSide) {
 		this.leftSide = leftSide;
 	}
-	public double getRightSide() {
+	public float getRightSide() {
 		return rightSide;
 	}
-	public void setRightSide(double rightSide) {
+	public void setRightSide(float rightSide) {
 		this.rightSide = rightSide;
 	}
-	public double getTopSide() {
+	public float getTopSide() {
 		return topSide;
 	}
-	public void setTopSide(double topSide) {
+	public void setTopSide(float topSide) {
 		this.topSide = topSide;
 	}
-	public double getBottomSide() {
+	public float getBottomSide() {
 		return bottomSide;
 	}
-	public void setBottomSide(double bottomSide) {
+	public void setBottomSide(float bottomSide) {
 		this.bottomSide = bottomSide;
     }
     
-    public Hitbox(Position p , double size){
+    public Hitbox(Position p , float size){
         this.size = size ;
 		leftSide = p.getX() - (this.size / 2);
 		rightSide = p.getX() + (this.size / 2); 

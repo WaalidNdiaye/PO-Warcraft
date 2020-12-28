@@ -62,21 +62,19 @@ public class ArcheryTower extends Tower {
 		
 	}
 
-public void update(ArrayList <Monster> monsters){
-
+	public void update(ArrayList <Monster> monsters){
 		draw();
 		Monster m = activate(monsters);
 		if( m != null){ 
-			time += 5 ;
+			time ++;
 			if(time % cooldown == 0 ) shoot(m);
 		}
 		for(int i = 0 ; i < arrow.size() ; i++ ) if(arrow.get(i).getHit()) arrow.remove(arrow.get(i));
-		for(int i = 0 ; i < arrow.size() ; i++ )arrow.get(i).update();
+		for(int i = 0 ; i < arrow.size() ; i++ ) arrow.get(i).update();
 	}
 
 	public void shoot(Monster monster){
-		System.out.println("!!! Tire un projectile le monstre le plus proche !!!");
-		Position pProjectile = new Position(getP().getX(), getP().getX());
+		Position pProjectile = new Position(getP().getX(), getP().getY());
 		arrow.add(new Arrow(pProjectile,monster));
 	}
 

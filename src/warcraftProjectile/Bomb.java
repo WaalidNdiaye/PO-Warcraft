@@ -8,7 +8,7 @@ import warcraftMonster.*;
 public class Bomb extends Projectile{
 
 	public Bomb (Position p, Monster target) {
-		super(8, 0.02, false, p , target);
+		super(8, 0.02, false, p , target , 0.04);
 		this.hitbox = new ProjectileHitbox(p,2);
 	}
 	

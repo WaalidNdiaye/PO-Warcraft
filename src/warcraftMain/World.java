@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import warcraftMonster.BaseMonster;
 import warcraftMonster.Monster;
 import warcraftPath.Patern1;
 import warcraftWave.wave1;
@@ -31,6 +30,7 @@ public class World {
 	private int coin = 150;												// Argent (pour acheter les tours)
 	private double mouseX = -1;
 	private double mouseY = -1;
+	
 	/*
 	 * GETTERS AND SETTERS
 	 */

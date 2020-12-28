@@ -15,6 +15,7 @@ public abstract class Projectile {
 	protected ProjectileHitbox hitbox ;			//Hitbox
 	protected Monster target ;					//Cible du projectile  
 	protected Boolean hit = false; 				//Le projectile atteint sa cible 
+	protected double size;
 	
 	/*
 	 * GETTERS AND SETTERS
@@ -69,17 +70,19 @@ public abstract class Projectile {
 	}
 
 
-	public Projectile(int damage, double speed, boolean aerialTarget, Position p, Monster target) {
+	public Projectile(int damage, double speed, boolean aerialTarget, Position p, Monster target, double size) {
 		this.damage = damage;
 		this.speed = speed;
 		this.aerialTarget = aerialTarget ;
-		this.p = p;
+		this.p = p ;
 		this.target = target;
 		this.level = 1;
+		this.size = size;
+		this.hitbox = new ProjectileHitbox(p, size); 
 	}
 	
+	//Calcul de la prochaine position et deplacement jusqua la prochaine position 
 	public void move(){
-		//calcul de la prochaine position et deplacement jusqua la prochaine position 
 		if(target.getP().getX() > p.getX()){
 			//losque le monstre est en haut a droite de la tour  
 			if(target.getP().getY() > p.getY()) {

@@ -7,24 +7,16 @@ import warcraftMonster.Monster;
 
 public abstract class Tower {
 
-	//prix de la tour
-	protected int towerCost;
+	protected int towerCost;					// Prix de la tour
+	protected double range; 					// Portee de la tour 
+	protected int cooldown;						// Temps de rechargement
+	protected boolean aerialTarget ;			// Attaquer les cibles volantes 
+	private Position p ;						// Position de la tour 
+	protected int level;						// Niveau de la tour (niveau 1 puis niveau 2...)
 
-	//potee de la tour 
-	protected double range; 
-
-	//temps de rechargement
-	protected int cooldown;
-
-	//peut attaquer les cibles volantes 
-	protected boolean aerialTarget ;
-
-	// Position de la tour 
-	private Position p ;
-
-	//niveau de la tour (niveau 1 puis niveau 2 si am�liorer)
-	protected int level;
-
+	/*
+	 * GETTERS AND SETTERS
+	 */
 	public int getTowerCost() {
 		return towerCost;
 	}

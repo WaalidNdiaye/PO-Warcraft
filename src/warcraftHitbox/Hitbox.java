@@ -49,8 +49,6 @@ public class Hitbox {
 
 	//Renvoi true si les deux hitboxs se touche sinon renvoi false  
     public boolean hit(Hitbox h){
-		System.out.println("Bord : " + this.getLeftSide() +","+ this.getRightSide() +","+ this.getBottomSide()  +","+ this.getTopSide());
-		System.out.println("Bord : " + h.getLeftSide() +","+ h.getRightSide() +","+ h.getBottomSide()  +","+ h.getTopSide());
 		if(this.getLeftSide() > h.getRightSide()) return false;
 		else if(this.getRightSide() < h.getLeftSide()) return false ;
 		else if(this.getBottomSide() > h.getTopSide()) return false;

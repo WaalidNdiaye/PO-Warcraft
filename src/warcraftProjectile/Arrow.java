@@ -22,15 +22,12 @@ public class Arrow extends Projectile{
 	}
 
 	public void update(){
-		System.out.println("Position du projectile a instant t - 1 : " + getP().getX() + " / " + getP().getY());
 		move();
 		hitbox.move(p);
-		System.out.println("Position du projectile a instant t : " + getP().getX() + " / " + getP().getY());
 		draw();
 		
 		//Verifie si le projectile a toucher sa cible 
 		if(hitbox.hit(target.getHitbox())){
-			System.out.println("Cible touché");
 			target.hit(damage);
 			hit = true;
 		} 

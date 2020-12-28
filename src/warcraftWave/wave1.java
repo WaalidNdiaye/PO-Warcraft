@@ -1,7 +1,6 @@
 package warcraftWave;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import warcraftMonster.Monster;
 import warcraftMonster.LandMonster;

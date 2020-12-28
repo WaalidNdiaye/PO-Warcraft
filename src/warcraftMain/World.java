@@ -26,6 +26,7 @@ public class World {
 	private Position chateau;											// Position du chateau 
 	private int life = 20;												// Nombre de points de vie du joueur
 	private char key;													// Commande sur laquelle le joueur appuie (sur le clavier)
+	private boolean start = false;
 	private boolean end = false;										// Condition pour terminer la partie
 	private int coin = 150;												// Argent (pour acheter les tours)
 
@@ -124,6 +125,13 @@ public class World {
 		StdDraw.enableDoubleBuffering();
 	}
 
+	/*
+	 * Definit le background du menu principal du jeu
+	 */
+	public void drawMenu() {
+		StdDraw.picture(0.5, 0.5, "images/menu.png", 1, 1);
+	}
+	
 	/**
 	 * Definit le decors du plateau de jeu.
 	 * Represente un village.
@@ -202,13 +210,27 @@ public class World {
 			}
 			
 			m.update();
-			if(path.indexOf(m.getNextP()) < path.size()-1)
+			if(path.indexOf(m.getNextP()) < path.size()-1 && casePosition(m))
 				m.setNextP(path.get(path.indexOf(m.getNextP())+1));
 			if(m.getP().getX() >= chateau.getX()) {
 				life--;
 				monsters.remove(monsters.indexOf(m));
 			}
 		}
+	}
+	
+	public boolean casePosition(Monster m) {
+	    double mCaseX = m.getP().getX() - (m.getP().getX() % squareWidth ) + squareWidth / 2.0;
+	    double mCaseY = m.getP().getY() - (m.getP().getY() % squareHeight ) + squareHeight / 2.0;
+	    Position posM = new Position(mCaseX, mCaseY);
+
+	    double mCaseNextX = m.getNextP().getX() - (m.getNextP().getX() % squareWidth ) + squareWidth / 2.0;
+	    double mCaseNextY = m.getNextP().getY() - (m.getNextP().getY() % squareHeight ) + squareHeight / 2.0;
+	    Position nextPosM = new Position(mCaseNextX, mCaseNextY);
+	    
+	    if(posM.getX() == nextPosM.getX() && posM.getY() == nextPosM.getY())
+	    	return true;
+	    return false;
 	}
 	
 	//Met a jour les tours 
@@ -250,6 +272,7 @@ public class World {
 			break;
 		case 's':
 			System.out.println("Starting game!");
+			start = true;
 		case 'q':
 			System.out.println("Exiting.");
 		}
@@ -333,6 +356,8 @@ public class World {
 	 * Récupère la touche entrée au clavier ainsi que la position de la souris et met à jour le plateau en fonction de ces interractions
 	 */
 	public void run() {
+		drawMenu();
+		StdDraw.show();
 		randomPath();
 		waveBuilder();
 		printCommands();
@@ -349,9 +374,11 @@ public class World {
 				StdDraw.pause(50);
 			}
 
-			update();
-			StdDraw.show();
-			StdDraw.pause(20);
+			if(start) {
+				update();
+				StdDraw.show();
+				StdDraw.pause(20);
+			}
 		}
 	}
 

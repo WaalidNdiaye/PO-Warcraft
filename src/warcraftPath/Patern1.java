@@ -10,7 +10,7 @@ public class Patern1 {
 	
 	/*
 	 * Constructeur du chemin Patern1
-	 * utilise pour set le chemin dans world en choisissant un chemin aléatoire parmis ceux preset
+	 * chemin de premiere vague
 	 */
 	public static List<Position> pathconstruct() {
 		List<Position> path = new LinkedList<Position>();

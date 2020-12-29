@@ -88,7 +88,7 @@ public abstract class Monster {
 		this.size = size; 
 		this.speed = speed;
 		this.nextP = new Position(p);
-		this.hitbox = new MonsterHitbox(p, size);
+		this.hitbox = new MonsterHitbox(p, (float)(size/1.5));
 		this.life = life ;
 		this.dropCoin = dropCoin;
 	}

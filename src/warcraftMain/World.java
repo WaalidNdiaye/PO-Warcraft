@@ -27,7 +27,7 @@ public class World {
 	private char key;													// Commande sur laquelle le joueur appuie (sur le clavier)
 	private boolean start = false;
 	private boolean end = false;										// Condition pour terminer la partie
-	private int coin = 150;												// Argent (pour acheter les tours)
+	private int coin = 300;												// Argent (pour acheter les tours)
 	private float mouseX = -1;
 	private float mouseY = -1;
 	private Position pMouse = new Position(mouseX, mouseY); 			//Postion de la souri (initialisé en dehors du plateau)
@@ -192,11 +192,11 @@ public class World {
 		switch (key) {
 		case 'a' :
 			// TODO Ajouter une image pour représenter une tour d'archers
-			if(canCreatTower(pMouse, 50)) StdDraw.picture(normalizedX , normalizedY, "images/ArcheryTower.jpg", (1.0/24.0) , (1.0/15.0) );
+			if(canCreatTower(pMouse, 50)) StdDraw.picture(normalizedX , normalizedY, "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 			break;
 		case 'b' :
 			// TODO Ajouter une image pour représenter une tour à canon
-			if(canCreatTower(pMouse, 60)) StdDraw.picture(normalizedX , normalizedY, "images/BombTower.png", (1.0/24.0) , (1.0/15.0) );
+			if(canCreatTower(pMouse, 60)) StdDraw.picture(normalizedX , normalizedY, "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 			break;
 		}
 		if (image != null)
@@ -345,6 +345,12 @@ public class World {
 			}
 			break;
 		case 'e':
+			for(int i = 0 ; i < tower.size() ; i++){
+				if(tower.get(i).getP().equalsP(pTower)){
+					if(tower.get(i).getUpgradeCost() <= coin )tower.get(i).upgrade();
+					else System.out.println("Vous n'avez pas assez d'argent !");
+				}
+			}
 			System.out.println("Ici il est possible de faire évolué une des tours");
 			break;
 		}

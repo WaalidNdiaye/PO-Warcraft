@@ -25,14 +25,19 @@ public class BombTower extends Tower{
 	}
 	
 	public void draw() {
-		StdDraw.picture(getP().getX() , getP().getY(), "images/BombTower.png", (1.0/24.0) , (1.0/15.0) );
+		if(level == 1) StdDraw.picture(getP().getX() , getP().getY(), "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+		else if(level == 2) StdDraw.picture(getP().getX() , getP().getY(), "images/Tower/Bomb Tower Level 2.png", (1.0/24.0) , (1.0/15.0) );
 	}
 
 	//Amelioration de la tour
 	public void upgrade() {
-		level++;
-		range += 0.005;
-		cooldown =- 2;
+		if(level < levelMax){
+			level++;
+			range += 0.02;
+			cooldown -= 2;
+			upgradeCost = upgradeCost * 2;
+		}
+		else System.out.println("Cet tour est deja au niveau max !");
 	}
 
 	/**

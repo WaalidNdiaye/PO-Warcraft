@@ -37,6 +37,8 @@ public class Bomb extends Projectile{
 			// Parcours tout la liste de monstre pour trouver ceux a portée et leur infliger des degats 
 			for (int i = 0 ; i < monsters.size() ; i++){
 				if(explosiveRange(monsters.get(i))) monsters.get(i).hit(damage);
+				// Affiche une explosion a l'emplacement des monstres touché par l'explosion 
+				StdDraw.picture(monsters.get(i).getP().getX(),monsters.get(i).getP().getY(), "images/Explosion.png", size + 0.02 , size + 0.02);
 			}
 
 			hit = true;

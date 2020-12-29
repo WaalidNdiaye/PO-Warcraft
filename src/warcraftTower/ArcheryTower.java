@@ -69,7 +69,7 @@ public class ArcheryTower extends Tower {
 			if(time % cooldown == 0 ) shoot(m);
 		}
 		for(int i = 0 ; i < arrow.size() ; i++ ) if(arrow.get(i).getHit()) arrow.remove(arrow.get(i));
-		for(int i = 0 ; i < arrow.size() ; i++ ) arrow.get(i).update();
+		for(int i = 0 ; i < arrow.size() ; i++ ) arrow.get(i).update(monsters);
 	}
 
 	public void shoot(Monster monster){

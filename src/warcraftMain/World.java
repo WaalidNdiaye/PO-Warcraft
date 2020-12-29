@@ -7,6 +7,7 @@ import java.util.Iterator;
 import warcraftMonster.Monster;
 import warcraftPath.Patern1;
 import warcraftWave.wave1;
+import warcraftWave.WaveLevel1;
 import warcraftTower.*;
 
 public class World {
@@ -31,6 +32,7 @@ public class World {
 	private float mouseX = -1;
 	private float mouseY = -1;
 	private Position pMouse = new Position(mouseX, mouseY); 			//Postion de la souri (initialisé en dehors du plateau)
+	private WaveLevel1 wave = new WaveLevel1();
 	
 	/*
 	 * GETTERS AND SETTERS
@@ -157,7 +159,7 @@ public class World {
 	 * Initialise les vagues de monstres.
 	 */
 	public void waveBuilder(int nbr) {
-		monsters = wave1.waveBuild();
+		//monsters = wave1.waveBuild();
 	}
 
 	/**
@@ -192,11 +194,11 @@ public class World {
 		switch (key) {
 		case 'a' :
 			// TODO Ajouter une image pour représenter une tour d'archers
-			if(canCreatTower(pMouse, 50)) StdDraw.picture(normalizedX , normalizedY, "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+			if(canCreatTower(pMouse, 50 , false)) StdDraw.picture(normalizedX , normalizedY, "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 			break;
 		case 'b' :
 			// TODO Ajouter une image pour représenter une tour à canon
-			if(canCreatTower(pMouse, 60)) StdDraw.picture(normalizedX , normalizedY, "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+			if(canCreatTower(pMouse, 60 , false )) StdDraw.picture(normalizedX , normalizedY, "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 			break;
 		}
 		if (image != null)
@@ -259,6 +261,7 @@ public class World {
 		}else {
 			drawBackground();
 			drawInfos();
+			wave.update(monsters);
 			updateMonsters();
 			updateTowers();
 		}
@@ -291,16 +294,17 @@ public class World {
 		}
 	}
 	//verifi qu'il est possible de poser un tour
-	public boolean canCreatTower(Position p , int cost){
+	public boolean canCreatTower(Position p , int cost , boolean drawInfos){
 		for (int i = 0 ; i < path.size(); i++){
 			if(p.equalsP(path.get(i))){
-				System.out.println("Position impossible ! Vous etes sur le chemin.");
+				//Permet d'afficher le probleme si souhaiter 
+				if(drawInfos) System.out.println("Position impossible ! Vous etes sur le chemin.");
 				return false;
 			}
 		}
 		for(int i = 0 ; i < tower.size() ; i++){
 			if(p.equalsP(tower.get(i).getP()) ) {
-				System.out.println("Position impossible ! Une tour est deja présente");
+				if(drawInfos) System.out.println("Position impossible ! Une tour est deja présente");
 				return false ;
 			}
 		}
@@ -332,14 +336,14 @@ public class World {
 		switch (key) {
 		case 'a':
 			System.out.println("l faut ajouter une tour d'archers si l'utilisateur à de l'or !!");
-			if(canCreatTower(pTower, 50)) {
+			if(canCreatTower(pTower, 50 , true)) {
 				tower.add(new ArcheryTower(pTower));
 				this.coin -= 50 ;
 			}
 			break;
 		case 'b':
 			System.out.println("Ici il faut ajouter une tour de bombes");
-			if(canCreatTower(pTower, 60)) {
+			if(canCreatTower(pTower, 60 , true )) {
 				tower.add(new BombTower(pTower));
 				this.coin -= 60;
 			}
@@ -419,7 +423,7 @@ public class World {
 	 */
 	public void run() {
 		randomPath();
-		waveBuilder(1);
+		//waveBuilder(1);
 		printCommands();
 		
 		while(!end) {

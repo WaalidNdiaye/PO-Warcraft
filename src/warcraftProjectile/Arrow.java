@@ -2,6 +2,9 @@ package warcraftProjectile;
 
 import warcraftMain.Position;
 import warcraftMonster.*;
+
+import java.util.ArrayList;
+
 import warcraftMain.*;
 
 
@@ -21,7 +24,7 @@ public class Arrow extends Projectile{
 		damage += 1;
 	}
 
-	public void update(){
+	public void update(ArrayList <Monster> monsters){
 		move();
 		hitbox.move(p);
 		draw();

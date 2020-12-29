@@ -1,5 +1,7 @@
 package warcraftProjectile;
 
+import java.util.ArrayList;
+
 import warcraftHitbox.ProjectileHitbox;
 import warcraftMain.Position;
 import warcraftMonster.*;
@@ -7,15 +9,15 @@ import warcraftMonster.*;
 
 public abstract class Projectile {
 
-	protected Position p;						//Position du projectile à l'instant t  
-	protected int damage ;						//Degat du projectile
-	protected float speed ;						//Vitesse du projectile 
-	protected boolean aerialTarget ;			//Attaque les cibles volantes 
-	protected int level ;						//Niveau des projectiles (le premier niveau est le niveau 1)
-	protected ProjectileHitbox hitbox ;			//Hitbox
-	protected Monster target ;					//Cible du projectile  
-	protected Boolean hit = false; 				//Le projectile atteint sa cible 
-	protected float size;
+	protected Position p;						// Position du projectile à l'instant t  
+	protected int damage ;						// Degat du projectile
+	protected float speed ;						// Vitesse du projectile 
+	protected boolean aerialTarget ;			// Attaque les cibles volantes 
+	protected int level ;						// Niveau des projectiles (le premier niveau est le niveau 1)
+	protected ProjectileHitbox hitbox ;			// Hitbox
+	protected Monster target ;					// Cible du projectile  
+	protected Boolean hit = false; 				// Le projectile atteint sa cible (permet la supression du projectil s'il a atteint sa cible)
+	protected float size;						// Taille du projectile et de sa hitbox 
 	
 	/*
 	 * GETTERS AND SETTERS
@@ -131,6 +133,6 @@ public abstract class Projectile {
 
 	public abstract void upgrade();
 
-	public abstract void update();
+	public abstract void update(ArrayList <Monster> monsters);
 
 }

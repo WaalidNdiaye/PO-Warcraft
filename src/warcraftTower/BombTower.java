@@ -28,12 +28,12 @@ public class BombTower extends Tower{
 		StdDraw.picture(getP().getX() , getP().getY(), "images/BombTower.png", (1.0/24.0) , (1.0/15.0) );
 	}
 
-		//Amelioration de la tour
-		public void upgrade() {
-			level++;
-			range += 0.005;
-			cooldown =- 2;
-		}
+	//Amelioration de la tour
+	public void upgrade() {
+		level++;
+		range += 0.005;
+		cooldown =- 2;
+	}
 
 	/**
 	 * Calcul le monstre le plus proche 
@@ -69,7 +69,7 @@ public class BombTower extends Tower{
 			if(time % cooldown == 0 ) shoot(m);
 		}
 		for(int i = 0 ; i < bomb.size() ; i++ ) if(bomb.get(i).getHit()) bomb.remove(bomb.get(i));
-		for(int i = 0 ; i < bomb.size() ; i++ ) bomb.get(i).update();
+		for(int i = 0 ; i < bomb.size() ; i++ ) bomb.get(i).update(monsters);
 	}
 
 	public void shoot(Monster monster){

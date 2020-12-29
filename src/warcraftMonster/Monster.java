@@ -12,11 +12,11 @@ public abstract class Monster {
 	protected Position nextP;			// Position du monstre à l'instant t+1
 	protected boolean reached;			// A atteint le chateau du joueur
 	protected int checkpoint = 0;		// Compteur de déplacement pour savoir si le monstre à atteint le chateau du joueur
-	protected boolean flying ;			//Monstre volant
-	protected int life;					//Point de vie du monstre 
-	protected int dropCoin;				//Argent gagné lors de la mort du monstre 
-	protected MonsterHitbox hitbox;		//Hitbox
-	protected float size;				//Taille de la Hitbox
+	protected boolean flying ;			// Monstre volant
+	protected int life;					// Point de vie du monstre 
+	protected int dropCoin;				// Argent gagné lors de la mort du monstre 
+	protected MonsterHitbox hitbox;		// Hitbox
+	protected float size;				// Taille de la Hitbox
 
 	
 	/*

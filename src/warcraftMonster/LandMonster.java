@@ -10,7 +10,6 @@ public class LandMonster extends Monster {
 	}
 	
 	public void draw() {
-		StdDraw.setPenColor(StdDraw.RED);
-		StdDraw.filledCircle(p.getX(), p.getY(), 0.01);
+		StdDraw.picture(p.getX(), p.getY(), "images/LandMonster.png", size , size);
 	}
 }

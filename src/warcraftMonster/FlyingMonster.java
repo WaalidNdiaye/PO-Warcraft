@@ -11,7 +11,18 @@ public class FlyingMonster extends Monster {
 	}
 	
 	public void draw() {
-		StdDraw.picture(p.getX(), p.getY(), "images/FlyingMonster.png", size , size);
+		if(time > 8) time = 0;
+		if(time == 0) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		if(time == 1) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		if(time == 2) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		if(time == 3) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		if(time == 4) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		if(time == 5) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		if(time == 6) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size); 
+		if(time == 7) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		if(time == 8) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimated/" + time +  ".png", size * 0.7 , size);
+		
+		time++;
 	}
 
 }

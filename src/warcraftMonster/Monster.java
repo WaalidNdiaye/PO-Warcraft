@@ -17,6 +17,7 @@ public abstract class Monster {
 	protected int dropCoin;				// Argent gagné lors de la mort du monstre 
 	protected MonsterHitbox hitbox;		// Hitbox
 	protected float size;				// Taille de la Hitbox
+	protected int time = 0;				// Permert d'afficher cycliquement les monstres 
 
 	
 	/*

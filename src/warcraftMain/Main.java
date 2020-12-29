@@ -1,8 +1,5 @@
 package warcraftMain;
 
-import warcraftMonster.BaseMonster;
-import warcraftMonster.Monster;
-
 public class Main {
 
 	public static void main(String[] args) {

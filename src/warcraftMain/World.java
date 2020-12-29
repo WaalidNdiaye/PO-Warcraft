@@ -30,6 +30,7 @@ public class World {
 	private int coin = 150;												// Argent (pour acheter les tours)
 	private float mouseX = -1;
 	private float mouseY = -1;
+	private Position pMouse = new Position(mouseX, mouseY); 			//Postion de la souri (initialisé en dehors du plateau)
 	
 	/*
 	 * GETTERS AND SETTERS
@@ -169,11 +170,11 @@ public class World {
 
 	public void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.text(0.95, 0.95, String.valueOf(life));
+		StdDraw.text(0.95, 0.95, String.valueOf(life + " HP"));
 	}
 	public void drawCoin() {
 		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.text(0.95, 0.90 , String.valueOf(coin));
+		StdDraw.text(0.95, 0.90 , String.valueOf(coin + " coins "));
 	}
 
 	/**
@@ -184,12 +185,18 @@ public class World {
 		float normalizedX = (int)(StdDraw.mouseX() / squareWidth) * squareWidth + squareWidth / 2;
 		float normalizedY = (int)(StdDraw.mouseY() / squareHeight) * squareHeight + squareHeight / 2;
 		String image = null;
+		if(start){
+			pMouse.setX(normalizedX);
+			pMouse.setY(normalizedY);
+		}
 		switch (key) {
 		case 'a' :
 			// TODO Ajouter une image pour représenter une tour d'archers
+			if(canCreatTower(pMouse, 50)) StdDraw.picture(normalizedX , normalizedY, "images/ArcheryTower.jpg", (1.0/24.0) , (1.0/15.0) );
 			break;
 		case 'b' :
 			// TODO Ajouter une image pour représenter une tour à canon
+			if(canCreatTower(pMouse, 60)) StdDraw.picture(normalizedX , normalizedY, "images/BombTower.png", (1.0/24.0) , (1.0/15.0) );
 			break;
 		}
 		if (image != null)
@@ -268,13 +275,13 @@ public class World {
 		this.key = key;
 		switch (key) {
 		case 'a':
-			System.out.println("Arrow Tower selected (50g).");
+			System.out.println("Arrow Tower selected (50c).");
 			break;
 		case 'b':
-			System.out.println("Bomb Tower selected (60g).");
+			System.out.println("Bomb Tower selected (60c).");
 			break;
 		case 'e':
-			System.out.println("Evolution selected (40g).");
+			System.out.println("Evolution selected (40c).");
 			break;
 		case 's':
 			System.out.println("Starting game!");
@@ -316,8 +323,6 @@ public class World {
 		//dimension d'une case
 		float caseWidth = (float)(1.0/24.0);
 		float caseHeigth = (float)(1.0/15.0);
-
-		//y = y - 0.04;
 
 		//coordonée du centre de la tour (ici un rectangle)
 		float normalizedX = (float) (x - (x % caseWidth) + caseWidth / 2.0);

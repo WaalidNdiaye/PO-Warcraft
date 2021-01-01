@@ -133,6 +133,6 @@ public abstract class Projectile {
 
 	public abstract void upgrade();
 
-	public abstract void update(ArrayList <Monster> monsters);
+	public abstract void update();
 
 }

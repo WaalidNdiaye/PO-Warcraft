@@ -1,6 +1,7 @@
 package warcraftTower;
 
 import warcraftMain.StdDraw;
+import warcraftMain.World;
 import warcraftMonster.*;
 import java.util.ArrayList;
 import warcraftMain.Position;
@@ -44,19 +45,19 @@ public class BombTower extends Tower{
 	 * Calcul le monstre le plus proche 
 	 * @return le monstre le plus proche a porté ou null si aucun monstre n'est a porté
 	 */
-	public Monster activate(ArrayList <Monster> monsters){
+	public Monster activate(){
 
 		float distanceMin = (float) (range + 0.01);
 		Monster closest = null;
-		for(int i = 0 ; i < monsters.size() ; i++){
+		for(int i = 0 ; i < World.getMonsters().size() ; i++){
 
-			float AB = monsters.get(i).getP().getX() - getP().getX();
-			float BC = monsters.get(i).getP().getY()  - getP().getY();
+			float AB = World.getMonsters().get(i).getP().getX() - getP().getX();
+			float BC = World.getMonsters().get(i).getP().getY()  - getP().getY();
 			// Mesure la distance entre la tour et le monstre (AC2 = AB2 + BC2)
 			float distance = (float) (Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2)));
 			if(distanceMin > distance) {
 				distanceMin = distance; 
-				closest = monsters.get(i);
+				closest = World.getMonsters().get(i);
 			}
 		} 
 		if(distanceMin < range) {
@@ -66,15 +67,15 @@ public class BombTower extends Tower{
 		
 	}
 
-	public void update(ArrayList <Monster> monsters){
+	public void update(){
 		draw();
-		Monster m = activate(monsters);
+		Monster m = activate();
 		if( m != null){ 
 			time ++;
 			if(time % cooldown == 0 ) shoot(m);
 		}
 		for(int i = 0 ; i < bomb.size() ; i++ ) if(bomb.get(i).getHit()) bomb.remove(bomb.get(i));
-		for(int i = 0 ; i < bomb.size() ; i++ ) bomb.get(i).update(monsters);
+		for(int i = 0 ; i < bomb.size() ; i++ ) bomb.get(i).update();
 	}
 
 	public void shoot(Monster monster){

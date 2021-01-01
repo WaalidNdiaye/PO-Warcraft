@@ -1,9 +1,7 @@
 package warcraftTower;
 
-import java.util.ArrayList;
 
 import warcraftMain.Position;
-import warcraftMonster.Monster;
 
 public abstract class Tower {
 
@@ -14,7 +12,7 @@ public abstract class Tower {
 	protected boolean aerialTarget ;			// Attaquer les cibles volantes 
 	private Position p ;						// Position de la tour 
 	protected int level;						// Niveau de la tour (niveau 1 puis niveau 2...)
-	protected int levelMax = 2;						// Niveau max des tours 
+	protected int levelMax = 2;					// Niveau max des tours 
 
 	/*
 	 * GETTERS AND SETTERS
@@ -74,7 +72,7 @@ public abstract class Tower {
 
 	public abstract void upgrade();
 
-	public abstract void update(ArrayList <Monster> monsters);
+	public abstract void update();
 
 
 }

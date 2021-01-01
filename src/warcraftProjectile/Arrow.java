@@ -24,7 +24,7 @@ public class Arrow extends Projectile{
 		damage += 1;
 	}
 
-	public void update(ArrayList <Monster> monsters){
+	public void update(){
 		move();
 		hitbox.move(p);
 		draw();

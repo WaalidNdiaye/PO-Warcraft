@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import warcraftMain.Position;
 import warcraftMonster.*;
 import warcraftMain.StdDraw;
+import warcraftMain.World;
 
 
 public class Bomb extends Projectile{
@@ -25,7 +26,7 @@ public class Bomb extends Projectile{
 		damage += 1;
 	}
 
-	public void update(ArrayList <Monster> monsters){
+	public void update(){
 		move();
 		hitbox.move(p);
 		draw();
@@ -35,10 +36,10 @@ public class Bomb extends Projectile{
 			target.hit(damage);
 
 			// Parcours tout la liste de monstre pour trouver ceux a portée et leur infliger des degats 
-			for (int i = 0 ; i < monsters.size() ; i++){
-				if(explosiveRange(monsters.get(i))) monsters.get(i).hit(damage);
+			for (int i = 0 ; i < World.getMonsters().size() ; i++){
+				if(explosiveRange(World.getMonsters().get(i))) World.getMonsters().get(i).hit(damage);
 				// Affiche une explosion a l'emplacement des monstres touché par l'explosion 
-				StdDraw.picture(monsters.get(i).getP().getX(),monsters.get(i).getP().getY(), "images/Explosion.png", size + 0.02 , size + 0.02);
+				StdDraw.picture(World.getMonsters().get(i).getP().getX(),World.getMonsters().get(i).getP().getY(), "images/Explosion.png", size + 0.02 , size + 0.02);
 			}
 
 			hit = true;

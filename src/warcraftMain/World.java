@@ -129,7 +129,7 @@ public class World {
 	public void drawCoin() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.90 , String.valueOf(coin + " coins "));
-		StdDraw.picture(0.981, 0.901, "images/Animation/CoinAnimated/" + time % 6 + ".png" , 0.06, 0.06);
+		StdDraw.picture(0.981, 0.901, "images/Animation/CoinAnimation/" + time % 6 + ".png" , 0.06, 0.06);
 		
 	}
 
@@ -237,6 +237,9 @@ public class World {
 			// Si la vie est inferieur ou egale a 0 
 			if(monsters.get(i).getLife() <= 0 ){
 				coin += monsters.get(i).getDropCoin();
+				// Affiche une piece a la mort d'un monstre 
+				StdDraw.picture(monsters.get(i).getP().getX(), monsters.get(i).getP().getY() + 0.01, "images/Animation/CoinAnimation/0.png", (1.0/24.0) , (1.0/15.0) );
+				// Supprime le monstre 
 				monsters.remove(monsters.get(i));
 			}
 			// Si la position du monstre est egale a celle du chateau (i < monsters.size() empeche de faire monsters.get(i) d'un monstre qui veint d'etre supp )

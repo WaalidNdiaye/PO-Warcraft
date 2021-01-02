@@ -10,7 +10,6 @@ import warcraftProjectile.Bomb;
 public class BombTower extends Tower{
 
 	private ArrayList<Bomb> bomb = new ArrayList<Bomb>();
-	private int time = 0;
 
 	
 	public ArrayList<Bomb> getBomb() {
@@ -69,6 +68,7 @@ public class BombTower extends Tower{
 	}
 
 	public void update(){
+		time++;
 		draw();
 		Monster m = activate();
 		if( m != null){ 

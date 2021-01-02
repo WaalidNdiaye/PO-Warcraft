@@ -2,7 +2,6 @@ package warcraftTower;
 
 import warcraftMain.StdDraw;
 import warcraftMain.World;
-
 import java.util.ArrayList;
 import warcraftMonster.*;
 import warcraftProjectile.Arrow;
@@ -11,7 +10,6 @@ import warcraftMain.Position;
 public class ArcheryTower extends Tower {
 
 	private ArrayList<Arrow> arrow = new ArrayList<Arrow>();
-	private int time = 0;
 
 	public ArrayList<Arrow> getArrow() {
 		return arrow;
@@ -28,6 +26,26 @@ public class ArcheryTower extends Tower {
 	public void draw() {
 		if(level == 1 ) 	StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 		else if(level == 2) 	StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/Archery Tower Level 2.png", (1.0/24.0) , (1.0/15.0) );
+		
+		// Affiche Archer 
+		if((time - lastShot) > 18 || (time - lastShot) < 0) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationL/00.png", (1.0/24.0) , (1.0/15.0) );
+		// Affiche une animation d'archer qui tir 
+		if(target != null){
+			for(int i = 0 ; i < 19 ; i++) {
+				// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
+				if( (target.getP().getX() - p.getX()) >= 0 ){
+					if((time - lastShot) == i && (i < 10) && (time > 18)) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationR/0" + i + ".png", (1.0/24.0) , (1.0/15.0) );
+					if((time - lastShot) == i && (i > 9)  && (time > 18)) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationR/" + i + ".png", (1.0/24.0) , (1.0/15.0) );
+				}
+				else{
+					if((time - lastShot) == i && (i < 10) && time > 18) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationL/0" + i + ".png", (1.0/24.0) , (1.0/15.0) );
+					if((time - lastShot) == i && (i > 9)  && time > 18) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationL/" + i + ".png", (1.0/24.0) , (1.0/15.0) );
+	
+				}
+				
+			}
+		}
+		
 	}
 	
 	//Amelioration de la tour
@@ -68,19 +86,31 @@ public class ArcheryTower extends Tower {
 	}
 
 	public void update(){
+		time++;
+		// Si le tir est charcher alors shoot (time = 18)
+		shoot(); 
 		draw();
+		// Si un monstre est a portée de la tour alors m != null
 		Monster m = activate();
 		if( m != null){ 
-			time ++;
-			if(time % cooldown == 0 ) shoot(m);
+			if(time % cooldown == 0 ) loadingShoot(m);
 		}
+		// Met a jour les projectiles
 		for(int i = 0 ; i < arrow.size() ; i++ ) if(arrow.get(i).getHit()) arrow.remove(arrow.get(i));
 		for(int i = 0 ; i < arrow.size() ; i++ ) arrow.get(i).update();
 	}
 
-	public void shoot(Monster monster){
-		Position pProjectile = new Position(getP().getX(), getP().getY());
-		arrow.add(new Arrow(pProjectile,monster));
+	// Charge un tir et tire lorsque (time - lastShoot) == 18 
+	public void loadingShoot(Monster monster){
+		target = monster ;
+		lastShot = time ; 
+	}
+	public void shoot (){
+		if((time - lastShot) == 11 && lastShot != -1){
+			Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.03));
+			arrow.add(new Arrow(pProjectile, target));
+		}
+
 	}
 
 }

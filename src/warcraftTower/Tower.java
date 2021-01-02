@@ -2,6 +2,7 @@ package warcraftTower;
 
 
 import warcraftMain.Position;
+import warcraftMonster.Monster;
 
 public abstract class Tower {
 
@@ -10,9 +11,12 @@ public abstract class Tower {
 	protected float range; 						// Portee de la tour 
 	protected int cooldown;						// Temps de rechargement
 	protected boolean aerialTarget ;			// Attaquer les cibles volantes 
-	private Position p ;						// Position de la tour 
+	protected Position p ;						// Position de la tour 
 	protected int level;						// Niveau de la tour (niveau 1 puis niveau 2...)
 	protected int levelMax = 2;					// Niveau max des tours 
+	protected int time = 0;						// Repere chronologique 
+	protected int lastShot = -1;				// Dernier tir (chronologiquement)
+	protected Monster target ;					// Cible de la tour 
 
 	/*
 	 * GETTERS AND SETTERS

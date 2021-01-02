@@ -2,7 +2,6 @@ package warcraftMain;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import warcraftMonster.Monster;
 import warcraftPath.Patern1;
@@ -35,14 +34,15 @@ public class World {
 	private static int coin = 300;											// Argent (pour acheter les tours)
 	
 	// Actions du joueur
-	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
-	private static float mouseX = -1;
-	private static float mouseY = -1;
-	private static Position pMouse = new Position(mouseX, mouseY); 			//Postion de la souri (initialisé en dehors du plateau)
+	private char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
+	private float mouseX = -1;
+	private float mouseY = -1;
+	private Position pMouse = new Position(mouseX, mouseY); 			    //Postion de la souri (initialisé en dehors du plateau)
 	
 	// Partie
 	private static boolean start = false;									// Condition pour que la partie commence
 	private static boolean end = false;										// Condition pour terminer la partie
+	private int time = 0 ;													// Repere chronologique 
 	
 	/**
 	 * Getters and Setters
@@ -129,6 +129,21 @@ public class World {
 	public void drawCoin() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.90 , String.valueOf(coin + " coins "));
+		StdDraw.picture(0.981, 0.901, "images/Animation/CoinAnimated/" + time % 6 + ".png" , 0.06, 0.06);
+		
+	}
+
+	/**
+	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités
+	 * offertes au joueur pour intéragir avec le clavier
+	 */
+	public void printCommands() {
+		System.out.println("Press A to select Arrow Tower (cost 50g).");
+		System.out.println("Press B to select Cannon Tower (cost 60g).");
+		System.out.println("Press E to update a tower (cost 40g).");
+		System.out.println("Click on the grass to build it.");
+		System.out.println("Press S to start.");
+		System.out.println(path);
 	}
 
 	/**
@@ -136,8 +151,8 @@ public class World {
 	 * lorsque le joueur appuie sur une des touches permettant la construction d'une tour.
 	 */
 	public void drawMouse() {
-		if(start){
-			pMouse.setX(Square.normalizedX(mouseX));
+		 if(start){
+		 	pMouse.setX(Square.normalizedX(mouseX));
 			pMouse.setY(Square.normalizedY(mouseY));
 		}
 		
@@ -161,13 +176,17 @@ public class World {
 					//	  ////     //		 //////	    //    //	  //	  //////	//
 					//******************************************************************//
 	/**
-	 * Met a� jour toutes les informations du plateau de jeu ainsi que les deplacements des monstres et les attaques des tours
+	 * Met a� jour toutes les informations du plateau de jeu ainsi que les deplacements des monstres et les attaques des tours
 	 * @return les points de vie restants du joueur
 	 */
 	public int update() {
 		if(!start) {
 			drawMenu();
-		}else {
+		}
+		else {
+			time++;
+			mouseX = (float) StdDraw.mouseX();
+			mouseY = (float) StdDraw.mouseY();
 			drawBackground();
 			drawInfos();
 			updateWaves(nbWaves);
@@ -201,26 +220,24 @@ public class World {
 	 * 		- Modifie la position du monstre grace au parametre nextP et en utilisant la liste du chemin
 	 */
 	public void updateMonsters() {
-		Iterator<Monster> i = monsters.iterator();
-		Monster m;
-		
-		while (monsters.size() > 0 && i.hasNext()) {
-			m = i.next();
-			m.update();
+
+		for(int i = 0 ; i < monsters.size() ; i++){
+			monsters.get(i).update();
 			
-			// Si la vie est inferieur ou egale a 0
-			if(m.getLife() <= 0 ){
-				coin += m.getDropCoin();
-				monsters.remove(m);
+			// Si la vie est inferieur ou egale a 0 
+			if(monsters.get(i).getLife() <= 0 ){
+				coin += monsters.get(i).getDropCoin();
+				monsters.remove(monsters.get(i));
 			}
 			// Si la position du monstre est egale a celle du chateau
-			if(Square.normalizedX(m.getP().getX()) == Square.normalizedX(chateau.getX())) {
+			if(Square.normalizedX(monsters.get(i).getP().getX()) == Square.normalizedX(chateau.getX())) {
 				life--;
-				monsters.remove(monsters.indexOf(m));
+				monsters.remove(monsters.indexOf(monsters.get(i)));
 			}
 			// Si la position suivante existe et qu il a deja ateint sa nextP
-			if(path.indexOf(m.getNextP()) < path.size()-1 && Square.pEqualNextP(m))
-				m.setNextP(path.get(path.indexOf(m.getNextP())+1));
+			if(path.indexOf(monsters.get(i).getNextP()) < path.size()-1 && Square.pEqualNextP(monsters.get(i))){
+				monsters.get(i).setNextP(path.get(path.indexOf(monsters.get(i).getNextP())+1));
+			}
 		}
 	}
 	
@@ -304,7 +321,7 @@ public class World {
 	 */
 	public void mouseClick(float x, float y) {
 		/**
-		 * 	- Ajouter une tour a� la position indiquee par la souris.
+		 * 	- Ajouter une tour a� la position indiquee par la souris.
 		 * 	- Ameliorer une tour existante.
 		 * 	- Puis l'ajouter à la liste des tours
 		 */
@@ -312,7 +329,7 @@ public class World {
 		
 		switch (key) {
 		case 'a':
-			System.out.println("l faut ajouter une tour d'archers si l'utilisateur a�de l'or !!");
+			System.out.println("l faut ajouter une tour d'archers si l'utilisateur a�de l'or !!");
 			if(canCreatTower(pTower, 50 , true)) {
 				towers.add(new ArcheryTower(pTower));
 				coin -= 50 ;
@@ -370,20 +387,7 @@ public class World {
 	}
 
 	/**
-	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités
-	 * offertes au joueur pour intéragir avec le clavier
-	 */
-	public void printCommands() {
-		System.out.println("Press A to select Arrow Tower (cost 50g).");
-		System.out.println("Press B to select Cannon Tower (cost 60g).");
-		System.out.println("Press E to update a tower (cost 40g).");
-		System.out.println("Click on the grass to build it.");
-		System.out.println("Press S to start.");
-		System.out.println(path);
-	}
-
-	/**
-	 * Recupere la touche entree au clavier ainsi que la position de la souris et met e�jour le plateau en fonction de ces interractions
+	 * Recupere la touche entree au clavier ainsi que la position de la souris et met e�jour le plateau en fonction de ces interractions
 	 */
 	public void run() {
 		randomPath();

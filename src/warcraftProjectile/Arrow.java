@@ -3,8 +3,6 @@ package warcraftProjectile;
 import warcraftMain.Position;
 import warcraftMonster.*;
 
-import java.util.ArrayList;
-
 import warcraftMain.*;
 
 

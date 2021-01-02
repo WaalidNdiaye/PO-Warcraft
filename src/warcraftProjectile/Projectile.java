@@ -1,7 +1,5 @@
 package warcraftProjectile;
 
-import java.util.ArrayList;
-
 import warcraftHitbox.ProjectileHitbox;
 import warcraftMain.Position;
 import warcraftMonster.*;

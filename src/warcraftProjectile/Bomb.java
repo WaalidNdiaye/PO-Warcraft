@@ -1,7 +1,4 @@
 package warcraftProjectile;
-
-import java.util.ArrayList;
-
 import warcraftMain.Position;
 import warcraftMonster.*;
 import warcraftMain.StdDraw;

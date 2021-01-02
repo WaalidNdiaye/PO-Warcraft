@@ -159,11 +159,21 @@ public class World {
 		switch (key) {
 		case 'a' :
 			// Si le joueur appuie sur a alors afficher tour d archers
-			if(canCreatTower(pMouse, 50 , false)) StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+			if(canCreatTower(pMouse, 50 , false)) {
+				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+				StdDraw.setPenColor(StdDraw.BLACK);
+				// Affiche la portée de la tour 
+				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.2);
+			}
 			break;
 		case 'b' :
 			// Si le joueur appuie sur b alors afficher tour de bombres
-			if(canCreatTower(pMouse, 60 , false )) StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+			if(canCreatTower(pMouse, 60 , false )){
+				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+				StdDraw.setPenColor(StdDraw.BLACK);
+				// Affiche la portée de la tour 
+				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.15);
+			} 
 			break;
 		}
 	}
@@ -220,8 +230,8 @@ public class World {
 	 * 		- Modifie la position du monstre grace au parametre nextP et en utilisant la liste du chemin
 	 */
 	public void updateMonsters() {
-
-		for(int i = 0 ; i < monsters.size() ; i++){
+		// Le sens de lecture de la liste est de la fin ver le debut (pour evité les bugs lié au index lors de la suppresion d'un mosntre).
+		for(int i = monsters.size() - 1 ; i >=0 ; i--){
 			monsters.get(i).update();
 			
 			// Si la vie est inferieur ou egale a 0 
@@ -229,13 +239,13 @@ public class World {
 				coin += monsters.get(i).getDropCoin();
 				monsters.remove(monsters.get(i));
 			}
-			// Si la position du monstre est egale a celle du chateau
-			if(Square.normalizedX(monsters.get(i).getP().getX()) == Square.normalizedX(chateau.getX())) {
+			// Si la position du monstre est egale a celle du chateau (i < monsters.size() empeche de faire monsters.get(i) d'un monstre qui veint d'etre supp )
+			if(i < monsters.size() && Square.normalizedX(monsters.get(i).getP().getX()) == Square.normalizedX(chateau.getX())) {
 				life--;
 				monsters.remove(monsters.indexOf(monsters.get(i)));
 			}
 			// Si la position suivante existe et qu il a deja ateint sa nextP
-			if(path.indexOf(monsters.get(i).getNextP()) < path.size()-1 && Square.pEqualNextP(monsters.get(i))){
+			if(i < monsters.size() && path.indexOf(monsters.get(i).getNextP()) < path.size()-1 && Square.pEqualNextP(monsters.get(i))){
 				monsters.get(i).setNextP(path.get(path.indexOf(monsters.get(i).getNextP())+1));
 			}
 		}

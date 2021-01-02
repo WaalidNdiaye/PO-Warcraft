@@ -55,7 +55,8 @@ public class BombTower extends Tower{
 			float BC = World.getMonsters().get(i).getP().getY()  - getP().getY();
 			// Mesure la distance entre la tour et le monstre (AC2 = AB2 + BC2)
 			float distance = (float) (Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2)));
-			if(distanceMin > distance) {
+			// Cherche le monstre terrestre le plus proche 
+			if(distanceMin > distance && !World.getMonsters().get(i).isFlying()) {
 				distanceMin = distance; 
 				closest = World.getMonsters().get(i);
 			}

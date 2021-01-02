@@ -7,7 +7,7 @@ import warcraftMain.World;
 
 public class Bomb extends Projectile{
 	
-	private float explosiveRange = (float) 0.01;  								// Portee de l'explosion
+	private float explosiveRange = (float) 0.07;  								// Portee de l'explosion
 
 	public Bomb (Position p, Monster target) {
 		super(8, (float)0.003, false, p, target, (float)0.03);
@@ -34,9 +34,12 @@ public class Bomb extends Projectile{
 
 			// Parcours tout la liste de monstre pour trouver ceux a portée et leur infliger des degats 
 			for (int i = 0 ; i < World.getMonsters().size() ; i++){
-				if(explosiveRange(World.getMonsters().get(i))) World.getMonsters().get(i).hit(damage);
-				// Affiche une explosion a l'emplacement des monstres touché par l'explosion 
-				StdDraw.picture(World.getMonsters().get(i).getP().getX(),World.getMonsters().get(i).getP().getY(), "images/Explosion.png", size + 0.02 , size + 0.02);
+				if(explosiveRange(World.getMonsters().get(i))){
+					World.getMonsters().get(i).hit(damage);
+					// Affiche une explosion a l'emplacement des monstres touché par l'explosion 
+			 		StdDraw.picture(World.getMonsters().get(i).getP().getX(),World.getMonsters().get(i).getP().getY(), "images/Explosion.png", size + 0.02 , size + 0.02);
+				}
+				
 			}
 
 			hit = true;

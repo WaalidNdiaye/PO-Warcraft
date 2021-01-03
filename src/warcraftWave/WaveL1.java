@@ -39,7 +39,7 @@ public class WaveL1{
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 150){
+        if(time == 200){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }

@@ -36,14 +36,11 @@ public class Bomb extends Projectile{
 			for (int i = 0 ; i < World.getMonsters().size() ; i++){
 				if(explosiveRange(World.getMonsters().get(i))){
 					World.getMonsters().get(i).hit(damage);
-					// Affiche une explosion a l'emplacement des monstres touché par l'explosion 
-			 		StdDraw.picture(World.getMonsters().get(i).getP().getX(),World.getMonsters().get(i).getP().getY(), "images/Explosion.png", size + 0.02 , size + 0.02);
 				}
 				
 			}
 
 			hit = true;
-			StdDraw.picture(target.getP().getX(),target.getP().getY(), "images/Explosion.png", size + 0.02 , size + 0.02);
 		} 
 	}
 

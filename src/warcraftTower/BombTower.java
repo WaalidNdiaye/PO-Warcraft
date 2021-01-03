@@ -11,6 +11,10 @@ public class BombTower extends Tower{
 
 	private ArrayList<Bomb> bomb = new ArrayList<Bomb>();
 
+	// Information utile a l'affichage d'une explosion 
+	private Position explosionP ;
+	private int lastExplosion = -1;
+
 	
 	public ArrayList<Bomb> getBomb() {
 		return bomb;
@@ -31,6 +35,16 @@ public class BombTower extends Tower{
 		// Affiche l'animation au dessus de la tour 
 		if(time % 12 < 10) StdDraw.picture(getP().getX() , getP().getY() + 0.03, "images/Tower/BombTowerAnimation/0" + time%12 + ".png", (1.0/24.0)/1.5 , (1.0/15.0)/1.5 );
 		else StdDraw.picture(getP().getX() , getP().getY() + 0.03, "images/Tower/BombTowerAnimation/" + time%12 + ".png", (1.0/24.0)/1.5 , (1.0/15.0)/1.5 );
+
+		drawExplosion();
+	}
+
+	// Affiche une explosion a l'emplacement des monstres touché par l'explosion
+	public void drawExplosion(){
+		if(time - lastExplosion < 23  && time - lastExplosion < time) {
+			if(time % 23 < 10) StdDraw.picture(explosionP.getX() , explosionP.getY(), "images/Tower/BombExplosionAnimation/0" + time % 23 + ".png", (1.0/24.0)/1.5 , (1.0/15.0)/1.5 );
+			else StdDraw.picture(explosionP.getX() , explosionP.getY(), "images/Tower/BombExplosionAnimation/" + time % 23 + ".png", (1.0/24.0)/1.5 , (1.0/15.0)/1.5 );
+		}
 	}
 
 	//Amelioration de la tour
@@ -76,10 +90,20 @@ public class BombTower extends Tower{
 		draw();
 		Monster m = activate();
 		if( m != null){ 
-			time ++;
 			if(time % cooldown == 0 ) shoot(m);
 		}
-		for(int i = 0 ; i < bomb.size() ; i++ ) if(bomb.get(i).getHit()) bomb.remove(bomb.get(i));
+
+		// Met a jour les projectiles 
+		for(int i = 0 ; i < bomb.size() ; i++ ) {
+			if(bomb.get(i).getHit()) {
+				// Affiche une explosion 
+				explosionP = bomb.get(i).getTarget().getP();
+				lastExplosion = time;
+				// Suprime le monstre 
+				bomb.remove(bomb.get(i));
+			}
+		}
+		for(int i = 0 ; i < bomb.size() ; i++ ) if(bomb.get(i).getTarget().getLife() <= 0 ) bomb.remove(bomb.get(i));
 		for(int i = 0 ; i < bomb.size() ; i++ ) bomb.get(i).update();
 	}
 

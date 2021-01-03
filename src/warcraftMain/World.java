@@ -43,6 +43,7 @@ public class World {
 	private static boolean start = false;									// Condition pour que la partie commence
 	private static boolean end = false;										// Condition pour terminer la partie
 	private int time = 0 ;													// Repere chronologique 
+
 	
 	/**
 	 * Getters and Setters

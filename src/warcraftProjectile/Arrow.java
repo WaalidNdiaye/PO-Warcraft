@@ -13,7 +13,7 @@ public class Arrow extends Projectile{
 	}
 	
 	public  void draw() {
-		StdDraw.picture(p.getX(), p.getY(), "images/Arrow.png", size , size);
+		StdDraw.picture(p.getX(), p.getY(), "images/Tower/ArrowAnimation/" + time % 7 + ".png", size , size);
 	}
 	
 	//ameliore les caracteristiques du projectile
@@ -23,6 +23,7 @@ public class Arrow extends Projectile{
 	}
 
 	public void update(){
+		time++;
 		move();
 		hitbox.move(p);
 		draw();

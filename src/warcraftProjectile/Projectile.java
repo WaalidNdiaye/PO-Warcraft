@@ -16,6 +16,7 @@ public abstract class Projectile {
 	protected Monster target ;					// Cible du projectile  
 	protected Boolean hit = false; 				// Le projectile atteint sa cible (permet la supression du projectil s'il a atteint sa cible)
 	protected float size;						// Taille du projectile et de sa hitbox 
+	protected int time = 0 ;					// Repere chronologique 
 	
 	/*
 	 * GETTERS AND SETTERS

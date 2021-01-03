@@ -113,6 +113,7 @@ public abstract class Monster {
 	}
 
 	public void update() {
+		time++;
 		move();
 		draw();
 		checkpoint++;

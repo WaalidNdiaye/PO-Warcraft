@@ -9,7 +9,7 @@ import warcraftMain.*;
 public class Arrow extends Projectile{
 
 	public Arrow (Position p , Monster cible) {
-		super(2, (float)0.01, true, p, cible, (float)0.03);
+		super(2, (float)0.006, true, p, cible, (float)0.03);
 	}
 	
 	public  void draw() {

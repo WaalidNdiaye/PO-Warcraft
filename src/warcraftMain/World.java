@@ -110,6 +110,7 @@ public class World {
 	 */
 	public void drawBackground() {
 		StdDraw.picture(0.5, 0.5, "images/background.png", 1, 1);
+		StdDraw.picture(0.02, 0.6, "images/Spawner.png", (1.0/24.0) * 4, (1.0/15.0) * 4);
 	}
 
 	/**

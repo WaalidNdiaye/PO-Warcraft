@@ -27,6 +27,10 @@ public class BombTower extends Tower{
 	public void draw() {
 		if(level == 1) StdDraw.picture(getP().getX() , getP().getY(), "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 		else if(level == 2) StdDraw.picture(getP().getX() , getP().getY(), "images/Tower/Bomb Tower Level 2.png", (1.0/24.0) , (1.0/15.0) );
+		
+		// Affiche l'animation au dessus de la tour 
+		if(time % 12 < 10) StdDraw.picture(getP().getX() , getP().getY() + 0.03, "images/Tower/BombTowerAnimation/0" + time%12 + ".png", (1.0/24.0)/1.5 , (1.0/15.0)/1.5 );
+		else StdDraw.picture(getP().getX() , getP().getY() + 0.03, "images/Tower/BombTowerAnimation/" + time%12 + ".png", (1.0/24.0)/1.5 , (1.0/15.0)/1.5 );
 	}
 
 	//Amelioration de la tour
@@ -80,7 +84,7 @@ public class BombTower extends Tower{
 	}
 
 	public void shoot(Monster monster){
-		Position pProjectile = new Position(getP().getX(), getP().getY());
+		Position pProjectile = new Position(getP().getX(), (float)(getP().getY() + 0.03));
 		bomb.add(new Bomb(pProjectile,monster));
 	}
 

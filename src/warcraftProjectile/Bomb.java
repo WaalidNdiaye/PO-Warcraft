@@ -14,7 +14,7 @@ public class Bomb extends Projectile{
 	}
 	
 	public void draw() {
-		StdDraw.picture(p.getX(), p.getY(), "images/Bomb.png", size , size);
+		StdDraw.picture(p.getX(), p.getY(), "images/Bomb.png", size/4 , size/4);
 	}
 
 	//ameliore les caracteristiques du projectile

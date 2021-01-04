@@ -79,7 +79,7 @@ public abstract class Projectile {
 		this.target = target;
 		this.level = 1;
 		this.size = size;
-		this.hitbox = new ProjectileHitbox(p, size); 
+		this.hitbox = new ProjectileHitbox(p, (float) (size / 1.5)); 
 	}
 	
 	//Calcul de la prochaine position et deplacement jusqua la prochaine position 

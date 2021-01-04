@@ -59,6 +59,27 @@ public class ArcheryTower extends Tower {
 		else System.out.println("Cet tour est deja au niveau max !");
 	}
 
+	public void update(){
+		time++;
+		// Si le tir est charger alors shoot (time = 18)
+		shot(); 
+		draw();
+
+		Monster m = null ; 
+
+		// Si un monstre est a portée de la tour alors m != null
+		if( time % 3 == 0){
+			m = activate();
+		}
+		// Si un monstre est porté et que l'on est pas en cooldown 
+		if( m != null && time % cooldown == 0) loadingShoot(m);
+
+		// Met a jour les projectiles
+		for(int i = 0 ; i < arrow.size() ; i++ ) if(arrow.get(i).getHit()) arrow.remove(arrow.get(i));
+		for(int i = 0 ; i < arrow.size() ; i++ ) arrow.get(i).update();
+	}
+
+	
 	/**
 	 * Calcul le monstre le plus proche 
 	 * @return le monstre le plus proche a porté ou null si aucun monstre n'est a porté
@@ -85,27 +106,12 @@ public class ArcheryTower extends Tower {
 		
 	}
 
-	public void update(){
-		time++;
-		// Si le tir est charcher alors shoot (time = 18)
-		shoot(); 
-		draw();
-		// Si un monstre est a portée de la tour alors m != null
-		Monster m = activate();
-		if( m != null){ 
-			if(time % cooldown == 0 ) loadingShoot(m);
-		}
-		// Met a jour les projectiles
-		for(int i = 0 ; i < arrow.size() ; i++ ) if(arrow.get(i).getHit()) arrow.remove(arrow.get(i));
-		for(int i = 0 ; i < arrow.size() ; i++ ) arrow.get(i).update();
-	}
-
 	// Charge un tir et tire lorsque (time - lastShoot) == 18 
 	public void loadingShoot(Monster monster){
 		target = monster ;
 		lastShot = time ; 
 	}
-	public void shoot (){
+	public void shot (){
 		if((time - lastShot) == 11 && lastShot != -1){
 			Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.03));
 			arrow.add(new Arrow(pProjectile, target));

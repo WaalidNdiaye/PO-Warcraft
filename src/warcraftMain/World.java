@@ -172,7 +172,7 @@ public class World {
 		switch (key) {
 		case 'a' :
 			// Si le joueur appuie sur a alors afficher tour d archers
-			if(canCreatTower(pMouse, 50 , false)) {
+			if(canCreatTower(pMouse, 50 , false) && !end && !pause) {
 				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 				StdDraw.setPenColor(StdDraw.BLACK);
 				// Affiche la portée de la tour 
@@ -181,7 +181,7 @@ public class World {
 			break;
 		case 'b' :
 			// Si le joueur appuie sur b alors afficher tour de bombres
-			if(canCreatTower(pMouse, 60 , false )){
+			if(canCreatTower(pMouse, 60 , false ) && !end && !pause){
 				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 				StdDraw.setPenColor(StdDraw.BLACK);
 				// Affiche la portée de la tour 

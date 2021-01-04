@@ -8,13 +8,28 @@ import warcraftMain.World;
 public class Bomb extends Projectile{
 	
 	private float explosiveRange = (float) 0.07;  								// Portee de l'explosion
+	private int hitTime = -1;													// Heure de la colisition avec un monstre (si pas de colition alors -1)
+	private Position explosivePosition ;										// Position de l'explosion
+
+	// Renvoi le temps restant avant de pouvoir detruire le projectile
+	public int getTimeRemainig() {
+		return time - hitTime;
+	}
 
 	public Bomb (Position p, Monster target) {
-		super(60, (float)0.0035, false, p, target, (float)0.03);
+		super(60, (float)0.0035, false, p, target, (float)0.008);
 	}
 	
 	public void draw() {
-		StdDraw.picture(p.getX(), p.getY(), "images/Bomb.png", size/4 , size/4);
+		StdDraw.picture(p.getX(), p.getY(), "images/Bomb.png", size , size);
+	}
+
+	// Affiche une explosion a l'emplacement des monstres touché par l'explosion
+	public void drawExplosion(){
+		if (hitTime != -1  && (time - hitTime) < 24){
+			if(time - hitTime < 10) StdDraw.picture(explosivePosition.getX() + 0.005 ,explosivePosition.getY()+ 0.005 , "images/Tower/BombExplosionAnimation/0" + (time - hitTime) + ".png", explosiveRange , explosiveRange );
+			else StdDraw.picture(explosivePosition.getX() + 0.005 ,  explosivePosition.getY() + 0.005 , "images/Tower/BombExplosionAnimation/" + (time - hitTime) + ".png", explosiveRange, explosiveRange );
+		}
 	}
 
 	//ameliore les caracteristiques du projectile
@@ -24,24 +39,30 @@ public class Bomb extends Projectile{
 	}
 
 	public void update(){
-		move();
-		hitbox.move(p);
-		draw();
-		
-		// Verifie si le projectile a toucher sa cible 
-		if(hitbox.hit(target.getHitbox())){
-			target.hit(damage);
+		time++;
 
-			// Parcours tout la liste de monstre pour trouver ceux a portée et leur infliger des degats 
-			for (int i = 0 ; i < World.getMonsters().size() ; i++){
-				if(explosiveRange(World.getMonsters().get(i))){
-					World.getMonsters().get(i).hit(damage);
+		if(!hit){
+			move();
+			hitbox.move(p);
+			draw();
+
+			// Verifie si le projectile a toucher sa cible 
+			if(hitbox.hit(target.getHitbox())){
+				target.hit(damage);
+
+				// Parcours tout la liste de monstre pour trouver ceux a portée et leur infliger des degats 
+				for (int i = 0 ; i < World.getMonsters().size() ; i++){
+					if(explosiveRange(World.getMonsters().get(i))){
+						World.getMonsters().get(i).hit(damage);
+					}
 				}
-				
-			}
-
-			hit = true;
-		} 
+				hit = true;
+				hitTime = time ;
+				explosivePosition = new Position(target.getP());
+			} 
+		}
+		else drawExplosion();
+		
 	}
 
 	//Verifie sur le monstre est a portée de l'explostion
@@ -55,4 +76,6 @@ public class Bomb extends Projectile{
 		if(distance <= explosiveRange) return true ;
 		else return false ;
 	}
+
+
 }

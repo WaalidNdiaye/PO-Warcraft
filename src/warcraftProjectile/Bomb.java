@@ -10,7 +10,7 @@ public class Bomb extends Projectile{
 	private float explosiveRange = (float) 0.07;  								// Portee de l'explosion
 
 	public Bomb (Position p, Monster target) {
-		super(8, (float)0.0035, false, p, target, (float)0.03);
+		super(60, (float)0.0035, false, p, target, (float)0.03);
 	}
 	
 	public void draw() {

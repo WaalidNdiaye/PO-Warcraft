@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import warcraftMonster.Monster;
-import warcraftPath.Patern1;
-import warcraftWave.WaveL1;
+import warcraftPath.*;
+import warcraftWave.*;
 import warcraftTower.*;
 
 public class World {
@@ -25,23 +25,28 @@ public class World {
 	// Informations utilise pour le fonctionnement des vagues
 	private static int nbWaves;												// Nombre de vague que le joueur souhaite jouer
 	private static boolean initT = false;									// Indique si la liste des tours a ete initialise
+	private static boolean initW = false;									// Indique si la vague actuelle est initialise ou pas
+	private static int currentW = 1;										// Vague actuelle
 	private static List<Monster> monsters;									// Liste des monstres
 	private static List <Tower> towers;										// Liste des tours presentes sur le plateau de jeu
 	private static List<Position> path;										// Liste des positions du chemin utilise durant la vague en cours
 
 	// Informations de l inventaire du joueur
 	private static int life = 20;											// Nombre de points de vie du joueur
-	private static int coin = 300;											// Argent (pour acheter les tours)
+	private static int coin = 145;											// Argent (pour acheter les tours)
 	
 	// Actions du joueur
-	private char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
+	private char key;														// Commande sur laquelle le joueur appuie (sur le clavier)
 	private float mouseX = -1;
 	private float mouseY = -1;
 	private Position pMouse = new Position(mouseX, mouseY); 			    //Postion de la souri (initialisé en dehors du plateau)
 	
 	// Partie
 	private static boolean start = false;									// Condition pour que la partie commence
+	private static boolean pause = false;									// Indique si le jeu est en pause
 	private static boolean end = false;										// Condition pour terminer la partie
+	private static boolean win = false;										// Indique si le joueur a gagne ou pas
+	private static boolean lose = false;
 	private int time = 0 ;													// Repere chronologique 
 
 	
@@ -74,6 +79,12 @@ public class World {
 	}
 	public static void setTowers(List<Tower> t){
 		towers = t;
+	}
+	public static int getCoin() {
+		return coin;
+	}
+	public static void setCoin(int newCoin) {
+		coin = newCoin;
 	}
 	
 	/**
@@ -196,15 +207,18 @@ public class World {
 			drawMenu();
 		}
 		else {
-			time++;
 			mouseX = (float) StdDraw.mouseX();
 			mouseY = (float) StdDraw.mouseY();
 			drawBackground();
-			drawInfos();
 			updateWaves(nbWaves);
-			updateMonsters();
-			updateTowers();
+			if(!pause) {
+				time++;
+				drawInfos();
+				updateMonsters();
+				updateTowers();
+			}
 		}
+		updateEnd(false);
 		drawMouse();
 		return life;
 	}
@@ -213,16 +227,104 @@ public class World {
 	 * Met a jour les vagues de monstres
 	 */
 	public void updateWaves(int nbr) {
-		if(nbr == 1) {
-			WaveL1.update();
+		// Le joueur a choisi de jouer 1 vague ou plus (la premiere vague a toujours le meme chemin)
+		if(nbr >= 1) {
+			// Init du chemin de la vague
+			if(!initW && currentW == 1) {
+				path = Patern1.pathconstruct();
+				initW = true;
+			}
+			//Update la vague si c est la vague courrante
+			if(currentW == 1)
+				WaveL1.update();
+			// Fin de la partie si le joueur a choisi qu une seule vague
+			if(nbr == 1 && time >= 550 && monsters.size() == 0) {
+				updateEnd(true);
+				pause = true;
+			}
+			// Fin de la vague si le joueur a choisi plus que une vague
+			if(nbr > 1 && currentW == 1 && time >= 550 && monsters.size() == 0) {
+				StdDraw.picture(0.5, 0.5, "images/wave1.png", 1, 1);
+				pause = true;
+				coin =+ 25;
+			}
+			
+			//Le joueur a choisi de jouer 2 vagues ou plus
+			if(nbr >= 2) {
+				if(!initW && currentW == 2) {
+					randomPath();
+					initW = true;
+				}
+				if(currentW == 2)
+					WaveL2.update();
+				if(nbr == 2 && time >= 1040 && monsters.size() == 0) {
+					updateEnd(true);
+					pause = true;
+				}
+				if(nbr > 2 && currentW == 2 && time >= 1040 && monsters.size() == 0) {
+					StdDraw.picture(0.5, 0.5, "images/wave2.png", 1, 1);
+					pause = true;
+				}
+				
+				//Le joueur a choisi de jouer 3 vagues ou plus
+				if(nbr >= 3) {
+					if(!initW && currentW == 3) {
+						randomPath();
+						initW = true;
+					}
+					if(currentW == 3)
+						WaveL3.update();
+					if(nbr == 3 && time >= 2390 && monsters.size() == 0) {
+						updateEnd(true);
+						pause = true;
+					}
+					if(nbr > 3 && currentW == 3 && time >= 2390 && monsters.size() == 0) {
+						StdDraw.picture(0.5, 0.5, "images/wave3.png", 1, 1);
+						pause = true;
+						coin =+ 30;
+					}
+					
+					//Le joueur a choisi de jouer 4 vagues ou plus
+					if(nbr >= 4) {
+						if(!initW && currentW == 4) {
+							randomPath();
+							initW = true;
+						}
+						if(currentW == 4)
+							WaveL4.update();
+						if(nbr == 4 && time >= 3740 && monsters.size() == 0) {
+							updateEnd(true);
+							pause = true;
+						}
+						if(nbr > 4 && currentW == 4 && time >= 3740 && monsters.size() == 0) {
+							StdDraw.picture(0.5, 0.5, "images/wave3.png", 1, 1);
+							pause = true;
+						}
+						
+						
+					}
+				}
+				
+			}
+				
 		}
 	}
 	
 	/**
 	 * Initialise la liste du chemin au hasard qui sera utilise durant la vague en cours
 	 */
-	public void randomPath() {
-		path = Patern1.pathconstruct();
+	public static void randomPath() {
+		int r = (int)(Math.random() * 5);
+		if(r == 1)
+			path = Patern2.pathconstruct();
+		if(r == 2)
+			path = Patern3.pathconstruct();
+		if(r == 3)
+			path = Patern4.pathconstruct();
+		if(r == 4)
+			path = Patern5.pathconstruct();
+		if(r == 5)
+			path = Patern6.pathconstruct();
 	}
 	
 	/**
@@ -296,6 +398,21 @@ public class World {
 		
 		return true;
 	}
+	
+	/**
+	 * Si le joueur n a plus de vie alors la partie prend fin
+	 */
+	public static void updateEnd(boolean endWave) {
+		if(life <= 0) {
+			StdDraw.picture(0.5, 0.5, "images/perdue.png", 1, 1);
+			lose = true;
+		}
+		
+		if(endWave) {
+			StdDraw.picture(0.5, 0.5, "images/gagne.png", 1, 1);
+			win = true;
+		}
+	}
 
 					//**************************************************************//
 					//	  ////       /////   ////////   //	   /////	 //		//	//
@@ -341,31 +458,32 @@ public class World {
 		 * 	- Puis l'ajouter à la liste des tours
 		 */
 		Position pTower = new Position(Square.normalizedX(x), Square.normalizedY(y));
-		
-		switch (key) {
-		case 'a':
-			System.out.println("l faut ajouter une tour d'archers si l'utilisateur a�de l'or !!");
-			if(canCreatTower(pTower, 50 , true)) {
-				towers.add(new ArcheryTower(pTower));
-				coin -= 50 ;
-			}
-			break;
-		case 'b':
-			System.out.println("Ici il faut ajouter une tour de bombes");
-			if(canCreatTower(pTower, 60 , true )) {
-				towers.add(new BombTower(pTower));
-				coin -= 60;
-			}
-			break;
-		case 'e':
-			for(int i = 0 ; i < towers.size() ; i++){
-				if(towers.get(i).getP().equalsP(pTower)){
-					if(towers.get(i).getUpgradeCost() <= coin )towers.get(i).upgrade();
-					else System.out.println("Vous n'avez pas assez d'argent !");
+		if(!pause) {
+			switch (key) {
+			case 'a':
+				System.out.println("l faut ajouter une tour d'archers si l'utilisateur a�de l'or !!");
+				if(canCreatTower(pTower, 25 , true)) {
+					towers.add(new ArcheryTower(pTower));
+					coin -= 25 ;
 				}
+				break;
+			case 'b':
+				System.out.println("Ici il faut ajouter une tour de bombes");
+				if(canCreatTower(pTower, 55 , true )) {
+					towers.add(new BombTower(pTower));
+					coin -= 55;
+				}
+				break;
+			case 'e':
+				for(int i = 0 ; i < towers.size() ; i++){
+					if(towers.get(i).getP().equalsP(pTower)){
+						if(towers.get(i).getUpgradeCost() <= coin )towers.get(i).upgrade();
+						else System.out.println("Vous n'avez pas assez d'argent !");
+					}
+				}
+				System.out.println("Ici il est possible de faire évolué une des tours");
+				break;
 			}
-			System.out.println("Ici il est possible de faire évolué une des tours");
-			break;
 		}
 		
 		/**
@@ -399,16 +517,46 @@ public class World {
 				nbWaves = 8;
 			}
 		}
+		
+		/**
+		 * 	- Si la partie est en pause (entre chaque vague)
+		 * 	- cliquer sur le bouton indique sur le plateau de jeu pour continuer
+		 */
+		if(pause) {
+			if(Square.compareNormalized(x, square.get(125).getX(), y, square.get(125).getY())
+					|| Square.compareNormalized(x, square.get(126).getX(), y, square.get(126).getY())
+					|| Square.compareNormalized(x, square.get(140).getX(), y, square.get(140).getY())
+					|| Square.compareNormalized(x, square.get(141).getX(), y, square.get(141).getY())
+					|| Square.compareNormalized(x, square.get(155).getX(), y, square.get(155).getY())
+					|| Square.compareNormalized(x, square.get(156).getX(), y, square.get(156).getY())
+					|| Square.compareNormalized(x, square.get(170).getX(), y, square.get(170).getY())
+					|| Square.compareNormalized(x, square.get(171).getX(), y, square.get(171).getY())
+					|| Square.compareNormalized(x, square.get(185).getX(), y, square.get(185).getY())
+					|| Square.compareNormalized(x, square.get(186).getX(), y, square.get(186).getY())
+					|| Square.compareNormalized(x, square.get(200).getX(), y, square.get(200).getY())
+					|| Square.compareNormalized(x, square.get(201).getX(), y, square.get(201).getY())
+					|| Square.compareNormalized(x, square.get(215).getX(), y, square.get(215).getY())
+					|| Square.compareNormalized(x, square.get(216).getX(), y, square.get(216).getY())
+					|| Square.compareNormalized(x, square.get(230).getX(), y, square.get(230).getY())
+					|| Square.compareNormalized(x, square.get(231).getX(), y, square.get(231).getY())) {
+				pause = false;
+				currentW++;
+				initW = false;
+				if(win || lose) {
+					end = true;
+					start = false;
+				}
+			}
+		}
 	}
 
 	/**
 	 * Recupere la touche entree au clavier ainsi que la position de la souris et met e�jour le plateau en fonction de ces interractions
 	 */
 	public void run() {
-		randomPath();
 		printCommands();
 		
-		while(!end) {
+		while(true) {
 			StdDraw.clear();
 			update();
 			

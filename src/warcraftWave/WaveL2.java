@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import warcraftMonster.*;
 import warcraftMain.*;
 
-public class WaveL1{
+public class WaveL2{
+
     private static int time = 0;
     private static boolean init = false;
 
@@ -42,11 +43,27 @@ public class WaveL1{
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 350){
+        if(time == 330){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new FlyingMonster(p));
+        }
+        if(time == 340){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new FlyingMonster(p));
+        }
+        if(time == 370){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 400){
+        if(time == 390){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new LandMonster(p));
+        }
+        if(time == 410){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new LandMonster(p));
+        }
+        if(time == 430){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
@@ -54,13 +71,17 @@ public class WaveL1{
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 500){
+        if(time == 470){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
+            World.getMonsters().add(new FlyingMonster(p));
         }
-        if(time == 550){
+        if(time == 480){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
+            World.getMonsters().add(new FlyingMonster(p));
+        }
+        if(time == 490){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new FlyingMonster(p));
         }
     }
 }

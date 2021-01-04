@@ -24,7 +24,7 @@ public class BombTower extends Tower{
 	}
 	
 	public BombTower(Position p) {
-		super(60, (float)0.15, 20, false, p);
+		super(55, (float)0.1, 45, false, p);
 		System.out.println("\n--- Nouvelle mortier creer!---");
 	}
 	

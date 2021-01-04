@@ -19,7 +19,7 @@ public class ArcheryTower extends Tower {
 	}
 
 	public ArcheryTower(Position p) {
-		super(50, (float)0.2, 15, true, p);
+		super(25, (float)0.2, 30, true, p);
 		System.out.println("\n--- Nouvelle tour d'archer creer!---");
 	}
 	

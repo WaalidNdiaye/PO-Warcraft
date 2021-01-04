@@ -310,6 +310,16 @@ public class World {
 		}
 	}
 	
+	// Supprimer les tours et réinitialise les valeurs 
+	public static void clear (){
+		// Supprime toute les tours 
+		towers.clear();
+
+		// Réinitialiser avce les valeurs par défault 
+		life = 20 ;
+		coin = 145 ;
+	}
+
 	/**
 	 * Initialise la liste du chemin au hasard qui sera utilise durant la vague en cours
 	 */
@@ -406,11 +416,21 @@ public class World {
 		if(life <= 0) {
 			StdDraw.picture(0.5, 0.5, "images/perdue.png", 1, 1);
 			lose = true;
+
+			// Suprime les tours et réinitialise les valeurs 
+			clear();
+
+			endWave = false ;
 		}
 		
 		if(endWave) {
 			StdDraw.picture(0.5, 0.5, "images/gagne.png", 1, 1);
 			win = true;
+
+			// Suprime les tours et réinitialise les valeurs 
+			clear();
+
+			endWave = false ;
 		}
 	}
 

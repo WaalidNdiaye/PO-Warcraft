@@ -10,21 +10,32 @@ public class Arrow extends Projectile{
 
 	private double angleRotation ;
 
+	/*
+	 * CONSTRUCTEUR 
+	 */
 	public Arrow (Position p , Monster cible) {
 		super(35, (float)0.006, true, p, cible, (float)0.03);
 		this.angleRotation = angleCalculation();
 	}
 
+	/*
+	 * Fonction d'affichage 
+	 */
 	public  void draw() {
 		StdDraw.picture(p.getX(), p.getY(), "images/Tower/ArrowAnimation/" + time % 7 + ".png", size , size , this.angleRotation);
 	}
 	
-	//ameliore les caracteristiques du projectile
+	/*
+	 * Ameliore les caracteristiques du projectile
+	 */
 	public void upgrade (){
 		level++;
 		damage += 1;
 	}
 
+	/*
+	 * Mise a jour de la tour 
+	 */
 	public void update(){
 		time++;
 		move();
@@ -40,7 +51,9 @@ public class Arrow extends Projectile{
 		} 
 	}
 
-	// Calcul la rotation de l'image de la fleche en fonction de la position de cible
+	/*
+	 * Calcul et renvoie l'angle de rotation de l'image de fleche en fonction de la position de cible
+	 */
 	public double angleCalculation(){
 		if(p.getY() >= target.getP().getY()){
 			if(p.getX() >= target.getP().getX()){ 

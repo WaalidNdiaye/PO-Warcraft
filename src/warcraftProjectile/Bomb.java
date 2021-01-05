@@ -10,21 +10,24 @@ public class Bomb extends Projectile{
 	private float explosiveRange = (float) 0.07;  								// Portee de l'explosion
 	private int hitTime = -1;													// Heure de la colisition avec un monstre (si pas de colition alors -1)
 	private Position explosivePosition ;										// Position de l'explosion
-
-	// Renvoi le temps restant avant de pouvoir detruire le projectile
-	public int getTimeRemainig() {
-		return time - hitTime;
-	}
-
+	
+	/*
+	 * CONSTRUCTEUR 
+	 */
 	public Bomb (Position p, Monster target) {
 		super(60, (float)0.0035, false, p, target, (float)0.008);
 	}
 	
+	/*
+	 * Fonction d'affichage 
+	 */
 	public void draw() {
 		StdDraw.picture(p.getX(), p.getY(), "images/Bomb.png", size , size);
 	}
 
-	// Affiche une explosion a l'emplacement des monstres touché par l'explosion
+	/*
+	 * Affiche une explosion a l'emplacement des monstres touché par l'explosion
+	 */
 	public void drawExplosion(){
 		if (hitTime != -1  && (time - hitTime) < 24){
 			if(time - hitTime < 10) StdDraw.picture(explosivePosition.getX() + 0.005 ,explosivePosition.getY()+ 0.005 , "images/Tower/BombExplosionAnimation/0" + (time - hitTime) + ".png", explosiveRange , explosiveRange );
@@ -32,12 +35,24 @@ public class Bomb extends Projectile{
 		}
 	}
 
-	//ameliore les caracteristiques du projectile
+	/*
+	 * Renvoi le temps restant avant de pouvoir detruire le projectile
+	 */
+	public int getTimeRemainig() {
+		return time - hitTime - 24;
+	}
+
+	/*
+	 * Ameliore les caracteristiques du projectile
+	 */
 	public void upgrade (){
 		level++;
 		damage += 1;
 	}
 
+	/*
+	 * Mise a jour de la tour 
+	 */
 	public void update(){
 		time++;
 
@@ -65,7 +80,9 @@ public class Bomb extends Projectile{
 		
 	}
 
-	//Verifie sur le monstre est a portée de l'explostion
+	/*
+	 * Verifie sur le monstre est a portée de l'explostion
+	 */
 	public boolean explosiveRange(Monster m){
 		float AB = m.getP().getX() - getP().getX();
 		float BC = m.getP().getY() - getP().getY();

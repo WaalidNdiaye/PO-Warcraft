@@ -71,6 +71,9 @@ public abstract class Projectile {
 	}
 
 
+	/*
+	 * CONSTRUCTEUR 
+	 */
 	public Projectile(int damage, float speed, boolean aerialTarget, Position p, Monster target, float size) {
 		this.damage = damage;
 		this.speed = speed;
@@ -82,22 +85,24 @@ public abstract class Projectile {
 		this.hitbox = new ProjectileHitbox(p, (float) (size / 1.5)); 
 	}
 	
-	//Calcul de la prochaine position et deplacement jusqua la prochaine position 
+	/*
+	 * Calcul de la prochaine position et deplacement jusqua la prochaine position 
+	 */
 	public void move(){
 		if(target.getP().getX() > p.getX()){
-			//losque le monstre est en haut a droite de la tour  
+			// Losque le monstre est en haut a droite de la tour  
 			if(target.getP().getY() > p.getY()) {
-				float AB = Math.abs(target.getP().getX() - p.getX());
+				float AB = Math.abs(target.getP().getX() - p.getX());								
 				float BC = Math.abs(target.getP().getY() - p.getY());
 
-				//distance entre la tour et le monstre 
+				// Distance entre la tour et le monstre (AC2 = AB2 + BC2)
 				float distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
 
 				//deplace le projectile
 				this.p.setX( p.getX() + (speed/distance) * AB);
 				this.p.setY( p.getY() + (speed/distance) * BC);
 			}	
-			//losque le monstre est en bas a droite de la tour 
+			// Losque le monstre est en bas a droite de la tour 
 			else {
 				float AB = Math.abs(target.getP().getX() - p.getX());
 				float BC = Math.abs( p.getY() - target.getP().getY());
@@ -107,7 +112,7 @@ public abstract class Projectile {
 			}
 		}
 		else {
-			//losque le monstre est en haut a gauche de la tour 
+			// Losque le monstre est en haut a gauche de la tour 
 			if(target.getP().getY() > p.getY()) {
 				float AB = Math.abs(p.getX() - target.getP().getX());
 				float BC = Math.abs(target.getP().getY() - p.getY());
@@ -116,7 +121,7 @@ public abstract class Projectile {
 				this.p.setY( p.getY() + (speed/distance) * BC);
 			}
 			else{
-				//losque le monstre est en bas a gauche de la tour 
+				// Losque le monstre est en bas a gauche de la tour 
 				float AB = Math.abs(p.getX() - target.getP().getX());
 				float BC = Math.abs( p.getY() - target.getP().getY());
 				float distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );

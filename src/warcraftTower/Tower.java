@@ -16,7 +16,7 @@ public abstract class Tower {
 	protected int levelMax = 2;					// Niveau max des tours 
 	protected int time = 0;						// Repere chronologique 
 	protected int lastShot = -1;				// Dernier tir (chronologiquement)
-	protected Monster target ;					// Cible de la tour 
+	protected Monster target = null ;			// Cible de la tour 
 
 	/*
 	 * GETTERS AND SETTERS
@@ -61,6 +61,9 @@ public abstract class Tower {
 		this.upgradeCost = upgradeCost;
 	}
 
+	/*
+	 * CONSTRUCTEUR 
+	 */
 	public Tower(int towerCost, float range, int cooldown, boolean aerialTarget , Position p ) {
 		this.towerCost = towerCost;
 		this.range = range ;

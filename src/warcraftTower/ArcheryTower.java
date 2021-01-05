@@ -9,8 +9,11 @@ import warcraftMain.Position;
 
 public class ArcheryTower extends Tower {
 
-	private ArrayList<Arrow> arrow = new ArrayList<Arrow>();
+	private ArrayList<Arrow> arrow = new ArrayList<Arrow>();					// Liste des projectiles tiré (en mouvement) par cette tour 
 
+	/*
+	 * GETTERS AND SETTERS
+	 */
 	public ArrayList<Arrow> getArrow() {
 		return arrow;
 	}
@@ -18,11 +21,17 @@ public class ArcheryTower extends Tower {
 		this.arrow = arrow;
 	}
 
+	/*
+	 * CONSTRUCTEUR 
+	 */
 	public ArcheryTower(Position p) {
 		super(25, (float)0.2, 30, true, p);
 		System.out.println("\n--- Nouvelle tour d'archer creer!---");
 	}
 	
+	/*
+	 * Fonction d'affichage 
+	 */
 	public void draw() {
 		if(level == 1 ) 	StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 		else if(level == 2) 	StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/Archery Tower Level 2.png", (1.0/24.0) , (1.0/15.0) );
@@ -48,7 +57,9 @@ public class ArcheryTower extends Tower {
 		
 	}
 	
-	//Amelioration de la tour
+	/*
+	 * Amelioration de la tour
+	 */
 	public void upgrade() {
 		if(level < levelMax){
 			level++;
@@ -59,6 +70,9 @@ public class ArcheryTower extends Tower {
 		else System.out.println("Cet tour est deja au niveau max !");
 	}
 
+	/*
+	 * Mise a jour de la tour 
+	 */
 	public void update(){
 		time++;
 		// Si le tir est charger alors shoot (time = 18)
@@ -74,8 +88,16 @@ public class ArcheryTower extends Tower {
 		// Si un monstre est porté et que l'on est pas en cooldown 
 		if( m != null && time % cooldown == 0) loadingShoot(m);
 
-		// Met a jour les projectiles
+		// Suprime le projectile si il a été tué entre temps
+		for (int i = 0; i < arrow.size(); i++) if (arrow.get(i).getTarget().getLife() <= 0) arrow.remove(arrow.get(i));
+
+		// Suprime le prjectile s'il a dépassé la potée de la tour
+		for (int i = 0; i < arrow.size(); i++) if(!inRange(arrow.get(i))) arrow.remove(arrow.get(i));
+
+		// Suprime le projectile si il a touché un monstre 
 		for(int i = 0 ; i < arrow.size() ; i++ ) if(arrow.get(i).getHit()) arrow.remove(arrow.get(i));
+
+		// Met a jour les projectiles
 		for(int i = 0 ; i < arrow.size() ; i++ ) arrow.get(i).update();
 	}
 
@@ -106,11 +128,17 @@ public class ArcheryTower extends Tower {
 		
 	}
 
-	// Charge un tir et tire lorsque (time - lastShoot) == 18 
+	/*
+	 * Charge un tir et tire lorsque (time - lastShoot) == 18 
+	 */
 	public void loadingShoot(Monster monster){
 		target = monster ;
 		lastShot = time ; 
 	}
+
+	/*
+	 * Tir un projectile lorsque le projectil est charger 
+	 */
 	public void shot (){
 		if((time - lastShot) == 11 && lastShot != -1){
 			Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.03));
@@ -119,5 +147,48 @@ public class ArcheryTower extends Tower {
 
 	}
 
+
+	/**
+	 * Calcul si le projectile est a porté 
+	 * @return true si le projectile est a porté sinon false 
+	 */
+	public boolean inRange(Arrow arroxCurrent) {
+
+		float distance = 0;																	// Distance entre la tour et le projetile
+
+		if (arroxCurrent.getP().getX() > p.getX()) {
+			// Lorsque le projectile est en haut a droite de la tour
+			if (arroxCurrent.getP().getY() > p.getY()) {
+				float AB = Math.abs(arroxCurrent.getP().getX() - p.getX());							// AB
+				float BC = Math.abs(arroxCurrent.getP().getY() - p.getY());							// BC
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));			// AC2 = AB2 + BC2
+
+			}
+			// Lorsque le projectile est en bas a droite de la tour
+			else {
+				float AB = Math.abs(arroxCurrent.getP().getX() - p.getX());
+				float BC = Math.abs(p.getY() - arroxCurrent.getP().getY());
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
+			}
+		} 
+		else {
+			// Lorsque le projectile est en haut a gauche de la tour
+			if (arroxCurrent.getP().getY() > p.getY()) {
+				float AB = Math.abs(p.getX() - arroxCurrent.getP().getX());
+				float BC = Math.abs(arroxCurrent.getP().getY() - p.getY());
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
+			} 
+			// Lorsque le projectile est en bas a gauche de la tour
+			else {
+				float AB = Math.abs(p.getX() - arroxCurrent.getP().getX());
+				float BC = Math.abs(p.getY() - arroxCurrent.getP().getY());
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
+			}
+		}
+
+		if(distance >= range) return false ;
+		else return true;
+
+	}
 }
 

@@ -69,13 +69,15 @@ public class BombTower extends Tower {
 		time++;
 		draw();
 
-		// Si un monstre est a portée de la tour alors target != null (ce if() sert a
-		// reduire les calcules pour des questions de performance)
+		// Si un monstre est a portée de la tour alors target != null (ce if() sert a reduire les calcules pour des questions de performance)
 		if (time % 3 == 0)
 			target = activate();
 
+		if(time - lastShot > cooldown ) canShot = true ;
+		else canShot = false ;
+
 		// Si un monstre est porté et que l'on est pas en cooldown
-		if (target != null && time % cooldown == 0)
+		if (target != null && canShot)
 			shot(target);
 
 		// Suprime le projectile si il a été tué entre temps
@@ -129,6 +131,7 @@ public class BombTower extends Tower {
 	public void shot(Monster monster) {
 		Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.03));
 		bomb.add(new Bomb(pProjectile, monster));
+		lastShot = time ; 
 	}
 
 	/**

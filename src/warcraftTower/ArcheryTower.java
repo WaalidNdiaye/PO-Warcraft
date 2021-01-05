@@ -75,18 +75,20 @@ public class ArcheryTower extends Tower {
 	 */
 	public void update(){
 		time++;
+
+		if(time - lastShot > cooldown ) canShot = true ;
+		else canShot = false ;
+
 		// Si le tir est charger alors shoot (time = 18)
 		shot(); 
 		draw();
 
-		Monster m = null ; 
-
-		// Si un monstre est a portée de la tour alors m != null
+		// Si un monstre est a portée de la tour alors target != null (ce if() sert a reduire les calcules pour des questions de performances)
 		if( time % 3 == 0){
-			m = activate();
+			target = activate();
 		}
 		// Si un monstre est porté et que l'on est pas en cooldown 
-		if( m != null && time % cooldown == 0) loadingShoot(m);
+		if( target != null && canShot)	loadingShoot(target);
 
 		// Suprime le projectile si il a été tué entre temps
 		for (int i = 0; i < arrow.size(); i++) if (arrow.get(i).getTarget().getLife() <= 0) arrow.remove(arrow.get(i));
@@ -140,7 +142,7 @@ public class ArcheryTower extends Tower {
 	 * Tir un projectile lorsque le projectil est charger 
 	 */
 	public void shot (){
-		if((time - lastShot) == 11 && lastShot != -1){
+		if(target != null && (time - lastShot) == 11 && lastShot != -1){
 			Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.03));
 			arrow.add(new Arrow(pProjectile, target));
 		}

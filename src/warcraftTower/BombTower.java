@@ -77,7 +77,7 @@ public class BombTower extends Tower {
 		else canShot = false ;
 
 		// Si un monstre est porté et que l'on est pas en cooldown
-		if (target != null && canShot)
+		if (target != null && canShot && !target.isFlying())
 			shot(target);
 
 		// Suprime le projectile si il a été tué entre temps
@@ -93,7 +93,6 @@ public class BombTower extends Tower {
 			if (bomb.get(i).getHit() && bomb.get(i).getTimeRemainig() > 0)
 				bomb.remove(bomb.get(i));
 		}
-
 
 		// Met a jour les projectiles
 		for (int i = 0; i < bomb.size(); i++) bomb.get(i).update();

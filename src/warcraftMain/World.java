@@ -164,7 +164,7 @@ public class World {
 	 * lorsque le joueur appuie sur une des touches permettant la construction d'une tour.
 	 */
 	public void drawMouse() {
-		 if(start){
+		if(start){
 		 	pMouse.setX(Square.normalizedX(mouseX));
 			pMouse.setY(Square.normalizedY(mouseY));
 		}
@@ -189,6 +189,14 @@ public class World {
 			} 
 			break;
 		}
+		
+		// Affiche la portée d'une tour lorsque l'on passe dessus avec notre souris 
+		if(towers != null){
+			for(Tower t : towers){
+				if(pMouse.equalsP(t.getP() )) StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), t.getRange());
+			}
+		}
+		
 	}
 
 					//******************************************************************//

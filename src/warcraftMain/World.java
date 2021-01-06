@@ -318,7 +318,9 @@ public class World {
 		}
 	}
 	
-	// Supprimer les tours et réinitialise les valeurs 
+	/**
+	 * Supprimer les tours et réinitialise les valeurs 
+	 */
 	public static void clear (){
 		// Supprime toute les tours 
 		towers.clear();

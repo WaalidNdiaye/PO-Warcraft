@@ -84,7 +84,7 @@ public abstract class Monster {
 		this.dropCoin = dropCoin;
 	}
 	
-	public Monster(Position p, float size, float speed, int life, int dropCoin ) {
+	public Monster(Position p, float size, float speed, int life, int dropCoin, boolean flying) {
 		this.p = p;
 		this.size = size; 
 		this.speed = speed;
@@ -92,6 +92,7 @@ public abstract class Monster {
 		this.hitbox = new MonsterHitbox(p, size);
 		this.life = life ;
 		this.dropCoin = dropCoin;
+		this.flying = flying ;
 	}
 	
 	/**

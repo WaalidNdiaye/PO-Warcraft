@@ -6,8 +6,7 @@ import warcraftMain.StdDraw;
 public class FlyingMonster extends Monster {
 	
 	public FlyingMonster (Position p) {
-		super(p , (float)0.04 , (float)0.0035, 95, 7);
-		this.flying = true;
+		super(p , (float)0.04 , (float)0.0035, 95, 7 , true);
 	}
 	
 	// Affichage du monstre 

@@ -6,7 +6,7 @@ import warcraftMain.StdDraw;
 public class LandMonster extends Monster {
 
 	public LandMonster (Position p) {
-		super(p , (float)0.055 , (float)0.002 , 125 , 5);
+		super(p , (float)0.055 , (float)0.002, 125, 5, false);
 	}
 	
 	// Affichage du monstre 

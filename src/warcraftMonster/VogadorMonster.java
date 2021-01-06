@@ -6,7 +6,7 @@ import warcraftMain.StdDraw;
 public class VogadorMonster extends Monster {
 
 	public VogadorMonster (Position p) {
-		super(p , (float)0.08 , (float)0.0035 , 150 , 10);
+		super(p, (float)0.08, (float)0.0035, 150, 10, false);
 	}
 	
 	// Affichage du monstre 

@@ -57,7 +57,7 @@ public class WaveL2{
         }
         if(time == 390){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
+            World.getMonsters().add(new VogadorMonster(p));
         }
         if(time == 410){
             Position p = new Position(World.getSpawn());

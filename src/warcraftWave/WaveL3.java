@@ -65,7 +65,7 @@ public class WaveL3{
         }
         if(time == 600){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new  VogadorMonster(p));
         }
         if(time == 700){
             Position p = new Position(World.getSpawn());
@@ -121,7 +121,7 @@ public class WaveL3{
         }
         if(time == 1550){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new  VogadorMonster(p));
         }
     }
 }

@@ -206,11 +206,24 @@ public class World {
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.15);
 			} 
 			break;
+		case 'g' :
+			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
+				if((time % 15) < 10)  StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.02, "images/Tower/GuardianTowerAnimation/0"+ time % 15 + ".png", (1.0/24.0)* 1.6  , (1.0/15.0) * 1.6  );
+				else StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.02 , "images/Tower/GuardianTowerAnimation/"+ time % 15 + ".png", (1.0/24.0) * 1.6  , (1.0/15.0)* 1.6  );
+				StdDraw.setPenColor(StdDraw.BLACK);
+				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.3);
+				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.1);
+			} 
+			break;
 		}
-
+		
+		// Affiche la portÃ©e de la tour lorsque l'on passe la souris dessus 
 		if(towers != null){
 			for(Tower t : towers)
-				if(pMouse.equalsP(t.getP() )) StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), t.getRange());
+				if(pMouse.equalsP(t.getP() )) {
+					StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), t.getRange());
+					if(t.getClass().getName() == "warcraftTower.GuardianTower") StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.1);
+				}
 		}
 	}
 
@@ -412,13 +425,16 @@ public class World {
 		
 		switch (key) {
 		case 'a':
-			System.out.println("Arrow Tower selected (50c).");
+			System.out.println("Arrow Tower selected (50 coins).");
 			break;
 		case 'b':
-			System.out.println("Bomb Tower selected (60c).");
+			System.out.println("Bomb Tower selected (60 coins).");
+			break;
+		case 'g':
+			System.out.println("Guardian selected (100 coins).");
 			break;
 		case 'e':
-			System.out.println("Evolution selected (40c).");
+			System.out.println("Evolution selected (40 coins).");
 			break;
 		case 's':
 			System.out.println("Starting game!");
@@ -441,7 +457,7 @@ public class World {
 		/**
 		 * 	- Ajouter une tour a la position indiquee par la souris.
 		 * 	- Ameliorer une tour existante.
-		 * 	- Puis l ajouter a  la liste des tours
+		 * 	- Puis l ajouter aï¿½ la liste des tours
 		 */
 		Position pTower = new Position(Square.normalizedX(x), Square.normalizedY(y));
 		
@@ -461,7 +477,7 @@ public class World {
 					coin -= 55;
 				}
 				break;
-			case 't':
+			case 'g':
 				System.out.println("Ici il faut ajouter un gardien");
 				if(canCreatTower(pTower,80 , true )) {
 					towers.add(new GuardianTower(pTower));

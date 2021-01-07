@@ -7,7 +7,7 @@ import warcraftMain.Position;
 
 public class GuardianTower extends Tower {
 
-	private int damage = 90 ;														// Degat de l'attaque du gardien
+	private int damage = 100 ;														// Degat de l'attaque du gardien
 	private float rangeDamageZone = (float) 0.07;  									// Portée de l'attaque de zone du gardien 
 	private float rangeCantShoot = (float) 0.1 ;									// Porté de la zone morte dans laquelle le gardien ne peu pas attaquer 
 	private Position pZoneAttack ;
@@ -16,7 +16,7 @@ public class GuardianTower extends Tower {
 	 * CONSTRUCTEUR 
 	 */
 	public GuardianTower (Position p) {
-		super( 100, (float)0.35, 50, false, p);
+		super( 100, (float)0.3, 65, false, p);
 		System.out.println("\n--- Nouveau gardien creer!---");
 	}
 	
@@ -27,8 +27,8 @@ public class GuardianTower extends Tower {
 		
 		// Affiche Gardien
 		if((time - lastShot) > 20 || (time - lastShot) < 0) {
-			if(time%15 < 10) StdDraw.picture(getP().getX() , getP().getY() + 0.03, "images/Tower/GuardianTowerAnimation/0" + time%15 + ".png", (1.0/24.0) * 1.6  , (1.0/15.0) * 1.6  );
-			else StdDraw.picture(getP().getX() , getP().getY() + 0.03 , "images/Tower/GuardianTowerAnimation/" + time%15 + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
+			if(time%15 < 10) StdDraw.picture(getP().getX() , getP().getY() + 0.02, "images/Tower/GuardianTowerAnimation/0" + time%15 + ".png", (1.0/24.0) * 1.6  , (1.0/15.0) * 1.6  );
+			else StdDraw.picture(getP().getX() , getP().getY() + 0.02 , "images/Tower/GuardianTowerAnimation/" + time%15 + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
 		}
 
 
@@ -37,12 +37,12 @@ public class GuardianTower extends Tower {
 			for(int i = 0 ; i < 21 ; i++) {
 				// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
 				if( (target.getP().getX() - p.getX()) >= 0 ){
-					if((time - lastShot) == i && (i < 10) && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.03, "images/Tower/GuardianAttackRightSide/0" + i + ".png", (1.0/24.0) * 1.6, (1.0/15.0) * 1.6 );
-					if((time - lastShot) == i && (i > 9)  && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.03, "images/Tower/GuardianAttackRightSide/" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
+					if((time - lastShot) == i && (i < 10) && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackRightSide/0" + i + ".png", (1.0/24.0) * 1.6, (1.0/15.0) * 1.6 );
+					if((time - lastShot) == i && (i > 9)  && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackRightSide/" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
 				}
 				else{
-					if((time - lastShot) == i && (i < 10) && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.03, "images/Tower/GuardianAttackLeftSide/0" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
-					if((time - lastShot) == i && (i > 9)  && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.03, "images/Tower/GuardianAttackLeftSide/" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
+					if((time - lastShot) == i && (i < 10) && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackLeftSide/0" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
+					if((time - lastShot) == i && (i > 9)  && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackLeftSide/" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
 				}
 				
 			}
@@ -113,7 +113,7 @@ public class GuardianTower extends Tower {
 	 * Tir sur le monstre en parametre 
 	 */
 	public void shot (){
-		if(time - lastShot == 20 && target != null){
+		if(time - lastShot == 25 && target != null){
 			pZoneAttack = new Position(target.getP());
 			target.hit(this.damage);
 			for(Monster m : World.getMonsters()){

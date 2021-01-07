@@ -14,7 +14,7 @@ public abstract class Tower {
 	protected Position p ;						// Position de la tour 
 	protected int level;						// Niveau de la tour (niveau 1 puis niveau 2...)
 	protected int levelMax = 2;					// Niveau max des tours 
-	protected int time = 0;						// Repere chronologique 
+	protected int time = 100;					// Repere chronologique 
 	protected int lastShot = -1;				// Dernier tir (chronologiquement)
 	protected boolean canShot ; 				// Peut tirer (cooldown depassé)
 	protected Monster target = null ;			// Cible de la tour 

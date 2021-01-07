@@ -7,7 +7,7 @@ import warcraftMain.Position;
 
 public class GuardianTower extends Tower {
 
-	private int damage = 100 ;														// Degat de l'attaque du gardien
+	private int damage = 60 ;														// Degat de l'attaque du gardien
 	private float rangeDamageZone = (float) 0.07;  									// Portée de l'attaque de zone du gardien 
 	private float rangeCantShoot = (float) 0.1 ;									// Porté de la zone morte dans laquelle le gardien ne peu pas attaquer 
 	private Position pZoneAttack ;
@@ -16,7 +16,7 @@ public class GuardianTower extends Tower {
 	 * CONSTRUCTEUR 
 	 */
 	public GuardianTower (Position p) {
-		super( 100, (float)0.3, 65, false, p);
+		super( 100, (float)0.3, 90, false, p);
 		System.out.println("\n--- Nouveau gardien creer!---");
 	}
 	
@@ -67,25 +67,35 @@ public class GuardianTower extends Tower {
 	 */
 	public void update(){
 		time++;
+
+		// Definit la postion de l'ataque lorsque (time - lastShot == 21)
+		shot();
+
+		// Inflige les degats de zones 
+		damageZone();
+
+		// Affiche la tour et les degats a distance qu'inflige le gardien  
 		draw();
 		drawAttack();
-		shot();
-		target = activate();
+
+		// Si un monstre est a portée de la tour alors target != null (ce if() sert a reduire les calcules pour des questions de performances)
+		if(time%3 == 0) target = activate();
+
+		// Ajoute un repere chronologique qui permet de declencher les methodes lié a l'attaque du gardien
 		if(canShot())  {
 			lastShot = time ;
 		}
 	}
 
-	// Peut tirer
+	/*
+	 * Peut tirer
+	 */
 	public boolean canShot() {
 		if( target != null  && lastShot == -1) return true ;
 		else if(target != null && time - lastShot > cooldown ) return true ;
 		else return false ;
 	}
 
-	// Charge un tir 
-
-	
 	/**
 	 * Calcul le monstre le plus proche 
 	 * @return le monstre le plus proche a porté ou null si aucun monstre n'est a porté
@@ -96,7 +106,7 @@ public class GuardianTower extends Tower {
 		Monster closest = null;
 		for(int i = 0 ; i < World.getMonsters().size() ; i++){
 
-			float distance = monsterInRange(World.getMonsters().get(i));
+			float distance = p.dist(World.getMonsters().get(i).getP());
 			if(distanceMin > distance && distance > rangeCantShoot) {
 				distanceMin = distance; 
 				closest = World.getMonsters().get(i);
@@ -113,101 +123,40 @@ public class GuardianTower extends Tower {
 	 * Tir sur le monstre en parametre 
 	 */
 	public void shot (){
-		if(time - lastShot == 25 && target != null){
-			pZoneAttack = new Position(target.getP());
-			target.hit(this.damage);
-			for(Monster m : World.getMonsters()){
-				if(rangeDamageZone(m)) m.hit(damage);
-			}
+		if(time - lastShot == 21 && target != null && lastShot != -1){
+			pZoneAttack = new Position((float)(target.getP().getX() + 0.02) , target.getP().getY());
 		}
-	}
-
-	
-	/**
-	 * Calcul la distance entre la tour et un monstre 
-	 * @return true si le projectile est a porté sinon false 
-	 */
-	public float monsterInRange(Monster m) {
-
-		float distance = 1;																	// Distance entre la tour et monstre
-
-		if (m.getP().getX() > p.getX()) {
-			// Lorsque le monstre est en haut a droite de la tour
-			if (m.getP().getY() > p.getY()) {
-				float AB = Math.abs(m.getP().getX() - p.getX());							// AB
-				float BC = Math.abs(m.getP().getY() - p.getY());							// BC
-				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));			// AC2 = AB2 + BC2
-
-			}
-			// Lorsque le monstre est en bas a droite de la tour
-			else {
-				float AB = Math.abs(m.getP().getX() - p.getX());
-				float BC = Math.abs(p.getY() - m.getP().getY());
-				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
-			}
-		} 
-		else {
-			// Lorsque le monstre est en haut a gauche de la tour
-			if (m.getP().getY() > p.getY()) {
-				float AB = Math.abs(p.getX() - m.getP().getX());
-				float BC = Math.abs(m.getP().getY() - p.getY());
-				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
-			} 
-			// Lorsque le monstre est en bas a gauche de la tour
-			else {
-				float AB = Math.abs(p.getX() - m.getP().getX());
-				float BC = Math.abs(p.getY() - m.getP().getY());
-				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
-			}
-		}
-
-		return distance ;
-
 	}
 
 	/*
-	 * Verifie sur le monstre est a portée de l'explostion
+	 * Inflige des degat de zone
 	 */
-	public boolean rangeDamageZone(Monster m){
-
-		// Distance le projectile et le monstre m 
-		float distance = (float) 1.0 ; 
-
-		if(m.getP().getX() > p.getX()){
-			// Losque le monstre est en haut a droite de la tour  
-			if(m.getP().getY() > p.getY()) {
-				float AB = Math.abs(m.getP().getX() - p.getX());								
-				float BC = Math.abs(m.getP().getY() - p.getY());
-
-				// Distance le projectile et le monstre m  (AC2 = AB2 + BC2)
-				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
-			}	
-			// Losque le monstre est en bas a droite de la tour 
-			else {
-				float AB = Math.abs(m.getP().getX() - p.getX());
-				float BC = Math.abs( p.getY() - m.getP().getY());
-				distance = (float)Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+	public void damageZone (){
+		if(time - lastShot > 20 && time - lastShot < 64 && lastShot != -1){
+			System.out.println("va infliger des degats de zones ");
+			// Inflige des degats de zones a chaque sortie de pic du sol (donc trois fois)
+			if(time - lastShot == 22){
+				for(Monster m : World.getMonsters()){
+					// Parcours la liste de monstre et inflige des degats au monstre a portée 
+					System.out.println(pZoneAttack.dist(m.getP()));
+					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone) {
+						System.out.println("Un monstre touche!");
+						m.hit(damage);
+					}
+				}
+			}
+			if(time - lastShot == 30){
+				for(Monster m : World.getMonsters()){
+					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone) m.hit(damage);
+				}
+			}
+			if(time - lastShot == 40){
+				for(Monster m : World.getMonsters()){
+					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone) m.hit(damage);
+				}
 			}
 		}
-		else {
-			// Losque le monstre est en haut a gauche de la tour 
-			if(m.getP().getY() > p.getY()) {
-				float AB = Math.abs(p.getX() - m.getP().getX());
-				float BC = Math.abs(m.getP().getY() - p.getY());
-				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
-			}
-			else{
-				// Losque le monstre est en bas a gauche de la tour 
-				float AB = Math.abs(p.getX() - m.getP().getX());
-				float BC = Math.abs( p.getY() - m.getP().getY());
-				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
-				
-			}
-		}
-
-		// Si la distance est inferieur ou egale a la portée de l'explosion alors true, sinon false 
-		if(distance <= rangeDamageZone) return true ;
-		else return false ;
 	}
+
 }
 

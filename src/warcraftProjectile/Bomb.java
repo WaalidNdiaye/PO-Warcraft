@@ -58,72 +58,28 @@ public class Bomb extends Projectile{
 
 		if(!hit){
 			move();
-			hitbox.move(p);
 			draw();
 
 			// Verifie si le projectile a toucher sa cible 
 			if(hitbox.hit(target.getHitbox())){
 				target.hit(damage);
+				explosivePosition = new Position(target.getP());
 
 				// Parcours tout la liste de monstre pour trouver ceux a portée et leur infliger des degats 
 				for (int i = 0 ; i < World.getMonsters().size() ; i++){
-					if(explosiveRange(World.getMonsters().get(i))){
+					if(explosivePosition.dist(World.getMonsters().get(i).getP()) <= explosiveRange){
 						World.getMonsters().get(i).hit(damage);
 					}
 				}
 				hit = true;
 				hitTime = time ;
-				explosivePosition = new Position(target.getP());
+				drawExplosion();
 			} 
 		}
 		else drawExplosion();
 		
 	}
 
-	/*
-	 * Verifie sur le monstre est a portée de l'explostion
-	 */
-	public boolean explosiveRange(Monster m){
-
-		// Distance le projectile et le monstre m 
-		float distance = (float) 1.0 ; 
-
-		if(m.getP().getX() > p.getX()){
-			// Losque le monstre est en haut a droite de la tour  
-			if(m.getP().getY() > p.getY()) {
-				float AB = Math.abs(m.getP().getX() - p.getX());								
-				float BC = Math.abs(m.getP().getY() - p.getY());
-
-				// Distance le projectile et le monstre m  (AC2 = AB2 + BC2)
-				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
-			}	
-			// Losque le monstre est en bas a droite de la tour 
-			else {
-				float AB = Math.abs(m.getP().getX() - p.getX());
-				float BC = Math.abs( p.getY() - m.getP().getY());
-				distance = (float)Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
-			}
-		}
-		else {
-			// Losque le monstre est en haut a gauche de la tour 
-			if(m.getP().getY() > p.getY()) {
-				float AB = Math.abs(p.getX() - m.getP().getX());
-				float BC = Math.abs(m.getP().getY() - p.getY());
-				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
-			}
-			else{
-				// Losque le monstre est en bas a gauche de la tour 
-				float AB = Math.abs(p.getX() - m.getP().getX());
-				float BC = Math.abs( p.getY() - m.getP().getY());
-				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
-				
-			}
-		}
-
-		// Si la distance est inferieur ou egale a la portée de l'explosion alors true, sinon false 
-		if(distance <= explosiveRange) return true ;
-		else return false ;
-	}
 
 
 }

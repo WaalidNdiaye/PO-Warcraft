@@ -129,8 +129,7 @@ public abstract class Projectile {
 				this.p.setY( p.getY() - (speed/distance) * BC);
 			}
 		}
-
-		hitbox.move(p);		
+		hitbox.move(p);
 	}
 
 	public abstract void draw() ;

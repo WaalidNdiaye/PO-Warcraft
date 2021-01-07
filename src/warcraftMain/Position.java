@@ -4,7 +4,10 @@ public class Position {
 	
 	private float x;
 	private float y;
-	
+
+	/**
+	 * Getters and Setters
+	 */
 	public float getX() {
 		return x;
 	}
@@ -53,4 +56,5 @@ public class Position {
 	public String toString() {
 		return "(" + Double.toString(x) + "," + Double.toString(y) + ")";
 	}
+
 }

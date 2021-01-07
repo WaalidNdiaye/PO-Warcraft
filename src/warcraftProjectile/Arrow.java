@@ -39,7 +39,6 @@ public class Arrow extends Projectile{
 	public void update(){
 		time++;
 		move();
-		hitbox.move(p);
 		// Met a jour la rotation de l'image lorsque time % 10 == 0
 		if(time%10 == 0) this.angleRotation = angleCalculation();
 		draw();

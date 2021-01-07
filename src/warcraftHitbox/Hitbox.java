@@ -56,7 +56,7 @@ public class Hitbox {
 		else return true ;
 	}
 	
-	//Met a jour la position de la hitbox
+	// Met a jour la position de la hitbox
 	public void move(Position p){
 		leftSide = p.getX() - (this.size / 2);
 		rightSide = p.getX() + (this.size / 2); 

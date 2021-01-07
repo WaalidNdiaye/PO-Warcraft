@@ -1,85 +1,72 @@
 package warcraftWave;
 
-import java.util.ArrayList;
 import warcraftMonster.*;
 import warcraftMain.*;
 
 public class WaveL2{
-
-    private static int time = 0;
-    private static boolean init = false;
-
-    public static int getTime() {
-    	return time;
-    }
-    
+	
     public static void update(){
-    	if(!init) {
-    		World.setMonsters(new ArrayList<Monster>());
-    		init = true;
-    	}
-        time++;
         buildWave();
     }
      
     public static void buildWave(){
-        if(time == 100){
+        if(World.getTime() == 650){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 150){
+        if(World.getTime() == 700){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 200){
+        if(World.getTime() == 750){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 250){
+        if(World.getTime() == 800){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 300){
+        if(World.getTime() == 850){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 330){
+        if(World.getTime() == 880){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(time == 340){
+        if(World.getTime() == 910){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(time == 370){
+        if(World.getTime() == 940){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 390){
+        if(World.getTime() == 970){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new VogadorMonster(p));
         }
-        if(time == 410){
+        if(World.getTime() == 990){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 430){
+        if(World.getTime() == 1010){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 450){
+        if(World.getTime() == 1030){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(time == 470){
+        if(World.getTime() == 1050){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(time == 480){
+        if(World.getTime() == 1070){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(time == 490){
+        if(World.getTime() == 1090){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }

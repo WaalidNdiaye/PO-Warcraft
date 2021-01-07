@@ -4,11 +4,21 @@ import java.util.List;
 import java.util.ArrayList;
 
 import warcraftMonster.Monster;
-import warcraftPath.*;
 import warcraftWave.*;
 import warcraftTower.*;
 
 public class World {
+	/**
+	 * Tout le programme utilise des fonction et methode static
+	 * cela signifie/permet 2 choses :
+	 * 
+	 * 		- Il ne peut y avoir qu un seul plateau de jeu de lancer en meme temps (ce qui est ici pas derangeant
+	 * 			car un joueur ne lance qu une seule partie a la fois sur son ordinateur et non plusieurs.
+	 * 		
+	 * 		- Cela permet de contrer le fait que certaines fonctions nous demande elles d etre en static obligatoirement
+	 * 			afin d initialiser certaines valeurs par exemple.
+	 */
+	
 	// Information sur le plateau de jeu
 	private static List<Position> square;									// Liste des positions de toutes les cases du plateau de jeu (un schema se trouve dans le drive)
 	private static int width = 1440;										// Largeur du plateau de jeu
@@ -17,18 +27,14 @@ public class World {
 	private static int nbSquareY = 15;										// Nombre de "case" en Y
 	private static float squareWidth = (float)1 / nbSquareX;				// Largeur des cases
 	private static float squareHeight = (float)1 / nbSquareY;				// Hauteur des cases
-		//Square num 7
-	private static Position spawn;											// Position par laquelle les monstres vont venir
-		//Square num 352
-	private static Position chateau;										// Position du chateau 
+	private static Position spawn;											// Position par laquelle les monstres vont venir (num 8)
+	private static Position chateau;										// Position du chateau (num 352)
 	
 	// Informations utilise pour le fonctionnement des vagues
 	private static int nbWaves;												// Nombre de vague que le joueur souhaite jouer
-	private static boolean initT = false;									// Indique si la liste des tours a ete initialise
-	private static boolean initW = false;									// Indique si la vague actuelle est initialise ou pas
 	private static int currentW = 1;										// Vague actuelle
-	private static List<Monster> monsters;									// Liste des monstres
-	private static List <Tower> towers;										// Liste des tours presentes sur le plateau de jeu
+	private static List<Monster> monsters = new ArrayList<Monster>();		// Liste des monstres
+	private static List <Tower> towers = new ArrayList<Tower>();			// Liste des tours presentes sur le plateau de jeu
 	private static List<Position> path;										// Liste des positions du chemin utilise durant la vague en cours
 
 	// Informations de l inventaire du joueur
@@ -36,19 +42,18 @@ public class World {
 	private static int coin = 145;											// Argent (pour acheter les tours)
 	
 	// Actions du joueur
-	private char key;														// Commande sur laquelle le joueur appuie (sur le clavier)
-	private float mouseX = -1;
-	private float mouseY = -1;
-	private Position pMouse = new Position(mouseX, mouseY); 			    //Postion de la souri (initialisé en dehors du plateau)
+	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
+	private static float mouseX = -1;
+	private static float mouseY = -1;
+	private static Position pMouse = new Position(mouseX, mouseY); 			//Postion de la souri (initialisé en dehors du plateau)
 	
 	// Partie
 	private static boolean start = false;									// Condition pour que la partie commence
 	private static boolean pause = false;									// Indique si le jeu est en pause
 	private static boolean end = false;										// Condition pour terminer la partie
-	private static boolean win = false;										// Indique si le joueur a gagne ou pas
-	private static boolean lose = false;
-	private int time = 0 ;													// Repere chronologique 
-
+	private static boolean win = false;										// Indique si le joueur a gagne
+	private static boolean lose = false;									//Indique si le joueur a perdu
+	private static int time = 0 ;											// Repere chronologique (time incremente de 1 a chaque appel de update())
 	
 	/**
 	 * Getters and Setters
@@ -71,6 +76,12 @@ public class World {
 	public static Position getSpawn() {
 		return spawn;
 	}
+	public static int getCurrentW(){
+		return currentW;
+	}
+	public static int getNbWaves(){
+		return nbWaves;
+	}
 	public static List<Monster> getMonsters(){
 		return monsters;
 	}
@@ -80,21 +91,32 @@ public class World {
 	public static void setTowers(List<Tower> t){
 		towers = t;
 	}
+	public static void setPath(List<Position> p){
+		path = p;
+	}
 	public static int getCoin() {
 		return coin;
 	}
 	public static void setCoin(int newCoin) {
 		coin = newCoin;
 	}
+	public static void setPause(boolean setPause) {
+		pause = setPause;
+	}
+	public static int getTime(){
+		return time;
+	}
 	
 	/**
 	 * Initialisation du plateau de jeu
+	 * 		- Initialisation du spawn
+	 * 				--> a la case num 8 du plateau de jeu
+	 *  	- Initialisation du chateau
+	 * 				--> a la case num 352 du plateau de jeu
 	 */
 	public World() {
 		square = Square.setBoard();
-		// Initialisation du spawn a la case numero 8 du plateau de jeu
 		spawn = square.get(8);
-		// Initialisation du chateau a la case numero 192 du plateau de jeu
 		chateau = square.get(352);
 
 		StdDraw.setCanvasSize(width, height);
@@ -111,7 +133,7 @@ public class World {
 	/**
 	 * Definit le background du menu principal
 	 */
-	public void drawMenu() {
+	public static void drawMenu() {
 		StdDraw.picture(0.5, 0.5, "images/menu.png", 1, 1);
 		StdDraw.picture(Square.normalizedX(mouseX), Square.normalizedY(mouseY), "images/select.png", squareWidth, squareHeight);
 	}
@@ -119,7 +141,7 @@ public class World {
 	/**
 	 * Definit le decors du plateau de jeu.
 	 */
-	public void drawBackground() {
+	public static void drawBackground() {
 		StdDraw.picture(0.5, 0.5, "images/background.png", 1, 1);
 		StdDraw.picture(0.02, 0.6, "images/Spawner.png", (1.0/24.0) * 4, (1.0/15.0) * 4);
 	}
@@ -129,74 +151,67 @@ public class World {
 	 * 		- la vie du joueur (life)
 	 * 		- l argent qu il possede dans son inventaire (coin)
 	 */
-	public void drawInfos() {
+	public static void drawInfos() {
 		drawLife();
 		drawCoin();
 	}
 
-	public void drawLife() {
+	public static void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.95, String.valueOf(life + " HP"));
 	}
 	
-	public void drawCoin() {
+	public static void drawCoin() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.90 , String.valueOf(coin + " coins "));
 		StdDraw.picture(0.981, 0.901, "images/Animation/CoinAnimation/" + time % 6 + ".png" , 0.06, 0.06);
-		
 	}
 
 	/**
 	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités
 	 * offertes au joueur pour intéragir avec le clavier
 	 */
-	public void printCommands() {
+	public static void printCommands() {
 		System.out.println("Press A to select Arrow Tower (cost 50g).");
 		System.out.println("Press B to select Cannon Tower (cost 60g).");
+		System.out.println("Press G to select Arrow Tower (cost 50g).");
 		System.out.println("Press E to update a tower (cost 40g).");
 		System.out.println("Click on the grass to build it.");
 		System.out.println("Press S to start.");
-		System.out.println(path);
 	}
 
 	/**
 	 * Fonction qui recupere le positionnement de la souris et permet d'afficher une image de tour en temps reel
-	 * lorsque le joueur appuie sur une des touches permettant la construction d'une tour.
+	 * cela lorsque le joueur appuis sur une touche specifique :
+	 * 
+	 * 		- 'a' --> affiche une tour d archers et sa porte
+	 * 		- 'b' --> affiche une tour de bombes et sa porte
+	 * 		- 'g' --> affiche un gardien et sa porte
+	 * 
+	 * 		- affiche la porte d une tour si on passe notre souris dessus
 	 */
-	public void drawMouse() {
-		if(start){
-		 	pMouse.setX(Square.normalizedX(mouseX));
-			pMouse.setY(Square.normalizedY(mouseY));
-		}
-		
+	public static void drawMouse() {
 		switch (key) {
 		case 'a' :
-			// Si le joueur appuie sur a alors afficher tour d archers
-			if(canCreatTower(pMouse, 50 , false) && !end && !pause) {
+			if(canCreatTower(pMouse, 50, false) && !end && !pause) {
 				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 				StdDraw.setPenColor(StdDraw.BLACK);
-				// Affiche la portée de la tour 
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.2);
 			}
 			break;
 		case 'b' :
-			// Si le joueur appuie sur b alors afficher tour de bombres
-			if(canCreatTower(pMouse, 60 , false ) && !end && !pause){
+			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
 				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
 				StdDraw.setPenColor(StdDraw.BLACK);
-				// Affiche la portée de la tour 
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.15);
 			} 
 			break;
 		}
-		
-		// Affiche la portée d'une tour lorsque l'on passe dessus avec notre souris 
+
 		if(towers != null){
-			for(Tower t : towers){
+			for(Tower t : towers)
 				if(pMouse.equalsP(t.getP() )) StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), t.getRange());
-			}
 		}
-		
 	}
 
 					//******************************************************************//
@@ -207,187 +222,123 @@ public class World {
 					//	  ////     //		 //////	    //    //	  //	  //////	//
 					//******************************************************************//
 	/**
-	 * Met a� jour toutes les informations du plateau de jeu ainsi que les deplacements des monstres et les attaques des tours
+	 * Met a jour toutes les informations du plateau de jeu :
+	 * 
+	 * Si start est faux
+	 * 		- le menu
+	 * 
+	 * sinon
+	 * 		- le background
+	 * 		- les vagues
+	 * 		- la position de la souris
+	 * 		- time
+	 * 		- les infos
+	 * 		- les listes de monstres et tours
+	 * 
 	 * @return les points de vie restants du joueur
 	 */
-	public int update() {
-		if(!start) {
+	public static void update() {
+		if(!start)
 			drawMenu();
-		}
 		else {
-			mouseX = (float) StdDraw.mouseX();
-			mouseY = (float) StdDraw.mouseY();
 			drawBackground();
 			updateWaves(nbWaves);
 			if(!pause) {
+				mouseX = (float) StdDraw.mouseX();
+				mouseY = (float) StdDraw.mouseY();
+			 	pMouse.setX(Square.normalizedX(mouseX));
+				pMouse.setY(Square.normalizedY(mouseY));
 				time++;
 				drawInfos();
 				updateMonsters();
 				updateTowers();
 			}
 		}
-		updateEnd(false);
 		drawMouse();
-		return life;
+		updateEnd(false);
 	}
 	
 	/**
 	 * Met a jour les vagues de monstres
 	 */
-	public void updateWaves(int nbr) {
-		// Le joueur a choisi de jouer 1 vague ou plus (la premiere vague a toujours le meme chemin)
-		if(nbr >= 1) {
-			// Init du chemin de la vague
-			if(!initW && currentW == 1) {
-				path = Patern1.pathconstruct();
-				initW = true;
-			}
-			//Update la vague si c est la vague courrante
-			if(currentW == 1)
-				WaveL1.update();
-			// Fin de la partie si le joueur a choisi qu une seule vague
-			if(nbr == 1 && time >= 550 && monsters.size() == 0) {
-				updateEnd(true);
-				pause = true;
-			}
-			// Fin de la vague si le joueur a choisi plus que une vague
-			if(nbr > 1 && currentW == 1 && time >= 550 && monsters.size() == 0) {
-				StdDraw.picture(0.5, 0.5, "images/wave1.png", 1, 1);
-				pause = true;
-				coin =+ 25;
-			}
-			
-			//Le joueur a choisi de jouer 2 vagues ou plus
-			if(nbr >= 2) {
-				if(!initW && currentW == 2) {
-					randomPath();
-					initW = true;
-				}
-				if(currentW == 2)
-					WaveL2.update();
-				if(nbr == 2 && time >= 1040 && monsters.size() == 0) {
-					updateEnd(true);
-					pause = true;
-				}
-				if(nbr > 2 && currentW == 2 && time >= 1040 && monsters.size() == 0) {
-					StdDraw.picture(0.5, 0.5, "images/wave2.png", 1, 1);
-					pause = true;
-				}
-				
-				//Le joueur a choisi de jouer 3 vagues ou plus
-				if(nbr >= 3) {
-					if(!initW && currentW == 3) {
-						randomPath();
-						initW = true;
-					}
-					if(currentW == 3)
-						WaveL3.update();
-					if(nbr == 3 && time >= 2390 && monsters.size() == 0) {
-						updateEnd(true);
-						pause = true;
-					}
-					if(nbr > 3 && currentW == 3 && time >= 2390 && monsters.size() == 0) {
-						StdDraw.picture(0.5, 0.5, "images/wave3.png", 1, 1);
-						pause = true;
-						coin =+ 30;
-					}
-					
-					//Le joueur a choisi de jouer 4 vagues ou plus
-					if(nbr >= 4) {
-						if(!initW && currentW == 4) {
-							randomPath();
-							initW = true;
-						}
-						if(currentW == 4)
-							WaveL4.update();
-						if(nbr == 4 && time >= 3740 && monsters.size() == 0) {
-							updateEnd(true);
-							pause = true;
-						}
-						if(nbr > 4 && currentW == 4 && time >= 3740 && monsters.size() == 0) {
-							StdDraw.picture(0.5, 0.5, "images/wave3.png", 1, 1);
-							pause = true;
-						}
-						
-						
-					}
-				}
-				
-			}
-				
+	public static void updateWaves(int nbr) {
+		Wave.initWave();
+		switch(currentW){
+		case 1:
+			WaveL1.update();
+			break;
+		case 2:
+			WaveL2.update();
+			break;
+		case 3:
+			WaveL3.update();
+			break;
+		case 4:
+			WaveL4.update();
+			break;
+		case 5:
+			WaveL5.update();
+			break;
+		case 6:
+			WaveL6.update();
+			break;
+		case 7:
+			//WaveL7.update();
+			break;
+		case 8:
+			WaveL8.update();
+			break;
 		}
+		Wave.gameEnd();
+		Wave.nextWave();
 	}
 	
 	/**
-	 * Supprimer les tours et réinitialise les valeurs 
+	 * Update chaque Monstre en fonction de ses attribut et de sa position
+	 * 
+	 * NOTE :
+	 * Ici nous utilisons une boucle for qui parcours la liste de monstre a l'envers, cela nous permet d'eviter
+	 * un crash du programme lors de la suppression d un monstre au debut de la liste
+	 * 
+	 * 		- update du monstre
+	 * 
+	 * 		- Si le monstre meurt
+	 * 			--> Le joueur gagne des coins
+	 * 			--> Supprime le monstre
+	 * 
+	 * 		- Si le monstre est arrive au chateau
+	 * 			--> Enleve 1 point de vie au joueur
+	 * 			--> Supprime le monstre
+	 * 
+	 * 		- Modifie la position du monstre en fonction de son parametre nextP et la liste Path
 	 */
-	public static void clear (){
-		// Supprime toute les tours 
-		towers.clear();
-
-		// Réinitialiser avce les valeurs par défault 
-		life = 20 ;
-		coin = 145 ;
-	}
-
-	/**
-	 * Initialise la liste du chemin au hasard qui sera utilise durant la vague en cours
-	 */
-	public static void randomPath() {
-		int r = (int)(Math.random() * 5);
-		if(r == 1)
-			path = Patern2.pathconstruct();
-		if(r == 2)
-			path = Patern3.pathconstruct();
-		if(r == 3)
-			path = Patern4.pathconstruct();
-		if(r == 4)
-			path = Patern5.pathconstruct();
-		if(r == 5)
-			path = Patern6.pathconstruct();
-	}
-	
-	/**
-	 * Pour chaque monstre de la liste de monstres de la vague, utilise la fonction update() qui appelle les fonctions run() et draw() de Monster
-	 * 		- Si la vie du monstre est inferieur ou egale a 0 fait gagner des coin au joueur et supprime le monstre
-	 * 		- Enleve 1 point de vie au joueur quand un monstre arrive au chateau
-	 * 		- Modifie la position du monstre grace au parametre nextP et en utilisant la liste du chemin
-	 */
-	public void updateMonsters() {
-		// Le sens de lecture de la liste est de la fin ver le debut (pour evité les bugs lié au index lors de la suppresion d'un mosntre).
+	public static void updateMonsters() {
 		for(int i = monsters.size() - 1 ; i >=0 ; i--){
 			monsters.get(i).update();
 			
-			// Si la vie est inferieur ou egale a 0 
 			if(monsters.get(i).getLife() <= 0 ){
 				coin += monsters.get(i).getDropCoin();
-				// Affiche une piece a la mort d'un monstre 
-				StdDraw.picture(monsters.get(i).getP().getX(), monsters.get(i).getP().getY() + 0.01, "images/Animation/CoinAnimation/0.png", (1.0/24.0) , (1.0/15.0) );
-				// Supprime le monstre 
 				monsters.remove(monsters.get(i));
 			}
-			// Si la position du monstre est egale a celle du chateau (i < monsters.size() empeche de faire monsters.get(i) d'un monstre qui veint d'etre supp )
+			
 			if(i < monsters.size() && Square.normalizedX(monsters.get(i).getP().getX()) == Square.normalizedX(chateau.getX())) {
+				monsters.remove(monsters.get(i));
 				life--;
-				monsters.remove(monsters.indexOf(monsters.get(i)));
 			}
-			// Si la position suivante existe et qu il a deja ateint sa nextP
-			if(i < monsters.size() && path.indexOf(monsters.get(i).getNextP()) < path.size()-1 && Square.pEqualNextP(monsters.get(i))){
+
+			if(i < monsters.size() && path.indexOf(monsters.get(i).getNextP()) < path.size()-1 && Square.pEqualNextP(monsters.get(i)))
 				monsters.get(i).setNextP(path.get(path.indexOf(monsters.get(i).getNextP())+1));
-			}
 		}
 	}
 	
 	/**
-	 * Met a jour les tours 
+	 * Met a jour les tours
+	 * en utilisant un forEach pour parcourir la liste de tours
 	 */
-	public void updateTowers(){
-		if(!initT) {
-			setTowers(new ArrayList<Tower>());
-    		initT = true;
-		}
-		for(int i = 0 ; i < towers.size() ; i++)
-			towers.get(i).update();
+	public static void updateTowers(){
+		towers.forEach(t ->{
+			t.update();
+		});
 	}
 	
 	/**
@@ -397,20 +348,21 @@ public class World {
 	 * @param drawInfos - si tel est le cas modifier l affichage des coin
 	 * @return
 	 */
-	public boolean canCreatTower(Position p , int cost , boolean drawInfos){
+	public static boolean canCreatTower(Position p , int cost , boolean drawInfos){
 		for (int i = 0 ; i < path.size(); i++){
 			if(p.equalsP(path.get(i))){
-				//Permet d'afficher le probleme si souhaiter 
 				if(drawInfos) System.out.println("Position impossible ! Vous etes sur le chemin.");
 				return false;
 			}
 		}
+		
 		for(int i = 0 ; i < towers.size() ; i++){
 			if(p.equalsP(towers.get(i).getP()) ) {
 				if(drawInfos) System.out.println("Position impossible ! Une tour est deja présente");
 				return false ;
 			}
 		}
+		
 		if(coin < cost) {
 			System.out.println("Il vous faut plus d'argent ! ");
 			return false ;
@@ -426,20 +378,12 @@ public class World {
 		if(life <= 0) {
 			StdDraw.picture(0.5, 0.5, "images/perdue.png", 1, 1);
 			lose = true;
-
-			// Suprime les tours et réinitialise les valeurs 
-			clear();
-
 			endWave = false ;
 		}
 		
 		if(endWave) {
 			StdDraw.picture(0.5, 0.5, "images/gagne.png", 1, 1);
 			win = true;
-
-			// Suprime les tours et réinitialise les valeurs 
-			clear();
-
 			endWave = false ;
 		}
 	}
@@ -452,12 +396,20 @@ public class World {
 					//	//    //     /////		//		//	   /////	 //	    //	//
 					//**************************************************************//
 	/**
-	 * Recupere la touche appuyee par l utilisateur et affiche les informations pour la touche selectionnee
+	 * Recupere la touche appuyee par l utilisateur effectue l action associe puis affiche les informations pour la touche selectionnee
+	 * 
+	 * 		- 'a' --> tour d archers
+	 * 		- 'b' --> tour de bombes
+	 * 		- 'g' --> gardien
+	 * 		- 'e' --> evoluer une tour
+	 * 		- 's' --> start game
+	 * 		- 'q' --> quit game
+	 * 
 	 * @param key la touche utilisee par le joueur
 	 */
-	public void keyPress(char k) {
-		k = Character.toLowerCase(k);
-		key = k;
+	public static void keyPress(char k) {
+		key = Character.toLowerCase(k);
+		
 		switch (key) {
 		case 'a':
 			System.out.println("Arrow Tower selected (50c).");
@@ -471,23 +423,28 @@ public class World {
 		case 's':
 			System.out.println("Starting game!");
 			start = true;
+			break;
 		case 'q':
 			System.out.println("Exiting.");
+			start = false;
+			clear();
+			break;
 		}
 	}
 
 	/**
-	 * Verifie lorsque l'utilisateur clique sur sa souris qu'il peut:
+	 * Verifie lorsque l'utilisateur clique sur sa souris si il peut:
 	 * @param x
 	 * @param y
 	 */
-	public void mouseClick(float x, float y) {
+	public static void mouseClick(float x, float y) {
 		/**
-		 * 	- Ajouter une tour a� la position indiquee par la souris.
+		 * 	- Ajouter une tour a la position indiquee par la souris.
 		 * 	- Ameliorer une tour existante.
-		 * 	- Puis l'ajouter à la liste des tours
+		 * 	- Puis l ajouter a� la liste des tours
 		 */
 		Position pTower = new Position(Square.normalizedX(x), Square.normalizedY(y));
+		
 		if(!pause) {
 			switch (key) {
 			case 'a':
@@ -518,7 +475,7 @@ public class World {
 						else System.out.println("Vous n'avez pas assez d'argent !");
 					}
 				}
-				System.out.println("Ici il est possible de faire évolué une des tours");
+				System.out.println("Ici il est possible de faire evolue une des tours");
 				break;
 			}
 		}
@@ -578,10 +535,11 @@ public class World {
 					|| Square.compareNormalized(x, square.get(231).getX(), y, square.get(231).getY())) {
 				pause = false;
 				currentW++;
-				initW = false;
+				Wave.setInitW(false);
 				if(win || lose) {
 					end = true;
 					start = false;
+					clear();
 				}
 			}
 		}
@@ -601,6 +559,7 @@ public class World {
 			if (StdDraw.hasNextKeyTyped()) {
 				keyPress(StdDraw.nextKeyTyped());
 			}
+			
 			// Cliques souris
 			if (StdDraw.isMousePressed()) {
 				mouseClick((float)StdDraw.mouseX(),(float)StdDraw.mouseY());
@@ -612,5 +571,25 @@ public class World {
 		}
 	}
 
+	/**
+	 * reinitialise les valeurs par default
+	 */
+	public static void clear (){
+		currentW = 1;
+		monsters.clear();
+		towers.clear();
+		path.clear();
+		life = 20;
+		coin = 145;
+		key = 0;
+		start = false;
+		end = false;
+		if(win)
+			win = false;
+		if(lose)
+			lose = false;
+		time = 0;
+		StdDraw.clear();
+	}
 
 }

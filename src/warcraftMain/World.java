@@ -504,6 +504,13 @@ public class World {
 					coin -= 55;
 				}
 				break;
+			case 't':
+				System.out.println("Ici il faut ajouter un gardien");
+				if(canCreatTower(pTower,80 , true )) {
+					towers.add(new GuardianTower(pTower));
+					coin -= 80;
+				}
+				break;
 			case 'e':
 				for(int i = 0 ; i < towers.size() ; i++){
 					if(towers.get(i).getP().equalsP(pTower)){

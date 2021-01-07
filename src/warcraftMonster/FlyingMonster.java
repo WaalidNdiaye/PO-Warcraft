@@ -11,7 +11,6 @@ public class FlyingMonster extends Monster {
 	
 	// Affichage du monstre 
 	public void draw() {
-		StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimation/" + time%9 +  ".png", size * 2, size * 2.5);
+		StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimation/" + time % 9 +  ".png", size * 2, size * 2.5);
 	}
-
 }

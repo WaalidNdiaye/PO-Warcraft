@@ -94,7 +94,7 @@ public class ArcheryTower extends Tower {
 		for (int i = 0; i < arrow.size(); i++) if (arrow.get(i).getTarget().getLife() <= 0) arrow.remove(arrow.get(i));
 
 		// Suprime le prjectile s'il a dépassé la potée de la tour
-		for (int i = 0; i < arrow.size(); i++) if(!inRange(arrow.get(i))) arrow.remove(arrow.get(i));
+		for (int i = 0; i < arrow.size(); i++) if(!projectileInRange(arrow.get(i))) arrow.remove(arrow.get(i));
 
 		// Suprime le projectile si il a touché un monstre 
 		for(int i = 0 ; i < arrow.size() ; i++ ) if(arrow.get(i).getHit()) arrow.remove(arrow.get(i));
@@ -114,10 +114,7 @@ public class ArcheryTower extends Tower {
 		Monster closest = null;
 		for(int i = 0 ; i < World.getMonsters().size() ; i++){
 
-			float AB = World.getMonsters().get(i).getP().getX() - getP().getX();
-			float BC = World.getMonsters().get(i).getP().getY()  - getP().getY();
-			// Mesure la distance entre la tour et le monstre (AC2 = AB2 + BC2)
-			float distance = (float) (Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2)));
+			float distance = monsterInRange(World.getMonsters().get(i));
 			if(distanceMin > distance) {
 				distanceMin = distance; 
 				closest = World.getMonsters().get(i);
@@ -131,7 +128,7 @@ public class ArcheryTower extends Tower {
 	}
 
 	/*
-	 * Charge un tir et tire lorsque (time - lastShoot) == 18 
+	 * Charge un tir et tir lorsque (time - lastShoot) == 18 
 	 */
 	public void loadingShoot(Monster monster){
 		target = monster ;
@@ -154,7 +151,7 @@ public class ArcheryTower extends Tower {
 	 * Calcul si le projectile est a porté 
 	 * @return true si le projectile est a porté sinon false 
 	 */
-	public boolean inRange(Arrow arroxCurrent) {
+	public boolean projectileInRange(Arrow arroxCurrent) {
 
 		float distance = 0;																	// Distance entre la tour et le projetile
 
@@ -190,6 +187,49 @@ public class ArcheryTower extends Tower {
 
 		if(distance >= range) return false ;
 		else return true;
+
+	}
+
+
+	/**
+	 * Calcul la distance entre la tour et un monstre 
+	 * @return true si le projectile est a porté sinon false 
+	 */
+	public float monsterInRange(Monster m) {
+
+		float distance = 1;																	// Distance entre la tour et monstre
+
+		if (m.getP().getX() > p.getX()) {
+			// Lorsque le monstre est en haut a droite de la tour
+			if (m.getP().getY() > p.getY()) {
+				float AB = Math.abs(m.getP().getX() - p.getX());							// AB
+				float BC = Math.abs(m.getP().getY() - p.getY());							// BC
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));			// AC2 = AB2 + BC2
+
+			}
+			// Lorsque le monstre est en bas a droite de la tour
+			else {
+				float AB = Math.abs(m.getP().getX() - p.getX());
+				float BC = Math.abs(p.getY() - m.getP().getY());
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
+			}
+		} 
+		else {
+			// Lorsque le monstre est en haut a gauche de la tour
+			if (m.getP().getY() > p.getY()) {
+				float AB = Math.abs(p.getX() - m.getP().getX());
+				float BC = Math.abs(m.getP().getY() - p.getY());
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
+			} 
+			// Lorsque le monstre est en bas a gauche de la tour
+			else {
+				float AB = Math.abs(p.getX() - m.getP().getX());
+				float BC = Math.abs(p.getY() - m.getP().getY());
+				distance = (float) Math.sqrt(Math.pow(AB, 2) + Math.pow(BC, 2));
+			}
+		}
+
+		return distance ;
 
 	}
 }

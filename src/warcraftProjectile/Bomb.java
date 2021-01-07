@@ -84,10 +84,41 @@ public class Bomb extends Projectile{
 	 * Verifie sur le monstre est a portée de l'explostion
 	 */
 	public boolean explosiveRange(Monster m){
-		float AB = m.getP().getX() - getP().getX();
-		float BC = m.getP().getY() - getP().getY();
-		// Mesure la distance entre la cible et le monstre m (AC2 = AB2 + BC2)
-		float distance = (float) (Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2)));
+
+		// Distance le projectile et le monstre m 
+		float distance = (float) 1.0 ; 
+
+		if(m.getP().getX() > p.getX()){
+			// Losque le monstre est en haut a droite de la tour  
+			if(m.getP().getY() > p.getY()) {
+				float AB = Math.abs(m.getP().getX() - p.getX());								
+				float BC = Math.abs(m.getP().getY() - p.getY());
+
+				// Distance le projectile et le monstre m  (AC2 = AB2 + BC2)
+				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+			}	
+			// Losque le monstre est en bas a droite de la tour 
+			else {
+				float AB = Math.abs(m.getP().getX() - p.getX());
+				float BC = Math.abs( p.getY() - m.getP().getY());
+				distance = (float)Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+			}
+		}
+		else {
+			// Losque le monstre est en haut a gauche de la tour 
+			if(m.getP().getY() > p.getY()) {
+				float AB = Math.abs(p.getX() - m.getP().getX());
+				float BC = Math.abs(m.getP().getY() - p.getY());
+				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+			}
+			else{
+				// Losque le monstre est en bas a gauche de la tour 
+				float AB = Math.abs(p.getX() - m.getP().getX());
+				float BC = Math.abs( p.getY() - m.getP().getY());
+				distance = (float) Math.sqrt ( Math.pow(AB, 2) + Math.pow(BC, 2) );
+				
+			}
+		}
 
 		// Si la distance est inferieur ou egale a la portée de l'explosion alors true, sinon false 
 		if(distance <= explosiveRange) return true ;

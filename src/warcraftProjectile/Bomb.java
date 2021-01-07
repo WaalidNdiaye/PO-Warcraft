@@ -15,7 +15,7 @@ public class Bomb extends Projectile{
 	 * CONSTRUCTEUR 
 	 */
 	public Bomb (Position p, Monster target) {
-		super(60, (float)0.0035, false, p, target, (float)0.008);
+		super(65, (float)0.0035, false, p, target, (float)0.008);
 	}
 	
 	/*
@@ -62,7 +62,6 @@ public class Bomb extends Projectile{
 
 			// Verifie si le projectile a toucher sa cible 
 			if(hitbox.hit(target.getHitbox())){
-				target.hit(damage);
 				explosivePosition = new Position(target.getP());
 
 				// Parcours tout la liste de monstre pour trouver ceux a portée et leur infliger des degats 

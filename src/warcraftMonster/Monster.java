@@ -2,6 +2,7 @@ package warcraftMonster;
 
 import warcraftMain.Position;
 import warcraftHitbox.MonsterHitbox;
+import warcraftMain.StdDraw;
 
 public abstract class Monster {
 
@@ -14,6 +15,8 @@ public abstract class Monster {
 	protected int checkpoint = 0;		// Compteur de déplacement pour savoir si le monstre à atteint le chateau du joueur
 	protected boolean flying ;			// Monstre volant
 	protected int life;					// Point de vie du monstre 
+	protected int lifeMax;				// Point de vie max du monstre 
+	protected float lifeRatio = 1;			// Ratio entre life et lifeMax
 	protected int dropCoin;				// Argent gagné lors de la mort du monstre 
 	protected MonsterHitbox hitbox;		// Hitbox
 	protected float size;				// Taille de la Hitbox
@@ -91,6 +94,7 @@ public abstract class Monster {
 		this.nextP = new Position(p);
 		this.hitbox = new MonsterHitbox(p, size);
 		this.life = life ;
+		this.lifeMax = life ;
 		this.dropCoin = dropCoin;
 		this.flying = flying ;
 	}
@@ -113,20 +117,48 @@ public abstract class Monster {
 		}
 	}
 
+	/**
+	 * Met a jour le monstre 
+	 */
 	public void update() {
 		time++;
 		move();
 		draw();
+		drawLife();
 		checkpoint++;
 	}
+
 	public void hit(int damage){
 		life -= damage;
+		lifeRatio = (float) life/lifeMax;
 	}
 	
 	/**
 	 * Fonction abstraite qui sera instanciée dans les classes filles pour afficher le monstre sur le plateau de jeu.
 	 */
 	public abstract void draw();
+
+	/**
+	 * Fonction afficher la vie du monstre
+	 */
+	public void drawLife(){
+		float born = (float) 1/15 ;
+		
+		if(lifeRatio < born)  StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/00.png", 0.02 , 0.02);
+		for(int i = 2 ; i < 14 ; i++){
+			float bornInf = (float)((i - 1)*born );
+			float bornSupp = (float)(i*born);
+			if(i < 10) {
+				if(lifeRatio > bornInf && lifeRatio <= bornSupp) StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/0" + i + ".png", 0.02 , 0.02);
+			}
+			else {
+				if(lifeRatio > bornInf && lifeRatio <= bornSupp)  StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/" + i + ".png", 0.02 , 0.02);
+			}
+		}
+		if(lifeRatio > 14*born)  StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/15.png", 0.02 , 0.02);
+		
+	}
+
 
 	
 }

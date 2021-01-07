@@ -159,6 +159,14 @@ public class World {
 	public static void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.95, String.valueOf(life + " HP"));
+
+		// Affichage de l'animation de coeur a coter 
+		if(life == 20) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/00.png" , 0.035, 0.06);
+		if(life < 20 && life > 15) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/01.png" , 0.035, 0.06);
+		if(life <= 15 && life > 11) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/02.png" , 0.035, 0.06);
+		if(life <= 11 && life > 8) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/03.png" , 0.035, 0.06);
+		if(life <= 8 && life > 4) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/04.png" , 0.035, 0.06);
+		if(life <= 4) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/05.png" , 0.035, 0.06);
 	}
 	
 	public static void drawCoin() {
@@ -480,8 +488,14 @@ public class World {
 			case 'g':
 				System.out.println("Ici il faut ajouter un gardien");
 				if(canCreatTower(pTower,80 , true )) {
-					towers.add(new GuardianTower(pTower));
-					coin -= 80;
+					// Limitation des gardiens a 2 
+					int nbrGuardian = 0;
+					for(Tower t : towers) if(t.getClass().getName() == "warcraftTower.GuardianTower") nbrGuardian++ ;
+					if(nbrGuardian < 2){
+						towers.add(new GuardianTower(pTower));
+						coin -= 80;
+					}
+					else System.out.println("Il est possible de poser que 2 gardien !");
 				}
 				break;
 			case 'e':

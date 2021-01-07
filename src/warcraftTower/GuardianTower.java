@@ -10,12 +10,13 @@ public class GuardianTower extends Tower {
 	private int damage = 90 ;														// Degat de l'attaque du gardien
 	private float rangeDamageZone = (float) 0.07;  									// Portée de l'attaque de zone du gardien 
 	private float rangeCantShoot = (float) 0.1 ;									// Porté de la zone morte dans laquelle le gardien ne peu pas attaquer 
+	private Position pZoneAttack ;
 
 	/*
 	 * CONSTRUCTEUR 
 	 */
 	public GuardianTower (Position p) {
-		super( 80, (float)0.35, 50, false, p);
+		super( 100, (float)0.35, 50, false, p);
 		System.out.println("\n--- Nouveau gardien creer!---");
 	}
 	
@@ -42,17 +43,24 @@ public class GuardianTower extends Tower {
 				else{
 					if((time - lastShot) == i && (i < 10) && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.03, "images/Tower/GuardianAttackLeftSide/0" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
 					if((time - lastShot) == i && (i > 9)  && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.03, "images/Tower/GuardianAttackLeftSide/" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
-	
 				}
 				
 			}
 		}
-		
 	}
 
-	public void upgrade(){
-
+	/*
+	 * Fonction d'affichage de l'attaque a distance du gardien 
+	 */
+	public void drawAttack() {
+		if(time - lastShot > 21  && time - lastShot < 64 && lastShot != -1){
+			if((time - lastShot - 20) % 44  < 10 ) StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY() , "images/Tower/GuardianAttackAnimation/0" + (time - lastShot  - 20) % 44 + ".png", (1.0/24.0) * 2 , (1.0/15.0) * 2 );
+			else StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY(), "images/Tower/GuardianAttackAnimation/" + (time - lastShot  - 20)% 44 + ".png", (1.0/24.0) * 2, (1.0/15.0) * 2);
+		} 
 	}
+
+
+	public void upgrade(){}
 
 	/*
 	 * Mise a jour de la tour 
@@ -60,6 +68,7 @@ public class GuardianTower extends Tower {
 	public void update(){
 		time++;
 		draw();
+		drawAttack();
 		shot();
 		target = activate();
 		if(canShot())  {
@@ -68,8 +77,8 @@ public class GuardianTower extends Tower {
 	}
 
 	// Peut tirer
-	public boolean canShot(){
-		if(target != null  && lastShot == -1) return true ;
+	public boolean canShot() {
+		if( target != null  && lastShot == -1) return true ;
 		else if(target != null && time - lastShot > cooldown ) return true ;
 		else return false ;
 	}
@@ -105,6 +114,7 @@ public class GuardianTower extends Tower {
 	 */
 	public void shot (){
 		if(time - lastShot == 20 && target != null){
+			pZoneAttack = new Position(target.getP());
 			target.hit(this.damage);
 			for(Monster m : World.getMonsters()){
 				if(rangeDamageZone(m)) m.hit(damage);

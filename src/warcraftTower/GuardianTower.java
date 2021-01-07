@@ -8,7 +8,7 @@ import warcraftMain.Position;
 public class GuardianTower extends Tower {
 
 	private int damage = 60 ;														// Degat de l'attaque du gardien
-	private float rangeDamageZone = (float) 0.07;  									// Portée de l'attaque de zone du gardien 
+	private float rangeDamageZone = (float) 0.04;  									// Portée de l'attaque de zone du gardien 
 	private float rangeCantShoot = (float) 0.1 ;									// Porté de la zone morte dans laquelle le gardien ne peu pas attaquer 
 	private Position pZoneAttack ;
 
@@ -133,14 +133,13 @@ public class GuardianTower extends Tower {
 	 */
 	public void damageZone (){
 		if(time - lastShot > 20 && time - lastShot < 64 && lastShot != -1){
-			System.out.println("va infliger des degats de zones ");
+
 			// Inflige des degats de zones a chaque sortie de pic du sol (donc trois fois)
 			if(time - lastShot == 22){
 				for(Monster m : World.getMonsters()){
+
 					// Parcours la liste de monstre et inflige des degats au monstre a portée 
-					System.out.println(pZoneAttack.dist(m.getP()));
-					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone) {
-						System.out.println("Un monstre touche!");
+					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone  && !m.isFlying()) {
 						m.hit(damage);
 					}
 				}

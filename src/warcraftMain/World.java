@@ -106,6 +106,9 @@ public class World {
 	public static int getTime(){
 		return time;
 	}
+	public static List<Position> getPath(){
+		return path ;
+	}
 	
 	/**
 	 * Initialisation du plateau de jeu

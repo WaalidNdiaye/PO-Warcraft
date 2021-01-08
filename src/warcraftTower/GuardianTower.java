@@ -7,7 +7,7 @@ import warcraftMain.Position;
 
 public class GuardianTower extends Tower {
 
-	private int damage =  45;														// Degat de l'attaque du gardien
+	private int damage =  35;														// Degat de l'attaque du gardien
 	private float rangeDamageZone = (float) 0.04;  									// Portée de l'attaque de zone du gardien 
 	private float rangeCantShoot = (float) 0.1 ;									// Porté de la zone morte dans laquelle le gardien ne peu pas attaquer 
 	private Position pZoneAttack ;
@@ -124,7 +124,7 @@ public class GuardianTower extends Tower {
 	 */
 	public void shot (){
 		if(time - lastShot == 21 && target != null && lastShot != -1){
-			pZoneAttack = new Position((float)(target.getP().getX() + 0.02) , target.getP().getY());
+			pZoneAttack = new Position((float)(target.getP().getX() + 0.01) , target.getP().getY());
 		}
 	}
 
@@ -134,7 +134,7 @@ public class GuardianTower extends Tower {
 	public void damageZone (){
 		if(time - lastShot > 20 && time - lastShot < 64 && lastShot != -1){
 
-			// Inflige des degats de zones a chaque sortie de pic du sol (donc trois fois)
+			// Inflige des degats de zones (attaque en 3 phase : a chaque sortie d'un pic du sol cela inflige des degats)
 			if(time - lastShot == 22){
 				for(Monster m : World.getMonsters()){
 
@@ -149,9 +149,11 @@ public class GuardianTower extends Tower {
 					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone && !m.isFlying()) m.hit(damage);
 				}
 			}
+
+			// Lors de la dernière phase le pic etant le plus haut inflige plus de dégat et il peut toucher les monstres volants
 			if(time - lastShot == 40){
 				for(Monster m : World.getMonsters()){
-					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone ) m.hit(damage);
+					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone ) m.hit(damage + 20 );
 				}
 			}
 		}

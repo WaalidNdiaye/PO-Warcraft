@@ -12,7 +12,7 @@ public class WaveL1{
     public static void buildWave(){
         if(World.getTime() == 100){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
+            World.getMonsters().add(new WolfBoss(p));
         }
         if(World.getTime() == 150){
             Position p = new Position(World.getSpawn());

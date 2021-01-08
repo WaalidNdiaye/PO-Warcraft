@@ -27,8 +27,8 @@ public class GuardianTower extends Tower {
 		
 		// Affiche Gardien
 		if((time - lastShot) > 20 || (time - lastShot) < 0) {
-			if(time%15 < 10) StdDraw.picture(getP().getX() , getP().getY() + 0.02, "images/Tower/GuardianTowerAnimation/0" + time%15 + ".png", (1.0/24.0) * 1.6  , (1.0/15.0) * 1.6  );
-			else StdDraw.picture(getP().getX() , getP().getY() + 0.02 , "images/Tower/GuardianTowerAnimation/" + time%15 + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
+			if(time%31 < 10) StdDraw.picture(getP().getX() , getP().getY() + 0.01, "images/Tower/GuardianTower/GuardianWait/0" + time%31 + ".png", (1.0/24.0) * 1.7  , (1.0/15.0) * 1.7  );
+			else StdDraw.picture(getP().getX() , getP().getY() + 0.01 , "images/Tower/GuardianTower/GuardianWait/" + time%31 + ".png", (1.0/24.0) * 1.7 , (1.0/15.0) * 1.7 );
 		}
 
 
@@ -37,12 +37,12 @@ public class GuardianTower extends Tower {
 			for(int i = 0 ; i < 21 ; i++) {
 				// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
 				if( (target.getP().getX() - p.getX()) >= 0 ){
-					if((time - lastShot) == i && (i < 10) && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackRightSide/0" + i + ".png", (1.0/24.0) * 1.6, (1.0/15.0) * 1.6 );
-					if((time - lastShot) == i && (i > 9)  && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackRightSide/" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
+					if((time - lastShot) == i && (i < 10) && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.02, "images/Tower/GuardianTower/GuardianAttackRightSide/0" + i + ".png", (1.0/24.0) * 1.7, (1.0/15.0) * 1.7 );
+					if((time - lastShot) == i && (i > 9)  && (time > 20)) StdDraw.picture(getP().getX() + 0.01, getP().getY() + 0.02, "images/Tower/GuardianTower/GuardianAttackRightSide/" + i + ".png", (1.0/24.0) * 1.7 , (1.0/15.0) * 1.7 );
 				}
 				else{
-					if((time - lastShot) == i && (i < 10) && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackLeftSide/0" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
-					if((time - lastShot) == i && (i > 9)  && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.02, "images/Tower/GuardianAttackLeftSide/" + i + ".png", (1.0/24.0) * 1.6 , (1.0/15.0) * 1.6 );
+					if((time - lastShot) == i && (i < 10) && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.02, "images/Tower/GuardianTower/GuardianAttackLeftSide/0" + i + ".png", (1.0/24.0) * 1.7 , (1.0/15.0) * 1.7 );
+					if((time - lastShot) == i && (i > 9)  && time > 20) StdDraw.picture(getP().getX() - 0.01, getP().getY() + 0.02, "images/Tower/GuardianTower/GuardianAttackLeftSide/" + i + ".png", (1.0/24.0) * 1.7 , (1.0/15.0) * 1.7 );
 				}
 				
 			}
@@ -54,8 +54,8 @@ public class GuardianTower extends Tower {
 	 */
 	public void drawAttack() {
 		if(time - lastShot > 21  && time - lastShot < 64 && lastShot != -1){
-			if((time - lastShot - 20) % 44  < 10 ) StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY() , "images/Tower/GuardianAttackAnimation/0" + (time - lastShot  - 20) % 44 + ".png", (1.0/24.0) * 2 , (1.0/15.0) * 2 );
-			else StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY(), "images/Tower/GuardianAttackAnimation/" + (time - lastShot  - 20)% 44 + ".png", (1.0/24.0) * 2, (1.0/15.0) * 2);
+			if((time - lastShot - 20) % 44  < 10 ) StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY() , "images/Tower/GuardianTower/GuardianAttackAnimation/0" + (time - lastShot  - 20) % 44 + ".png", (1.0/24.0) * 2 , (1.0/15.0) * 2 );
+			else StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY(), "images/Tower/GuardianTower/GuardianAttackAnimation/" + (time - lastShot  - 20)% 44 + ".png", (1.0/24.0) * 2, (1.0/15.0) * 2);
 		} 
 	}
 

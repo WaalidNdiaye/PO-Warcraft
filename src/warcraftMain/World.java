@@ -39,7 +39,7 @@ public class World {
 
 	// Informations de l inventaire du joueur
 	private static int life = 20;											// Nombre de points de vie du joueur
-	private static int coin = 145;											// Argent (pour acheter les tours)
+	private static int coin = 120;											// Argent (pour acheter les tours)
 	
 	// Actions du joueur
 	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
@@ -159,6 +159,9 @@ public class World {
 		drawCoin();
 	}
 
+	/**
+	 * Affiche la vie du joueur et une animation de vie 
+	 */
 	public static void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.95, String.valueOf(life + " HP"));
@@ -172,6 +175,9 @@ public class World {
 		if(life <= 4) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/05.png" , 0.035, 0.06);
 	}
 	
+	/**
+	 * Affiche le nombre de coins du joueur et une animation de coin 
+	 */
 	public static void drawCoin() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.95, 0.90 , String.valueOf(coin + " coins "));
@@ -219,8 +225,8 @@ public class World {
 			break;
 		case 'g' :
 			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
-				if((time % 15) < 10)  StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.02, "images/Tower/GuardianTowerAnimation/0"+ time % 15 + ".png", (1.0/24.0)* 1.6  , (1.0/15.0) * 1.6  );
-				else StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.02 , "images/Tower/GuardianTowerAnimation/"+ time % 15 + ".png", (1.0/24.0) * 1.6  , (1.0/15.0)* 1.6  );
+				if((time % 31) < 10)  StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01, "images/Tower/GuardianTower/GuardianWait/0"+ time % 31 + ".png", (1.0/24.0)* 1.7  , (1.0/15.0) * 1.7  );
+				else StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01 , "images/Tower/GuardianTower/GuardianWait/"+ time % 31 + ".png", (1.0/24.0) * 1.7  , (1.0/15.0)* 1.7  );
 				StdDraw.setPenColor(StdDraw.BLACK);
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.3);
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.1);

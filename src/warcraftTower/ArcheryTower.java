@@ -37,18 +37,21 @@ public class ArcheryTower extends Tower {
 		else if(level == 2) 	StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/Archery Tower Level 2.png", (1.0/24.0) , (1.0/15.0) );
 		
 		// Affiche Archer 
-		if((time - lastShot) > 18 || (time - lastShot) < 0) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationL/00.png", (1.0/24.0) , (1.0/15.0) );
+		if((time - lastShot) > 18 || (time - lastShot) < 0){
+			if(time % 25 < 10) StdDraw.picture(getP().getX(), getP().getY() + 0.05, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
+			else StdDraw.picture(getP().getX(), getP().getY() + 0.05, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
+		} 
 		// Affiche une animation d'archer qui tir 
 		if(target != null){
-			for(int i = 0 ; i < 19 ; i++) {
+			for(int i = 0 ; i < 23 ; i++) {
 				// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
 				if( (target.getP().getX() - p.getX()) >= 0 ){
-					if((time - lastShot) == i && (i < 10) && (time > 18)) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationR/0" + i + ".png", (1.0/24.0) , (1.0/15.0) );
-					if((time - lastShot) == i && (i > 9)  && (time > 18)) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationR/" + i + ".png", (1.0/24.0) , (1.0/15.0) );
+					if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX(), getP().getY() + 0.05, "images/Tower/ArcheryTower/ArcherShotRightSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
+					if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX(), getP().getY() + 0.05, "images/Tower/ArcheryTower/ArcherShotRightSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) );
 				}
 				else{
-					if((time - lastShot) == i && (i < 10) && time > 18) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationL/0" + i + ".png", (1.0/24.0) , (1.0/15.0) );
-					if((time - lastShot) == i && (i > 9)  && time > 18) StdDraw.picture(getP().getX(), getP().getY() + 0.03, "images/Tower/ArcheryTowerAnimationL/" + i + ".png", (1.0/24.0) , (1.0/15.0) );
+					if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX(), getP().getY() + 0.05, "images/Tower/ArcheryTower/ArcherShotLeftSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5 );
+					if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX(), getP().getY() + 0.05, "images/Tower/ArcheryTower/ArcherShotLeftSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
 	
 				}
 				
@@ -79,7 +82,7 @@ public class ArcheryTower extends Tower {
 		if(time - lastShot > cooldown ) canShot = true ;
 		else canShot = false ;
 
-		// Si le tir est charger alors shoot (time = 18)
+		// Si le tir est charger alors shoot 
 		shot(); 
 		draw();
 
@@ -139,8 +142,8 @@ public class ArcheryTower extends Tower {
 	 * Tir un projectile lorsque le projectil est charger 
 	 */
 	public void shot (){
-		if(target != null && (time - lastShot) == 11 && lastShot != -1){
-			Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.03));
+		if(target != null && (time - lastShot) == 19 && lastShot != -1){
+			Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.04));
 			arrow.add(new Arrow(pProjectile, target));
 		}
 

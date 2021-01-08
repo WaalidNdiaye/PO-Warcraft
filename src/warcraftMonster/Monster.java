@@ -142,10 +142,12 @@ public abstract class Monster {
 	 * Fonction afficher la vie du monstre
 	 */
 	public void drawLife(){
+		// Seuils (15 seuils en tout)
 		float born = (float) 1/15 ;
 		
+		// Permet d'afficher les bonnes images en fonction de lifeRatio
 		if(lifeRatio < born)  StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/00.png", 0.02 , 0.02);
-		for(int i = 2 ; i < 14 ; i++){
+		for(int i = 2 ; i < 15 ; i++){
 			float bornInf = (float)((i - 1)*born );
 			float bornSupp = (float)(i*born);
 			if(i < 10) {

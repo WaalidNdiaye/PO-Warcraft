@@ -22,7 +22,7 @@ public class Arrow extends Projectile{
 	 * Fonction d'affichage 
 	 */
 	public  void draw() {
-		StdDraw.picture(p.getX(), p.getY(), "images/Tower/ArrowAnimation/" + time % 7 + ".png", size  , size * 0.6 , this.angleRotation);
+		StdDraw.picture(p.getX(), p.getY(), "images/Tower/ArcheryTower/ArrowAnimation/" + time % 7 + ".png", size  , size * 0.6 , this.angleRotation);
 	}
 	
 	/*

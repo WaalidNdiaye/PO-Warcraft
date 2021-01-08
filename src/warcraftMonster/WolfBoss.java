@@ -5,9 +5,9 @@ import warcraftMain.*;
 
 public class WolfBoss extends Monster {
 
-    private int lastInvocation = 50;
-    private int cooldown = 125 ;
-    private int nbrInvocation = 0;
+    private int lastInvocation = 50;                    // Repere chronologique de la derniere invocation
+    private int cooldown = 125 ;                        // Temps de rechargement
+    private int nbrInvocation = 0;                      // Nombre d'invocation deja effectué
 
     public WolfBoss (Position p) {
 		super(p , (float)0.04 , (float)0.0018, 500, 50 , false);

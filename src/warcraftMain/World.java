@@ -29,6 +29,7 @@ public class World {
 	private static float squareHeight = (float)1 / nbSquareY;				// Hauteur des cases
 	private static Position spawn;											// Position par laquelle les monstres vont venir (num 8)
 	private static Position chateau;										// Position du chateau (num 352)
+	private static BuildingTopology building = new BuildingTopology();		// Topologue des case ou un batiment est situé
 	
 	// Informations utilise pour le fonctionnement des vagues
 	private static int nbWaves;												// Nombre de vague que le joueur souhaite jouer
@@ -39,7 +40,7 @@ public class World {
 
 	// Informations de l inventaire du joueur
 	private static int life = 20;											// Nombre de points de vie du joueur
-	private static int coin = 120;											// Argent (pour acheter les tours)
+	private static int coin = 1000;											// Argent (pour acheter les tours)
 	
 	// Actions du joueur
 	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
@@ -109,6 +110,12 @@ public class World {
 	public static List<Position> getPath(){
 		return path ;
 	}
+	public static BuildingTopology getBuilding() {
+		return building;
+	}
+	public static void setBuilding(BuildingTopology building) {
+		World.building = building;
+	}
 	
 	/**
 	 * Initialisation du plateau de jeu
@@ -155,6 +162,7 @@ public class World {
 	 * 		- l argent qu il possede dans son inventaire (coin)
 	 */
 	public static void drawInfos() {
+		StdDraw.picture(0.92, 0.92, "images/SupportDrawInfos.png" , 0.13, 0.13);
 		drawLife();
 		drawCoin();
 	}
@@ -164,15 +172,15 @@ public class World {
 	 */
 	public static void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.text(0.95, 0.95, String.valueOf(life + " HP"));
+		StdDraw.text(0.91, 0.95, String.valueOf(life + " HP"));
 
 		// Affichage de l'animation de coeur a coter 
-		if(life == 20) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/00.png" , 0.035, 0.06);
-		if(life < 20 && life > 15) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/01.png" , 0.035, 0.06);
-		if(life <= 15 && life > 11) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/02.png" , 0.035, 0.06);
-		if(life <= 11 && life > 8) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/03.png" , 0.035, 0.06);
-		if(life <= 8 && life > 4) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/04.png" , 0.035, 0.06);
-		if(life <= 4) StdDraw.picture(0.981, 0.951, "images/Animation/HeartAnimation/05.png" , 0.035, 0.06);
+		if(life == 20) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/00.png" , 0.035, 0.06);
+		if(life < 20 && life > 15) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/01.png" , 0.035, 0.06);
+		if(life <= 15 && life > 11) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/02.png" , 0.035, 0.06);
+		if(life <= 11 && life > 8) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/03.png" , 0.035, 0.06);
+		if(life <= 8 && life > 4) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/04.png" , 0.035, 0.06);
+		if(life <= 4) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/05.png" , 0.035, 0.06);
 	}
 	
 	/**
@@ -180,8 +188,8 @@ public class World {
 	 */
 	public static void drawCoin() {
 		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.text(0.95, 0.90 , String.valueOf(coin + " coins "));
-		StdDraw.picture(0.981, 0.901, "images/Animation/CoinAnimation/" + time % 6 + ".png" , 0.06, 0.06);
+		StdDraw.text(0.91, 0.90 , String.valueOf(coin + " coins "));
+		StdDraw.picture(0.95, 0.901, "images/Animation/CoinAnimation/" + time % 6 + ".png" , 0.06, 0.06);
 	}
 
 	/**
@@ -211,20 +219,34 @@ public class World {
 		switch (key) {
 		case 'a' :
 			if(canCreatTower(pMouse, 50, false) && !end && !pause) {
-				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+				if(building.isBuilding(pMouse)){
+					if(time % 25 < 10) StdDraw.picture(pMouse.getX() + 0.004,pMouse.getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
+					else StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
+				}
+				else{
+					if(time % 25 < 10) StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + 0.025, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
+					else StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + 0.025, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
+				}
 				StdDraw.setPenColor(StdDraw.BLACK);
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.2);
 			}
 			break;
 		case 'b' :
 			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
-				StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY), "images/Tower/Bomb Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
+				if(building.isBuilding(pMouse)){
+					if (time % 12 < 10) StdDraw.picture(pMouse.getX(), pMouse.getY() + 0.035, "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
+					else StdDraw.picture(pMouse.getX(), pMouse.getY() + 0.035,"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
+				}
+				else{
+					if (time % 12 < 10) StdDraw.picture(pMouse.getX(), pMouse.getY(), "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
+					else StdDraw.picture(pMouse.getX(), pMouse.getY(),"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
+				}
 				StdDraw.setPenColor(StdDraw.BLACK);
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.15);
 			} 
 			break;
 		case 'g' :
-			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
+			if(canCreatTower(pMouse, 60, false ) && !end && !pause && !building.isBuilding(pMouse)){
 				if((time % 31) < 10)  StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01, "images/Tower/GuardianTower/GuardianWait/0"+ time % 31 + ".png", (1.0/24.0)* 1.7  , (1.0/15.0) * 1.7  );
 				else StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01 , "images/Tower/GuardianTower/GuardianWait/"+ time % 31 + ".png", (1.0/24.0) * 1.7  , (1.0/15.0)* 1.7  );
 				StdDraw.setPenColor(StdDraw.BLACK);
@@ -496,15 +518,20 @@ public class World {
 				break;
 			case 'g':
 				System.out.println("Ici il faut ajouter un gardien");
-				if(canCreatTower(pTower,80 , true )) {
-					// Limitation des gardiens a 2 
-					int nbrGuardian = 0;
-					for(Tower t : towers) if(t.getClass().getName() == "warcraftTower.GuardianTower") nbrGuardian++ ;
-					if(nbrGuardian < 2){
-						towers.add(new GuardianTower(pTower));
-						coin -= 80;
+				if(canCreatTower(pTower,80 , true) ) {
+					if(!building.isBuilding(pTower)){
+						// Limitation des gardiens a 2 
+						int nbrGuardian = 0;
+						for(Tower t : towers) if(t.getClass().getName() == "warcraftTower.GuardianTower") nbrGuardian++ ;
+						if(nbrGuardian < 2){
+							towers.add(new GuardianTower(pTower));
+							coin -= 80;
+						}
+						else System.out.println("Il est possible de poser que 2 gardien !");
 					}
-					else System.out.println("Il est possible de poser que 2 gardien !");
+					else {
+						System.out.println("Il est impossible de poser un gardien sur un batiment !");
+					}
 				}
 				break;
 			case 'e':

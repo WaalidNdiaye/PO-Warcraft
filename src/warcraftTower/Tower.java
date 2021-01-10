@@ -2,6 +2,7 @@ package warcraftTower;
 
 
 import warcraftMain.Position;
+import warcraftMain.World;
 import warcraftMonster.Monster;
 
 public abstract class Tower {
@@ -18,6 +19,7 @@ public abstract class Tower {
 	protected int lastShot = -1;				// Dernier tir (chronologiquement)
 	protected boolean canShot ; 				// Peut tirer (cooldown depassé)
 	protected Monster target = null ;			// Cible de la tour 
+	protected boolean onBuild ;					// Si le defenseur est sur une construction 
 
 	/*
 	 * GETTERS AND SETTERS
@@ -73,6 +75,9 @@ public abstract class Tower {
 		this.p = p;
 		this.level = 1 ;
 		this.upgradeCost = towerCost * 2;
+		onBuild = World.getBuilding().isBuilding(p);
+		System.out.println("---- (" + p.getX() + "," + p.getY() + ")");
+		System.out.println("le defenceur est sur une tour : " + onBuild );
 	}
 	
 

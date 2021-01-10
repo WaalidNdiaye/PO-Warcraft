@@ -33,30 +33,50 @@ public class ArcheryTower extends Tower {
 	 * Fonction d'affichage 
 	 */
 	public void draw() {
-		if(level == 1 ) 	StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/Archery Tower Level 1.png", (1.0/24.0) , (1.0/15.0) );
-		else if(level == 2) 	StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/Archery Tower Level 2.png", (1.0/24.0) , (1.0/15.0) );
-		
-		// Affiche Archer 
-		if((time - lastShot) > 18 || (time - lastShot) < 0){
-			if(time % 25 < 10) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
-			else StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
-		} 
-		// Affiche une animation d'archer qui tir 
-		if(target != null){
-			for(int i = 0 ; i < 23 ; i++) {
-				// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
-				if( (target.getP().getX() - p.getX()) >= 0 ){
-					if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotRightSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
-					if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotRightSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) );
+		if(onBuild){
+			// Affiche Archer 
+			if((time - lastShot) > 18 || (time - lastShot) < 0){
+				if(time % 25 < 10) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
+				else StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
+			} 
+			// Affiche une animation d'archer qui tir 
+			if(target != null){
+				for(int i = 0 ; i < 23 ; i++) {
+					// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
+					if( (target.getP().getX() - p.getX()) >= 0 ){
+						if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotRightSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
+						if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotRightSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) );
+					}
+					else{
+						if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotLeftSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5 );
+						if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotLeftSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
+					}
 				}
-				else{
-					if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotLeftSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5 );
-					if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotLeftSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
-	
-				}
-				
 			}
 		}
+		else{
+				// Affiche Archer 
+			if((time - lastShot) > 18 || (time - lastShot) < 0){
+				if(time % 25 < 10) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025 , "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
+				else StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025 , "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
+			} 
+			// Affiche une animation d'archer qui tir 
+			if(target != null){
+				for(int i = 0 ; i < 23 ; i++) {
+					// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
+					if( (target.getP().getX() - p.getX()) >= 0 ){
+						if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025, "images/Tower/ArcheryTower/ArcherShotRightSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
+						if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025, "images/Tower/ArcheryTower/ArcherShotRightSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
+					}
+				else{
+						if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025, "images/Tower/ArcheryTower/ArcherShotLeftSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5 );
+						if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025, "images/Tower/ArcheryTower/ArcherShotLeftSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
+					}	
+				}
+			}
+		}
+		
+		
 		
 	}
 	
@@ -66,7 +86,7 @@ public class ArcheryTower extends Tower {
 	public void upgrade() {
 		if(level < levelMax){
 			level++;
-			range += 0.01;
+			range += 0.025;
 			cooldown -= 3;
 			upgradeCost = upgradeCost * 2;
 		}
@@ -113,7 +133,7 @@ public class ArcheryTower extends Tower {
 	 */
 	public Monster activate(){
 
-		float distanceMin = (float) (range + 0.01);
+		float distanceMin = (float) (range + 0.025);
 		Monster closest = null;
 		for(int i = 0 ; i < World.getMonsters().size() ; i++){
 

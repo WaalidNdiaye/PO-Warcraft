@@ -12,7 +12,7 @@ public class FinalBoss extends Monster {
     private float healRange = (float)0.1;               // Portée de sa capacité a soigner les monstres autours 
 
     public FinalBoss (Position p) {
-		super(p , (float)0.06 , (float)0.0015, 600, 100 , true);
+		super(p , (float)0.06 , (float)0.0015, 800, 100 , true);
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class FinalBoss extends Monster {
 
         }
 
-        if(life >= 900) life += 100;
+        if(life <= 900) life += 100;
         else life += 1000 ;
 
         nbrInvocation++;

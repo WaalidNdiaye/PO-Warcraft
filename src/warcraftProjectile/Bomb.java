@@ -22,7 +22,7 @@ public class Bomb extends Projectile{
 	 * Fonction d'affichage 
 	 */
 	public void draw() {
-		StdDraw.picture(p.getX(), p.getY(), "images/Bomb.png", size , size);
+		StdDraw.picture(p.getX(), p.getY(), "images/Tower/Bomb.png", size , size);
 	}
 
 	/*

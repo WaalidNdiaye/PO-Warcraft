@@ -219,28 +219,28 @@ public class World {
 		switch (key) {
 		case 'a' :
 			if(canCreatTower(pMouse, 50, false) && !end && !pause) {
-				if(building.isBuilding(pMouse)){
-					if(time % 25 < 10) StdDraw.picture(pMouse.getX() + 0.004,pMouse.getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
-					else StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
-				}
-				else{
-					if(time % 25 < 10) StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + 0.025, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
-					else StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + 0.025, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
-				}
+				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
+				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
+				if(building.isBuilding(pMouse)) heigth = (float) 0.054 ;
+				else heigth = (float) 0.025 ;
+
+				if(time % 25 < 10) StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + heigth, "images/Tower/ArcheryTower/Level1/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
+				else StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + heigth, "images/Tower/ArcheryTower/Level1/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
+				
 				StdDraw.setPenColor(StdDraw.BLACK);
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.2);
 			}
 			break;
 		case 'b' :
 			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
-				if(building.isBuilding(pMouse)){
-					if (time % 12 < 10) StdDraw.picture(pMouse.getX(), pMouse.getY() + 0.035, "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-					else StdDraw.picture(pMouse.getX(), pMouse.getY() + 0.035,"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-				}
-				else{
-					if (time % 12 < 10) StdDraw.picture(pMouse.getX(), pMouse.getY(), "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-					else StdDraw.picture(pMouse.getX(), pMouse.getY(),"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-				}
+				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
+				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
+				if(building.isBuilding(pMouse)) heigth = (float) 0.035 ;
+				else heigth = 0;
+
+				if (time % 12 < 10) StdDraw.picture(pMouse.getX(), pMouse.getY() + heigth, "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
+				else StdDraw.picture(pMouse.getX(), pMouse.getY() + heigth,"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
+
 				StdDraw.setPenColor(StdDraw.BLACK);
 				StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.15);
 			} 

@@ -34,7 +34,7 @@ public class BombTower extends Tower {
 	 */
 	public void draw() {
 
-		// Affiche l'animation du "bombardier"
+		// Affiche l'animation du "bombardier" (en fonction de s'il est sur un batiment ou non)
 		if(onBuild){
 			if (time % 12 < 10) StdDraw.picture(getP().getX(), getP().getY() + 0.035, "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
 			else StdDraw.picture(getP().getX(), getP().getY() + 0.035,"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
@@ -60,13 +60,17 @@ public class BombTower extends Tower {
 	}
 
 	/*
-	 * Mise a jour de la tour
+	 * Mise a jour de la tour (et de c'est projectiles)
 	 */
 	public void update() {
 		time++;
 		draw();
 
-		// Si un monstre est a portée de la tour alors target != null (ce if() sert a reduire les calcules pour des questions de performance)
+		/* Si un monstre est a portée de la tour alors target != null 
+		 * NOTE :
+		 * Nous avons rajouter une condition pour limiter les calcules de notre programme (sans impacter significativement le jeu)
+		 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 3 updates
+		 */
 		if (time % 3 == 0)
 			target = activate();
 
@@ -75,7 +79,7 @@ public class BombTower extends Tower {
 
 		// Si un monstre est porté et que l'on est pas en cooldown
 		if (target != null && canShot && !target.isFlying())
-			shot(target);
+			shot();
 
 		// Suprime le projectile si il a été tué entre temps
 		for (int i = 0; i < bomb.size(); i++)
@@ -121,9 +125,9 @@ public class BombTower extends Tower {
 	/*
 	 * Tir un projectile sur le monstre en parametre
 	 */
-	public void shot(Monster monster) {
+	public void shot() {
 		Position pProjectile = new Position(getP().getX(), (float) (getP().getY() + 0.03));
-		bomb.add(new Bomb(pProjectile, monster));
+		bomb.add(new Bomb(pProjectile, target));
 		lastShot = time ; 
 	}
 

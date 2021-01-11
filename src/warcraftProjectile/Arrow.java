@@ -34,16 +34,22 @@ public class Arrow extends Projectile{
 	}
 
 	/*
-	 * Mise a jour de la tour 
+	 * Mise a jour du projectile
 	 */
 	public void update(){
 		time++;
 		move();
-		// Met a jour la rotation de l'image lorsque time % 10 == 0
+
+		/* Met a jour la rotation de l'image en fonction de la postion de la cible 
+		 * NOTE :
+		 * Nous avons rajouter une condition pour limiter les calcules de notre programme (sans impacter significativement le jeu)
+		 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 10 updates
+		 */
 		if(time%10 == 0) this.angleRotation = angleCalculation();
+
 		draw();
 		
-		//Verifie si le projectile a toucher sa cible 
+		// Verifie si le projectile a toucher sa cible 
 		if(hitbox.hit(target.getHitbox())){
 			target.hit(damage);
 			hit = true;

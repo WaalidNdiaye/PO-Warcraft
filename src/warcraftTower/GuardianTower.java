@@ -78,7 +78,11 @@ public class GuardianTower extends Tower {
 		draw();
 		drawAttack();
 
-		// Si un monstre est a portée de la tour alors target != null (ce if() sert a reduire les calcules pour des questions de performances)
+		/* Si un monstre est a portée de la tour alors target != null 
+		 * NOTE :
+		 * Nous avons rajouter une condition pour limiter les calcules de notre programme (sans impacter significativement le jeu)
+		 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 3 updates
+		 */
 		if(time%3 == 0) target = activate();
 
 		// Ajoute un repere chronologique qui permet de declencher les methodes lié a l'attaque du gardien

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuildingTopology {
-    private List<Position> building = new ArrayList<Position>();		// Liste des postion des batiments(pour afficher les defenceurs dessus)
+
+    private List<Position> building = new ArrayList<Position>();		// Liste des postion des cases contenant batiment(pour afficher les defenceurs dessus)
 
     /*
 	 * CONSTRUCTEUR 
@@ -14,7 +15,7 @@ public class BuildingTopology {
     }
 
     /*
-	 * Construit la liste building avec chaque case ou un batiment est situé 
+	 * Construit la liste building en ajoutant chaque case où un batiment est situé 
 	 */
     public void buildList(){
         float caseW = (float)(1.0 / 15.0) ;
@@ -22,7 +23,7 @@ public class BuildingTopology {
         float caseWmid = (float)(caseW / 3.0);
         float caseHmid = (float)(caseH / 3.0);
 
-        // Ligne 16
+        // Ligne 16 (la ligne tout en haut)
         building.add(new Position((float)((float)(caseH*8.0 )-caseHmid) , (float)((float)(caseW*15.0)-caseWmid)));
         building.add(new Position((float)((float)(caseH*9.0 )-caseHmid) , (float)((float)(caseW*15.0)-caseWmid)));
         building.add(new Position((float)((float)(caseH*13.0)-caseHmid) , (float)((float)(caseW*15.0)-caseWmid)));
@@ -137,6 +138,12 @@ public class BuildingTopology {
         
     }
 
+    
+     /**
+	 * Verifie si un batiement est present a la position p
+	 * @param p 		- a la position p
+	 * @return          - true si un batiment est present a cette position sinon false 
+	 */
     public boolean isBuilding(Position p){
         boolean isBuilding = false ;
         for(Position pBuilding : this.building){

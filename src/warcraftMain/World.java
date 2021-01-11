@@ -29,7 +29,7 @@ public class World {
 	private static float squareHeight = (float)1 / nbSquareY;				// Hauteur des cases
 	private static Position spawn;											// Position par laquelle les monstres vont venir (num 8)
 	private static Position chateau;										// Position du chateau (num 352)
-	private static BuildingTopology building = new BuildingTopology();		// Topologue des case ou un batiment est situé
+	private static BuildingTopology building = new BuildingTopology();		// Liste de la postion des cases où un batiment est situé
 	
 	// Informations utilise pour le fonctionnement des vagues
 	private static int nbWaves;												// Nombre de vague que le joueur souhaite jouer
@@ -247,6 +247,7 @@ public class World {
 			break;
 		case 'g' :
 			if(canCreatTower(pMouse, 60, false ) && !end && !pause && !building.isBuilding(pMouse)){
+				// Impossible de poser un gradien sur un batiment 
 				if((time % 31) < 10)  StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01, "images/Tower/GuardianTower/GuardianWait/0"+ time % 31 + ".png", (1.0/24.0)* 1.7  , (1.0/15.0) * 1.7  );
 				else StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01 , "images/Tower/GuardianTower/GuardianWait/"+ time % 31 + ".png", (1.0/24.0) * 1.7  , (1.0/15.0)* 1.7  );
 				StdDraw.setPenColor(StdDraw.BLACK);

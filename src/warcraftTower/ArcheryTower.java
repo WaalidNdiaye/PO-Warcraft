@@ -33,8 +33,9 @@ public class ArcheryTower extends Tower {
 	 * Fonction d'affichage 
 	 */
 	public void draw() {
+		// Condition onBuild renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
 		if(onBuild){
-			// Affiche Archer 
+			// Affiche Archer qui attend
 			if((time - lastShot) > 18 || (time - lastShot) < 0){
 				if(time % 25 < 10) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
 				else StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
@@ -42,7 +43,7 @@ public class ArcheryTower extends Tower {
 			// Affiche une animation d'archer qui tir 
 			if(target != null){
 				for(int i = 0 ; i < 23 ; i++) {
-					// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour 
+					// Afiche l'animation de tir en fonction de la position de la cible par rapport a la tour (a gauche ou a droite)
 					if( (target.getP().getX() - p.getX()) >= 0 ){
 						if((time - lastShot) == i && (i < 10)) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotRightSide/0" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
 						if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.054, "images/Tower/ArcheryTower/ArcherShotRightSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) );
@@ -55,7 +56,7 @@ public class ArcheryTower extends Tower {
 			}
 		}
 		else{
-				// Affiche Archer 
+				// Affiche Archer qui attend
 			if((time - lastShot) > 18 || (time - lastShot) < 0){
 				if(time % 25 < 10) StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025 , "images/Tower/ArcheryTower/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
 				else StdDraw.picture(getP().getX() + 0.004, getP().getY() + 0.025 , "images/Tower/ArcheryTower/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
@@ -86,8 +87,8 @@ public class ArcheryTower extends Tower {
 	public void upgrade() {
 		if(level < levelMax){
 			level++;
-			range += 0.025;
-			cooldown -= 3;
+			range += 0.03;
+			cooldown -= 4;
 			upgradeCost = upgradeCost * 2;
 		}
 		else System.out.println("Cet tour est deja au niveau max !");
@@ -106,11 +107,15 @@ public class ArcheryTower extends Tower {
 		shot(); 
 		draw();
 
-		// Si un monstre est a portée de la tour alors target != null (ce if() sert a reduire les calcules pour des questions de performances)
+		/* Si un monstre est a portée de la tour alors target != null 
+		 * NOTE :
+		 * Nous avons rajouter une condition pour limiter les calcules de notre programme (sans impacter significativement le jeu)
+		 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 3 updates
+		 */
 		if( time % 3 == 0){
 			target = activate();
 		}
-		// Si un monstre est porté et que l'on est pas en cooldown 
+		// Si un monstre est porté et que le cooldown est rechargé
 		if( target != null && canShot)	loadingShoot(target);
 
 		// Suprime le projectile si il a été tué entre temps
@@ -151,7 +156,7 @@ public class ArcheryTower extends Tower {
 	}
 
 	/*
-	 * Charge un tir et tir lorsque (time - lastShoot) == 18 
+	 * Charge un tir et tir 
 	 */
 	public void loadingShoot(Monster monster){
 		target = monster ;

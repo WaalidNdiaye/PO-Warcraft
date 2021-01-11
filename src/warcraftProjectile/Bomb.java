@@ -19,14 +19,14 @@ public class Bomb extends Projectile{
 	}
 	
 	/*
-	 * Fonction d'affichage 
+	 * Fonction d'affichage du projectile
 	 */
 	public void draw() {
 		StdDraw.picture(p.getX(), p.getY(), "images/Tower/Bomb.png", size , size);
 	}
 
 	/*
-	 * Affiche une explosion a l'emplacement des monstres touché par l'explosion
+	 * Affiche une explosion 
 	 */
 	public void drawExplosion(){
 		if (hitTime != -1  && (time - hitTime) < 24){
@@ -51,7 +51,7 @@ public class Bomb extends Projectile{
 	}
 
 	/*
-	 * Mise a jour de la tour 
+	 * Mise a jour du projectile
 	 */
 	public void update(){
 		time++;

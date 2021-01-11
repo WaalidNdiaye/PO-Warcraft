@@ -221,8 +221,8 @@ public class World {
 			if(canCreatTower(pMouse, 50, false) && !end && !pause) {
 				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
 				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
-				if(building.isBuilding(pMouse)) heigth = (float) 0.054 ;
-				else heigth = (float) 0.025 ;
+				if(building.isBuilding(pMouse)) heigth = (float) 0.03 ;
+				else heigth = (float) 0.01 ;
 
 				if(time % 25 < 10) StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + heigth, "images/Tower/ArcheryTower/Level1/ArcherWait/0" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0)  * 1.5 );
 				else StdDraw.picture(pMouse.getX() + 0.004, pMouse.getY() + heigth, "images/Tower/ArcheryTower/Level1/ArcherWait/" + time % 25+ ".png", (1.0/24.0) * 1.5 , (1.0/15.0) * 1.5 );
@@ -235,7 +235,7 @@ public class World {
 			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
 				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
 				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
-				if(building.isBuilding(pMouse)) heigth = (float) 0.035 ;
+				if(building.isBuilding(pMouse)) heigth = (float) 0.015 ;
 				else heigth = 0;
 
 				if (time % 12 < 10) StdDraw.picture(pMouse.getX(), pMouse.getY() + heigth, "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);

@@ -33,17 +33,23 @@ public class BombTower extends Tower {
 	 * Fonction d'affichage
 	 */
 	public void draw() {
+		// Condition onBuild renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
+		float heigth ; 												// Hauteur a rajouter pour l'affichage du defenceur 
+		if(onBuild) heigth = (float) 0.015 ;
+		else heigth = (float) 0 ;
 
 		// Affiche l'animation du "bombardier" (en fonction de s'il est sur un batiment ou non)
-		if(onBuild){
-			if (time % 12 < 10) StdDraw.picture(getP().getX(), getP().getY() + 0.035, "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-			else StdDraw.picture(getP().getX(), getP().getY() + 0.035,"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-		}
-		else {
-			if (time % 12 < 10) StdDraw.picture(getP().getX(), getP().getY(), "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-			else StdDraw.picture(getP().getX(), getP().getY() ,"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
-		}
+		if (time % 12 < 10) StdDraw.picture(getP().getX(), getP().getY() + heigth, "images/Tower/BombTowerAnimation/0" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
+		else StdDraw.picture(getP().getX(), getP().getY() + heigth,"images/Tower/BombTowerAnimation/" + time % 12 + ".png", (1.0 / 24.0) / 1.5, (1.0 / 15.0) / 1.5);
 		
+
+
+		// Affichage d'une animation representent le niveau du defenceur 
+		if(level == 1) StdDraw.picture(getP().getX() , getP().getY() + 0.04 + heigth , "images/Tower/LevelAnimation/" + time%6 + ".png", (1.0/24.0) * 0.5, (1.0/15.0) * 0.4 );
+		if(level == 2) {
+			StdDraw.picture(getP().getX() + 0.0045, getP().getY() + 0.04 + heigth, "images/Tower/LevelAnimation/" + time%6 + ".png", (1.0/24.0) * 0.5, (1.0/15.0) * 0.4 );
+			StdDraw.picture(getP().getX() - 0.0045, getP().getY() + 0.04 + heigth, "images/Tower/LevelAnimation/" + time%6 + ".png", (1.0/24.0) * 0.5, (1.0/15.0) * 0.4 );
+		}
 	}
 
 	/*

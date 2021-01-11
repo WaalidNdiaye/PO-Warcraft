@@ -35,8 +35,8 @@ public class ArcheryTower extends Tower {
 	public void draw() {
 		// Condition onBuild renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
 		float heigth ; 												// Hauteur a rajouter pour l'affichage du defenceur 
-		if(onBuild) heigth = (float) 0.054 ;
-		else heigth = (float) 0.025 ;
+		if(onBuild) heigth = (float) 0.03 ;
+		else heigth = (float) 0.01 ;
 
 		// Affiche Archer qui attend
 		if((time - lastShot) > 18 || (time - lastShot) < 0){
@@ -56,6 +56,13 @@ public class ArcheryTower extends Tower {
 					if((time - lastShot) == i && (i > 9) ) StdDraw.picture(getP().getX() + 0.004, getP().getY() + heigth, "images/Tower/ArcheryTower/Level" + level + "/ArcherShotLeftSide/" + i + ".png", (1.0/24.0) * 1.5, (1.0/15.0) * 1.5);
 				}
 			}
+		}
+
+		// Affichage d'une animation representent le niveau du defenceur 
+		if(level == 1) StdDraw.picture(getP().getX() + 0.002, getP().getY() + 0.025 + heigth, "images/Tower/LevelAnimation/" + time%6 + ".png", (1.0/24.0) * 0.5, (1.0/15.0) * 0.5 );
+		if(level == 2) {
+			StdDraw.picture(getP().getX() - 0.0035, getP().getY() + 0.025 + heigth, "images/Tower/LevelAnimation/" + time%6 + ".png", (1.0/24.0) * 0.5, (1.0/15.0) * 0.5 );
+			StdDraw.picture(getP().getX() + 0.0075, getP().getY() + 0.025 + heigth, "images/Tower/LevelAnimation/" + time%6 + ".png", (1.0/24.0) * 0.5, (1.0/15.0) * 0.5 );
 		}
 		
 		

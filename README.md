@@ -12,7 +12,7 @@ Succubus & Goblins est un jeu de type Tower Defense réalisé pour notre projet 
 Le jeu en lui même ce déroule par vague, au démarrage de celui-ci le joueur choisi sur l'écran d'accueil le nombre de vague qu'il veut jouer (en cliquant sur le chiffre voulu)
 et son but sera de tuer tout les monstres qui spawneront afin de protéger son chateau des assaillants. Pour cela il pourra placer des gardiens sur le plateau de jeu afin
 de se défendre.
-Vous avez plusieurs sous menu dans le menu afin d'avoir de plus amples informartion sur comment ce joue le jeu, les informations intéressantes, le lore...
+Vous un sous-menu clicable nommé "i" qui vous permet d'avoir de plus amples informartion sur les commandes, le lore...
 
   - PRISE EN MAINS
 Afin de lancer le jeu et de le tester il vous suffit d'importer le .zip dans l'IDE Eclipse et de run le fichier "Main.java".

@@ -10,7 +10,7 @@ public class WolfBoss extends Monster {
     private int nbrInvocation = 0;                      // Nombre d'invocation deja effectué
 
     public WolfBoss (Position p) {
-		super(p , (float)0.04 , (float)0.0018, 500, 50 , false);
+		super(p , (float)0.04 , (float)0.0018, 500, 25, false);
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class WolfBoss extends Monster {
             World.getMonsters().add(m);
         }
 
-        if(life >= 420) life += 80;
+        if(life >= 445) life += 55;
         else life += 500 ;
 
         nbrInvocation++;

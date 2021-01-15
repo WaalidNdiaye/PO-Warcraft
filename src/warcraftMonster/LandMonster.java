@@ -2,11 +2,14 @@ package warcraftMonster;
 
 import warcraftMain.Position;
 import warcraftMain.StdDraw;
+import warcraftMain.World;
 
 public class LandMonster extends Monster {
 
 	public LandMonster (Position p) {
-		super(p , (float)0.055 , (float)0.002, 125, 5, false);
+		super(p , (float)0.055 , (float)0.002, 125, 2, false);
+		if(World.getCurrentW() >= 5)
+			life = 205;
 	}
 	
 	// Affichage du monstre 

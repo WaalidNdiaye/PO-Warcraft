@@ -1,31 +1,32 @@
 package warcraftWave;
 
-import java.util.ArrayList;
 import warcraftMonster.*;
 import warcraftMain.*;
 
 public class WaveL8{
-
-    private static int time = 0;
-    private static boolean init = false;
-
-    public static int getTime() {
-    	return time;
-    }
     
+	/**
+	 * Update la vague en cours en faisant appel a buildWave()
+	 */
     public static void update(){
-    	if(!init) {
-    		World.setMonsters(new ArrayList<Monster>());
-    		init = true;
-    	}
-        time++;
         buildWave();
     }
-     
+    
+    /**
+     * Fait spawn les monstre en fonction de la variable World.time
+     */ 
     public static void buildWave(){
-        if(time == 100){
+        if(World.getTime() == 4930){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
+            World.getMonsters().add(new WolfBoss(p));
+        }
+        if(World.getTime() == 5030){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new FinalBoss(p));
+        }
+        if(World.getTime() == 5130){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new WolfBoss(p));
         }
     }
 }

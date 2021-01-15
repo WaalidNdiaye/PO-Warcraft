@@ -8,16 +8,6 @@ import warcraftWave.*;
 import warcraftTower.*;
 
 public class World {
-	/**
-	 * Tout le programme utilise des fonction et methode static
-	 * cela signifie/permet 2 choses :
-	 * 
-	 * 		- Il ne peut y avoir qu un seul plateau de jeu de lancer en meme temps (ce qui est ici pas derangeant
-	 * 			car un joueur ne lance qu une seule partie a la fois sur son ordinateur et non plusieurs.
-	 * 		
-	 * 		- Cela permet de contrer le fait que certaines fonctions nous demande elles d etre en static obligatoirement
-	 * 			afin d initialiser certaines valeurs par exemple.
-	 */
 	
 	// Information sur le plateau de jeu
 	private static List<Position> square;									// Liste des positions de toutes les cases du plateau de jeu (un schema se trouve dans le drive)
@@ -39,8 +29,8 @@ public class World {
 	private static List<Position> path;										// Liste des positions du chemin utilise durant la vague en cours
 
 	// Informations de l inventaire du joueur
-	private static int life = 20;											// Nombre de points de vie du joueur
-	private static int coin = 1000;											// Argent (pour acheter les tours)
+	private static int life = 10;											// Nombre de points de vie du joueur
+	private static int coin = 105;											// Argent (pour acheter les tours)
 	
 	// Actions du joueur
 	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
@@ -51,9 +41,10 @@ public class World {
 	// Partie
 	private static boolean start = false;									// Condition pour que la partie commence
 	private static boolean pause = false;									// Indique si le jeu est en pause
+	private static boolean sousMenu = false;								// Indique si le sous menu "i" est ouvert ou non
 	private static boolean end = false;										// Condition pour terminer la partie
 	private static boolean win = false;										// Indique si le joueur a gagne
-	private static boolean lose = false;									//Indique si le joueur a perdu
+	private static boolean lose = false;									// Indique si le joueur a perdu
 	private static int time = 0 ;											// Repere chronologique (time incremente de 1 a chaque appel de update())
 	
 	/**
@@ -146,6 +137,8 @@ public class World {
 	public static void drawMenu() {
 		StdDraw.picture(0.5, 0.5, "images/menu.png", 1, 1);
 		StdDraw.picture(Square.normalizedX(mouseX), Square.normalizedY(mouseY), "images/select.png", squareWidth, squareHeight);
+		if(sousMenu)
+			StdDraw.picture(0.5, 0.5, "images/i.png", 1, 1);
 	}
 	
 	/**
@@ -218,7 +211,7 @@ public class World {
 	public static void drawMouse() {
 		switch (key) {
 		case 'a' :
-			if(canCreatTower(pMouse, 50, false) && !end && !pause) {
+			if(canCreatTower(pMouse, 25, false) && !end && !pause) {
 				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
 				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
 				if(building.isBuilding(pMouse)) heigth = (float) 0.03 ;
@@ -232,7 +225,7 @@ public class World {
 			}
 			break;
 		case 'b' :
-			if(canCreatTower(pMouse, 60, false ) && !end && !pause){
+			if(canCreatTower(pMouse, 55, false ) && !end && !pause){
 				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
 				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
 				if(building.isBuilding(pMouse)) heigth = (float) 0.015 ;
@@ -246,7 +239,7 @@ public class World {
 			} 
 			break;
 		case 'g' :
-			if(canCreatTower(pMouse, 60, false ) && !end && !pause && !building.isBuilding(pMouse)){
+			if(canCreatTower(pMouse, 100, false ) && !end && !pause && !building.isBuilding(pMouse)){
 				// Impossible de poser un gradien sur un batiment 
 				if((time % 31) < 10)  StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01, "images/Tower/GuardianTower/GuardianWait/0"+ time % 31 + ".png", (1.0/24.0)* 1.7  , (1.0/15.0) * 1.7  );
 				else StdDraw.picture(Square.normalizedX(mouseX) , Square.normalizedY(mouseY) + 0.01 , "images/Tower/GuardianTower/GuardianWait/"+ time % 31 + ".png", (1.0/24.0) * 1.7  , (1.0/15.0)* 1.7  );
@@ -336,7 +329,7 @@ public class World {
 			WaveL6.update();
 			break;
 		case 7:
-			//WaveL7.update();
+			WaveL7.update();
 			break;
 		case 8:
 			WaveL8.update();
@@ -429,13 +422,13 @@ public class World {
 	 */
 	public static void updateEnd(boolean endWave) {
 		if(life <= 0) {
-			StdDraw.picture(0.5, 0.5, "images/perdue.png", 1, 1);
+			StdDraw.picture(0.5, 0.5, "images/wave/lose.png", 1, 1);
 			lose = true;
 			endWave = false ;
 		}
 		
 		if(endWave) {
-			StdDraw.picture(0.5, 0.5, "images/gagne.png", 1, 1);
+			StdDraw.picture(0.5, 0.5, "images/wave/win.png", 1, 1);
 			win = true;
 			endWave = false ;
 		}
@@ -465,10 +458,10 @@ public class World {
 		
 		switch (key) {
 		case 'a':
-			System.out.println("Arrow Tower selected (50 coins).");
+			System.out.println("Arrow Tower selected (25 coins).");
 			break;
 		case 'b':
-			System.out.println("Bomb Tower selected (60 coins).");
+			System.out.println("Bomb Tower selected (55 coins).");
 			break;
 		case 'g':
 			System.out.println("Guardian selected (100 coins).");
@@ -504,22 +497,22 @@ public class World {
 		if(!pause) {
 			switch (key) {
 			case 'a':
-				System.out.println("l faut ajouter une tour d'archers si l'utilisateur a�de l'or !!");
-				if(canCreatTower(pTower, 25 , true)) {
+				System.out.println("l faut ajouter une tour d'archers si l'utilisateur a de l'or !!");
+				if(canCreatTower(pTower, 25, true)) {
 					towers.add(new ArcheryTower(pTower));
 					coin -= 25 ;
 				}
 				break;
 			case 'b':
 				System.out.println("Ici il faut ajouter une tour de bombes");
-				if(canCreatTower(pTower, 55 , true )) {
+				if(canCreatTower(pTower, 55, true )) {
 					towers.add(new BombTower(pTower));
 					coin -= 55;
 				}
 				break;
 			case 'g':
 				System.out.println("Ici il faut ajouter un gardien");
-				if(canCreatTower(pTower,80 , true) ) {
+				if(canCreatTower(pTower, 100, true) ) {
 					if(!building.isBuilding(pTower)){
 						// Limitation des gardiens a 2 
 						int nbrGuardian = 0;
@@ -549,9 +542,16 @@ public class World {
 		
 		/**
 		 * 	- Si la partie n a pas commence
+		 * 	- permet au joueur d'aller dans le sous menu
 		 * 	- initilise le nombre de vague que le joueur jouera en fonction de sa selection
 		 */
 		if(!start) {
+			if(Square.compareNormalized(x, square.get(343).getX(), y, square.get(343).getY())) {
+				if(sousMenu)
+					sousMenu = false;
+				else
+					sousMenu = true;
+			}
 			if(Square.compareNormalized(x, square.get(125).getX(), y, square.get(125).getY())) {
 				mouseX = x; mouseY = y;
 				nbWaves = 1;

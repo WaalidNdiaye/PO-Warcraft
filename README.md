@@ -4,7 +4,6 @@
 Avant tout bonjour et merci à vous de prendre le temps de noter et tester notre projet de fin de semestre que nous avons nommé Succubus & Goblins !
 Sachez que nous avons pris énormément de plaisirs à le développer et que nous seront ravis de recevoir quelconques critiques afin de s'améliorer par la suite,
 même après avoir reçus les notes final afin d'avoir de plus amples explications sur votre recentie.
-
 Nous sommes notamment plutot fier des nombreux monstres et gardiens implémentés dans le jeu ainsi que du résultat final, ayant fait en sorte que le tout soit le plus
 armonique et face le plus possible "vrai" jeu.
   

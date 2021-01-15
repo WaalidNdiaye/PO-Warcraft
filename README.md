@@ -34,14 +34,11 @@ cela signifie/permet 2 choses :
       car un joueur ne lance qu une seule partie a la fois sur son ordinateur et non plusieurs.
     - Cela permet de contrer le fait que certaines fonctions nous demande elles d etre en static obligatoirement
       afin d initialiser certaines valeurs par exemple.
-      
 Le plateau de jeu est divisé en de nombreux rectangles cela nous permet de juste faire appel au numéro du rectangle (son index dans la liste des rectangles) afin d'avoir la
 position de celui-ci.
 
   - DROIT D'AUTEURS
-  /*
-  * GARDIENS ET MONSTRES DE TANGI
-  */
+GARDIENS ET MONSTRES DE TANGI
   
   - CREDITS
 NOITA (jeu-vidéo), inspiration pour le titre de Succubus & Goblins

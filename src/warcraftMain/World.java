@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import warcraftMonster.Monster;
 import warcraftWave.*;
 import warcraftTower.*;
+import java.awt.Font;
 
 public class World {
 	
@@ -31,6 +32,7 @@ public class World {
 	// Informations de l inventaire du joueur
 	private static int life = 10;											// Nombre de points de vie du joueur
 	private static int coin = 105;											// Argent (pour acheter les tours)
+	private static List<Infos> infosToDraw = new ArrayList<Infos>();		// Liste des information a afficher 
 	
 	// Actions du joueur
 	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
@@ -158,6 +160,7 @@ public class World {
 		StdDraw.picture(0.92, 0.92, "images/SupportDrawInfos.png" , 0.13, 0.13);
 		drawLife();
 		drawCoin();
+		drawTerminal();
 	}
 
 	/**
@@ -165,6 +168,8 @@ public class World {
 	 */
 	public static void drawLife() {
 		StdDraw.setPenColor(StdDraw.BLACK);
+		Font font = new Font("Sans Serif", Font.PLAIN, 16);
+  		StdDraw.setFont(font);
 		StdDraw.text(0.91, 0.95, String.valueOf(life + " HP"));
 
 		// Affichage de l'animation de coeur a coter 
@@ -181,9 +186,25 @@ public class World {
 	 */
 	public static void drawCoin() {
 		StdDraw.setPenColor(StdDraw.BLACK);
+		Font font = new Font("Sans Serif", Font.PLAIN, 16);
+  		StdDraw.setFont(font);
 		StdDraw.text(0.91, 0.90 , String.valueOf(coin + " coins "));
 		StdDraw.picture(0.95, 0.901, "images/Animation/CoinAnimation/" + time % 6 + ".png" , 0.06, 0.06);
 	}
+
+	/**
+	 * Affiche le nombre de coins du joueur et une animation de coin 
+	 */
+	public static void drawTerminal() {
+		Font font = new Font("Arial", Font.ITALIC, 13);
+  		StdDraw.setFont(font);
+		if((infosToDraw.size() - 1) > -1) StdDraw.text(0.095, 0.89 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage()));
+		if((infosToDraw.size() - 2) > -1) StdDraw.text(0.095, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage()));
+		if((infosToDraw.size() - 3) > -1) StdDraw.text(0.095, 0.95 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage()));
+		
+	}
+
+
 
 	/**
 	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités
@@ -340,6 +361,37 @@ public class World {
 	}
 	
 	/**
+	 * Cette classe permet un gestion simple des infos a afficher 
+	 */
+	private static class Infos{
+		private int time ;
+		private String message;
+
+		public int getTime() {
+			return time;
+		}
+		public String getMessage() {
+			return message;
+		}
+
+		public Infos(String message , int time){
+			this.time = time ;
+			this.message = message ;
+		}	
+	}
+
+	/**
+	 * Ajoute un message ainsi que le moment auquel il a été émis (si le message n'a pas encore été emis ou si cela fait plus de 30 updates qu'il a été emis)
+	 */
+	public static void addInfo(String message){
+		boolean add = true ;
+		for(Infos i : infosToDraw){
+			if(i.getMessage().equals(message) && time - i.getTime() < 30) add = false ; 
+		}
+		if(add)infosToDraw.add(new Infos(message , time));
+	}
+
+	/**
 	 * Update chaque Monstre en fonction de ses attribut et de sa position
 	 * 
 	 * NOTE :
@@ -396,19 +448,19 @@ public class World {
 	 */
 	public static boolean canCreatTower(Position p , int cost , boolean drawInfos){
 		if(building.onPath(p)){
-			if(drawInfos) System.out.println("Position impossible ! Vous etes sur le chemin.");
+			if(drawInfos) addInfo("Position impossible ! Vous etes sur le chemin.");
 				return false;
 		}
 		
 		for(int i = 0 ; i < towers.size() ; i++){
 			if(p.equalsP(towers.get(i).getP()) ) {
-				if(drawInfos) System.out.println("Position impossible ! Une tour est deja présente");
+				if(drawInfos)  addInfo("Position impossible ! Une tour est deja présente");
 				return false ;
 			}
 		}
 		
 		if(coin < cost) {
-			System.out.println("Il vous faut plus d'argent ! ");
+			addInfo("Il vous faut plus d'argent ! ");
 			return false ;
 		}
 		
@@ -456,23 +508,23 @@ public class World {
 		
 		switch (key) {
 		case 'a':
-			System.out.println("Arrow Tower selected (25 coins).");
+			addInfo("Arrow Tower selected (25 coins).");
 			break;
 		case 'b':
-			System.out.println("Bomb Tower selected (55 coins).");
+			addInfo("Bomb Tower selected (55 coins).");
 			break;
 		case 'g':
-			System.out.println("Guardian selected (100 coins).");
+			addInfo("Guardian selected (100 coins).");
 			break;
 		case 'e':
-			System.out.println("Evolution selected (40 coins).");
+			addInfo("Evolution selected (40 coins).");
 			break;
 		case 's':
-			System.out.println("Starting game!");
+			addInfo("Starting game!");
 			start = true;
 			break;
 		case 'q':
-			System.out.println("Exiting.");
+			addInfo("Exiting.");
 			start = false;
 			clear();
 			break;
@@ -495,21 +547,18 @@ public class World {
 		if(!pause) {
 			switch (key) {
 			case 'a':
-				System.out.println("l faut ajouter une tour d'archers si l'utilisateur a de l'or !!");
 				if(canCreatTower(pTower, 25, true)) {
 					towers.add(new ArcheryTower(pTower));
 					coin -= 25 ;
 				}
 				break;
 			case 'b':
-				System.out.println("Ici il faut ajouter une tour de bombes");
 				if(canCreatTower(pTower, 55, true )) {
 					towers.add(new BombTower(pTower));
 					coin -= 55;
 				}
 				break;
 			case 'g':
-				System.out.println("Ici il faut ajouter un gardien");
 				if(canCreatTower(pTower, 100, true) ) {
 					if(!building.isBuilding(pTower)){
 						// Limitation des gardiens a 2 
@@ -519,10 +568,10 @@ public class World {
 							towers.add(new GuardianTower(pTower));
 							coin -= 80;
 						}
-						else System.out.println("Il est possible de poser que 2 gardien !");
+						else addInfo("Il est possible de poser que 2 gardien !");
 					}
 					else {
-						System.out.println("Il est impossible de poser un gardien sur un batiment !");
+						addInfo("Il est impossible de poser un gardien sur un batiment !");
 					}
 				}
 				break;
@@ -530,10 +579,9 @@ public class World {
 				for(int i = 0 ; i < towers.size() ; i++){
 					if(towers.get(i).getP().equalsP(pTower)){
 						if(towers.get(i).getUpgradeCost() <= coin )towers.get(i).upgrade();
-						else System.out.println("Vous n'avez pas assez d'argent !");
+						else addInfo("Vous n'avez pas assez d'argent !");
 					}
 				}
-				System.out.println("Ici il est possible de faire evolue une des tours");
 				break;
 			}
 		}

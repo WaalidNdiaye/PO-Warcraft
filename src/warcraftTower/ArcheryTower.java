@@ -25,7 +25,7 @@ public class ArcheryTower extends Tower {
 	 * CONSTRUCTEUR 
 	 */
 	public ArcheryTower(Position p) {
-		super(25, (float)0.2, 30, true, p);
+		super(30, (float)0.2, 30, true, p);
 		System.out.println("\n--- Nouvelle tour d'archer creer!---");
 	}
 	

@@ -19,7 +19,7 @@ public class World {
 	private static float squareHeight = (float)1 / nbSquareY;				// Hauteur des cases
 	private static Position spawn;											// Position par laquelle les monstres vont venir (num 8)
 	private static Position chateau;										// Position du chateau (num 352)
-	private static BuildingTopology building = new BuildingTopology();		// Liste de la postion des cases où un batiment est situé
+	private static BuildingTopology building = new BuildingTopology();		// Liste de la postion des cases où un batiment (ou un chemin) est situé
 	
 	// Informations utilise pour le fonctionnement des vagues
 	private static int nbWaves;												// Nombre de vague que le joueur souhaite jouer
@@ -190,10 +190,10 @@ public class World {
 	 * offertes au joueur pour intéragir avec le clavier
 	 */
 	public static void printCommands() {
-		System.out.println("Press A to select Arrow Tower (cost 50g).");
-		System.out.println("Press B to select Cannon Tower (cost 60g).");
-		System.out.println("Press G to select Arrow Tower (cost 50g).");
-		System.out.println("Press E to update a tower (cost 40g).");
+		System.out.println("Press A to select Arrow Tower (cost 30c).");
+		System.out.println("Press B to select Cannon Tower (cost 55c).");
+		System.out.println("Press G to select Guardian  (cost 100g).");
+		System.out.println("Press E to update a tower (cost 100g).");
 		System.out.println("Click on the grass to build it.");
 		System.out.println("Press S to start.");
 	}
@@ -395,11 +395,9 @@ public class World {
 	 * @return
 	 */
 	public static boolean canCreatTower(Position p , int cost , boolean drawInfos){
-		for (int i = 0 ; i < path.size(); i++){
-			if(p.equalsP(path.get(i))){
-				if(drawInfos) System.out.println("Position impossible ! Vous etes sur le chemin.");
+		if(building.onPath(p)){
+			if(drawInfos) System.out.println("Position impossible ! Vous etes sur le chemin.");
 				return false;
-			}
 		}
 		
 		for(int i = 0 ; i < towers.size() ; i++){

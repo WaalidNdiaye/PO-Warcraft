@@ -143,7 +143,7 @@ public class GuardianTower extends Tower {
 				for(Monster m : World.getMonsters()){
 
 					// Parcours la liste de monstre et inflige des degats au monstre a portée 
-					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone  && !m.isFlying()) {
+					if(pZoneAttack != null && pZoneAttack.dist(m.getP()) <= rangeDamageZone  && !m.isFlying()) {
 						m.hit(damage);
 					}
 				}

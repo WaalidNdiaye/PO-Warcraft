@@ -1,17 +1,21 @@
 package warcraftMain;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BuildingTopology {
 
     private List<Position> building = new ArrayList<Position>();		// Liste des postion des cases contenant batiment(pour afficher les defenceurs dessus)
+    private Set<Position> path = new LinkedHashSet<Position>();               // Liste des postion des cases sur lesquels un chemin passe (pour bloquer l'affichage des defenceurs )
 
     /*
 	 * CONSTRUCTEUR 
 	 */
     public BuildingTopology(){
         buildList();
+        buildPathList();
     }
 
     /*
@@ -138,6 +142,293 @@ public class BuildingTopology {
         
     }
 
+    /** 
+     * Construction de la liste en ajoutant chaque case ou un chemin est situé (pour empecher les defenceurs de se poser dessus)
+     * 
+     */
+    public void buildPathList(){
+
+        // Chemin 1
+        for(int i=1; i<24; i++){
+            path.add(new Position(i * World.getSquareWidth() + World.getSquareWidth() / (float)2.0, 7 * World.getSquareHeight() + World.getSquareHeight() / (float)2.0));
+        }
+
+        // Chemin 2
+        path.add(new Position(0 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(1 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(2 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        path.add(new Position(2 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(2 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(3 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(6 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(7 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        path.add(new Position(18 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        path.add(new Position(19 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        path.add(new Position(21 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        path.add(new Position(22 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        path.add(new Position(23 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        
+
+        // Chemin 3
+		path.add(new Position(3 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(18 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(19 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(19 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		
+        
+        // Chemin 4
+		path.add(new Position(3 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(3 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(2 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(1 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(1 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(1 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(1 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(1 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(2 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(3 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(6 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(7 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(18 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(19 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(21 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(21 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(21 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		
+		
+		// Chemin 5
+		path.add(new Position(3 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(6 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(7 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(18 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(19 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 1 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(21 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(21 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(21 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		
+		
+        // Chemin 6
+		path.add(new Position(2 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(4 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(5 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(6 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(7 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 2 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		
+        
+        // Chemin 7
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 13 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 3 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 4 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 5 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 6 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(8 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(9 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(10 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(11 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(12 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(13 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(14 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(15 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(16 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(17 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(18 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(19 * World.getSquareWidth() + World.getSquareWidth() / 2, 12 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(19 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 11 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 10 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 9 * World.getSquareHeight() + World.getSquareHeight() / 2));
+		path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 8 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        path.add(new Position(20 * World.getSquareWidth() + World.getSquareWidth() / 2, 7 * World.getSquareHeight() + World.getSquareHeight() / 2));
+        
+
+        // Douve devant le chateau 
+        for(int i=1; i<15; i++){
+            path.add(new Position(22 * World.getSquareWidth() + World.getSquareWidth() / (float)2.0, i * World.getSquareHeight() + World.getSquareHeight() / (float)2.0));
+        }
+        
+    }
+    
     
      /**
 	 * Verifie si un batiement est present a la position p
@@ -153,5 +444,21 @@ public class BuildingTopology {
             }
         }
         return isBuilding ;
+    }
+
+    /**
+	 * Verifie si un batiement est present a la position p
+	 * @param p 		- a la position p
+	 * @return          - true si un batiment est present a cette position sinon false 
+	 */
+    public boolean onPath(Position p){
+        boolean onPath = false ;
+        for(Position pPath : this.path){
+            // if(p.equalsP(pPath)) isPath = true ;
+            if (p.getX() >= pPath.getX()-0.03 && p.getX() <= pPath.getX() + 0.03){
+                if(p.getY() >= pPath.getY()-0.03 && p.getY() <= pPath.getY() + 0.03) onPath = true ;
+            }
+        }
+        return onPath ;
     }
 }

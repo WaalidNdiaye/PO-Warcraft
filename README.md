@@ -19,11 +19,11 @@ Afin de lancer le jeu et de le tester il vous suffit d'importer le .zip dans l'I
 Voilà, vous pouvez maintenant vous amuser sur un super jeu développé avec passion !
 NOTE: LE MANUEL D'UTILISATION DU JEU SE TROUVE DANS LE MENU
 
-  - INFORMATION GENERALE :
+  - INFORMATIONS GENERALE :
     - MONSTRE & BOSS :
       - LAND MONSTER :      PV : 125  /  VITESSE : 0.002    /  DROP : 3 COINS  /  Vole : NON
       - FLYING MONSTER :    PV : 110  /  VITESSE : 0.0035   /  DROP : 5 COINS  /  Vole : OUI
-      - WolF MONSTER :      PV : 160  /  VITESSE : 0.004    /  DROP : 10 COINS /  Vole : NON
+      - WOLF MONSTER :      PV : 160  /  VITESSE : 0.004    /  DROP : 10 COINS /  Vole : NON
       - BOSS WOLF :         PV : 500  /  VITESSE : 0.0018   /  DROP : 50 COINS /  Vole : NON
           PARTICULARITE : Lorsque sont habilité est rechargé il fait apparaitre autour de lui une horde de loups de plus en plus grande, et il se soigne de 55 PV.
       - BOSS FINAL :        PV : 700  /  VITESSE : 0.0015   /  DROP : 0 COINS  /  Vole : OUI
@@ -42,7 +42,7 @@ NOTE: LE MANUEL D'UTILISATION DU JEU SE TROUVE DANS LE MENU
       - BOMB : Dégats : 65 / Vitesse : 0.004 / Dégats de zone : OUI
 
   - AUTEURS
-NDYIA Tangi: Développeur (Hitbox, Monstre et Projectiles/Gardiens), L1 2ans - 2ème année;
+NDIAYE Tangi: Développeur (Hitbox, Monstre et Projectiles/Gardiens), L1 2ans - 2ème année;
 PACARY Hassan: Développeur (Menu, implémentation des éléments du jeu sur le plateau de jeu et chemins), L1 2ans - 2ème année.
 
   - CONTRIBUTEUR
@@ -60,10 +60,10 @@ Le plateau de jeu est divisé en de nombreux rectangles cela nous permet de just
 position de celui-ci.
 
   - OPTIMISATION :
-   - Utilisation de float : Les variable les plus utilisé dans le programme sont des floats, leur taille etant plus petite que des doubles, nous avons choisit d'utilisé des
-     float en pessant que les calculs seraient plus efficace car moin précis.
-   - Certain objet ne sont pas mit a jour a chaque boucle du jeu par exemple : le calcul de la cible la plus pour une tour ne se fait que toute les 3 boucles de jeu, le 
-     calcul de la rotation de l'image d'une fleche (par rapport a sa cible) ne se fait que tout les 10 boucles de jeu...
+    - Utilisation de float : Les variable les plus utilisé dans le programme sont des floats, leur taille etant plus petite que des doubles, nous avons choisit d'utilisé des
+      float en pessant que les calculs seraient plus efficace car moin précis.
+    - Certain objet ne sont pas mit a jour a chaque boucle du jeu par exemple : le calcul de la cible la plus pour une tour ne se fait que toute les 3 boucles de jeu, le 
+      calcul de la rotation de l'image d'une fleche (par rapport a sa cible) ne se fait que tout les 10 boucles de jeu...
 
 
   - DROIT D'AUTEURS

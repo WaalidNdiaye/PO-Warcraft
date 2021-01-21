@@ -193,14 +193,44 @@ public class World {
 	}
 
 	/**
-	 * Affiche le nombre de coins du joueur et une animation de coin 
+	 * Affiche les 4 dernier messages destiné au joueur (comme dans la console):
+	 * 
 	 */
 	public static void drawTerminal() {
-		Font font = new Font("Arial", Font.ITALIC, 13);
-  		StdDraw.setFont(font);
-		if((infosToDraw.size() - 1) > -1) StdDraw.text(0.095, 0.89 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage()));
-		if((infosToDraw.size() - 2) > -1) StdDraw.text(0.095, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage()));
-		if((infosToDraw.size() - 3) > -1) StdDraw.text(0.095, 0.95 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage()));
+		Font font = new Font("Average", Font.ITALIC, 14);
+		StdDraw.setFont(font);
+		
+		// Affiche le dernier message (dernier element de la liste infosToDraw)
+		if((infosToDraw.size() - 1) > -1) {
+			// Si la chaine de caractere du message est trop longue elle est afficher sur 2 lignes 
+			if(infosToDraw.get(infosToDraw.size() - 1).getMessage().length() > 35){
+				StdDraw.text(0.08, 0.8 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(35)));
+				StdDraw.text(0.08, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(0 , 35)));
+			}
+			else StdDraw.text(0.08, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage()));
+		}
+		// Affiche l'avant dernier message (avant dernier element de la liste infosToDraw)
+		if((infosToDraw.size() - 2) > -1) {
+			if(infosToDraw.get(infosToDraw.size() - 2).getMessage().length() > 35){
+				StdDraw.text(0.08, 0.835 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(35)));
+				StdDraw.text(0.08, 0.85 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(0 , 35)));
+			}
+			else StdDraw.text(0.08, 0.85 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage()));
+		}
+		if((infosToDraw.size() - 3) > -1) {
+			if(infosToDraw.get(infosToDraw.size() - 3).getMessage().length() > 35){
+				StdDraw.text(0.08, 0.87 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(35)));
+				StdDraw.text(0.08, 0.885 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(0 , 35)));
+			}
+			else StdDraw.text(0.08, 0.885 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage()));
+		}
+		if((infosToDraw.size() - 4) > -1) {
+			if(infosToDraw.get(infosToDraw.size() - 4).getMessage().length() > 35){
+				StdDraw.text(0.08, 0.905 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(35)));
+				StdDraw.text(0.08, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(0 , 35)));
+			}
+			else StdDraw.text(0.08, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage()));
+		}
 		
 	}
 
@@ -319,6 +349,12 @@ public class World {
 				drawInfos();
 				updateMonsters();
 				updateTowers();
+				/* NOTE :
+				 * Nous avons rajouter une condition  a certain endroit du programe pour limiter les calcules 
+				 * de notre programme (sans impacter significativement le jeu)
+				 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 10 updates
+				 */
+				if(time%5 == 0) updateInfo(); 						
 			}
 		}
 		drawMouse();
@@ -361,10 +397,10 @@ public class World {
 	}
 	
 	/**
-	 * Cette classe permet un gestion simple des infos a afficher 
+	 * Cette classe permet un gestion simple des informations a afficher 
 	 */
 	private static class Infos{
-		private int time ;
+		private int time ;				
 		private String message;
 
 		public int getTime() {
@@ -379,14 +415,27 @@ public class World {
 			this.message = message ;
 		}	
 	}
+	/**
+	 * Supprime les messages d'informations au bout de 100 update
+	 */
+	public static void updateInfo(){
+		for(Infos i : infosToDraw){
+			if((time - i.getTime()) > 100) {
+				infosToDraw.remove(i);
+				break;
+			}
+		}
+	}
 
 	/**
-	 * Ajoute un message ainsi que le moment auquel il a été émis (si le message n'a pas encore été emis ou si cela fait plus de 30 updates qu'il a été emis)
+	 * Ajoute un message ainsi que le moment auquel il a été émis 
+	 * NOTE :
+	 * Le message n'est pas ajouté si il a deja été emis lors des 10 dernier update  
 	 */
 	public static void addInfo(String message){
 		boolean add = true ;
 		for(Infos i : infosToDraw){
-			if(i.getMessage().equals(message) && time - i.getTime() < 30) add = false ; 
+			if(i.getMessage().equals(message) && time - i.getTime() < 10) add = false ; 
 		}
 		if(add)infosToDraw.add(new Infos(message , time));
 	}

@@ -12,7 +12,7 @@ public class FinalBoss extends Monster {
     private float healRange = (float)0.1;               // Portée de sa capacité a soigner les monstres autours 
 
     public FinalBoss (Position p) {
-		super(p , (float)0.06 , (float)0.0015, 700, 105, true);
+		super(p , (float)0.06 , (float)0.0015, 700, 0, true);
 	}
 	
 	/**
@@ -105,7 +105,7 @@ public class FinalBoss extends Monster {
                 Position newP = generatP();
 
                 // Creation de 1 VogadorMonster
-                Monster m = new FlyingMonster(newP);
+                Monster m = new WolfMonster(newP);
                 m.setNextP(nextP);
                 World.getMonsters().add(m);
 
@@ -113,7 +113,7 @@ public class FinalBoss extends Monster {
 
         }
 
-        if(life <= 640) life += 60;
+        if(life <= 640) life += 80;
         else life += 700 ;
 
         nbrInvocation++;
@@ -131,10 +131,10 @@ public class FinalBoss extends Monster {
 
 
     /**
-	 * Genere aletoirement une position non loin FinalBoss 
+	 * Genere aletoirement une position non loin de FINALBOSS
 	 */
     public Position generatP(){
-        // Genere aleatoirement une nouvelle position pas loin de la position de WolfBoss, pour le nouveau monstre 
+        // Genere aleatoirement une nouvelle position pas loin de la position de FINALBOSS, pour le nouveau monstre 
         int nbX = random.nextInt(7);
         int nbY = random.nextInt(7);
 

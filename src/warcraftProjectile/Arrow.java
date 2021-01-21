@@ -14,7 +14,7 @@ public class Arrow extends Projectile{
 	 * CONSTRUCTEUR 
 	 */
 	public Arrow (Position p , Monster cible) {
-		super(35, (float)0.007, true, p, cible, (float)0.03);
+		super(40, (float)0.007, true, p, cible, (float)0.03);
 		this.angleRotation = angleCalculation();
 	}
 

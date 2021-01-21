@@ -7,7 +7,7 @@ import warcraftMain.World;
 public class LandMonster extends Monster {
 
 	public LandMonster (Position p) {
-		super(p , (float)0.055 , (float)0.002, 125, 2, false);
+		super(p , (float)0.055 , (float)0.002, 125, 3, false);
 		if(World.getCurrentW() >= 5)
 			life = 205;
 	}

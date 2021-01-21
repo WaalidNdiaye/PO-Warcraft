@@ -58,8 +58,8 @@ public class BombTower extends Tower {
 	public void upgrade() {
 		if (level < levelMax) {
 			level++;
-			range += 0.02;
-			cooldown -= 2;
+			range += 0.03;
+			cooldown -= 6;
 			upgradeCost = upgradeCost * 2;
 		} else
 			System.out.println("Cet tour est deja au niveau max !");

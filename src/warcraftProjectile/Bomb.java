@@ -15,7 +15,7 @@ public class Bomb extends Projectile{
 	 * CONSTRUCTEUR 
 	 */
 	public Bomb (Position p, Monster target) {
-		super(65, (float)0.0035, false, p, target, (float)0.008);
+		super(65, (float)0.004, false, p, target, (float)0.008);
 	}
 	
 	/*

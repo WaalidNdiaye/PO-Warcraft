@@ -53,8 +53,8 @@ public class GuardianTower extends Tower {
 	 * Fonction d'affichage de l'attaque a distance du gardien 
 	 */
 	public void drawAttack() {
-		if(time - lastShot > 21  && time - lastShot < 64 && lastShot != -1){
-			if((time - lastShot - 20) % 44  < 10 ) StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY() , "images/Tower/GuardianTower/GuardianAttackAnimation/0" + (time - lastShot  - 20) % 44 + ".png", (1.0/24.0) * 2 , (1.0/15.0) * 2 );
+		if(time - lastShot > 21  && time - lastShot < 64 && lastShot != -1  && pZoneAttack != null){
+			if((time - lastShot - 20) % 44  < 10  ) StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY() , "images/Tower/GuardianTower/GuardianAttackAnimation/0" + (time - lastShot  - 20) % 44 + ".png", (1.0/24.0) * 2 , (1.0/15.0) * 2 );
 			else StdDraw.picture(pZoneAttack.getX() + 0.01, pZoneAttack.getY(), "images/Tower/GuardianTower/GuardianAttackAnimation/" + (time - lastShot  - 20)% 44 + ".png", (1.0/24.0) * 2, (1.0/15.0) * 2);
 		} 
 	}

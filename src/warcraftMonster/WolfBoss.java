@@ -10,7 +10,7 @@ public class WolfBoss extends Monster {
     private int nbrInvocation = 0;                      // Nombre d'invocation deja effectué
 
     public WolfBoss (Position p) {
-		super(p , (float)0.04 , (float)0.0018, 500, 25, false);
+		super(p , (float)0.04 , (float)0.0018, 500, 50, false);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class WolfBoss extends Monster {
             Position newP = new Position(newX , newY);
 
             // Creation d'un nouveau monstre 
-            Monster m = new VogadorMonster(newP);
+            Monster m = new WolfMonster(newP);
             m.setNextP(nextP);
 
             World.getMonsters().add(m);

@@ -18,11 +18,11 @@ public class WaveL5{
     public static void buildWave(){
         if(World.getTime() == 1640){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 1660){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 1700){
             Position p = new Position(World.getSpawn());
@@ -46,11 +46,11 @@ public class WaveL5{
         }
         if(World.getTime() == 1770){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 1790){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 1830){
             Position p = new Position(World.getSpawn());
@@ -74,11 +74,11 @@ public class WaveL5{
         }
         if(World.getTime() == 1900){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 1920){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 1960){
             Position p = new Position(World.getSpawn());
@@ -102,11 +102,11 @@ public class WaveL5{
         }
         if(World.getTime() == 2030){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2050){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2090){
             Position p = new Position(World.getSpawn());
@@ -130,11 +130,11 @@ public class WaveL5{
         }
         if(World.getTime() == 2160){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2180){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2220){
             Position p = new Position(World.getSpawn());
@@ -158,11 +158,11 @@ public class WaveL5{
         }
         if(World.getTime() == 2290){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2310){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2350){
             Position p = new Position(World.getSpawn());
@@ -186,11 +186,11 @@ public class WaveL5{
         }
         if(World.getTime() == 2420){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2440){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 2480){
             Position p = new Position(World.getSpawn());

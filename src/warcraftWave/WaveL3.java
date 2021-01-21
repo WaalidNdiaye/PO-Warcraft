@@ -18,7 +18,7 @@ public class WaveL3{
     public static void buildWave(){
         if(World.getTime() == 710){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 750){
             Position p = new Position(World.getSpawn());
@@ -46,7 +46,7 @@ public class WaveL3{
         }
         if(World.getTime() == 780){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 820){
             Position p = new Position(World.getSpawn());
@@ -74,7 +74,7 @@ public class WaveL3{
         }
         if(World.getTime() == 900){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 940){
             Position p = new Position(World.getSpawn());
@@ -102,7 +102,7 @@ public class WaveL3{
         }
         if(World.getTime() == 1020){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new VogadorMonster(p));
+            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTime() == 1060){
             Position p = new Position(World.getSpawn());

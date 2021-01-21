@@ -75,8 +75,8 @@ public class ArcheryTower extends Tower {
 	public void upgrade() {
 		if(level < levelMax){
 			level++;
-			range += 0.03;
-			cooldown -= 4;
+			range += 0.05;
+			cooldown -= 5;
 			upgradeCost = upgradeCost * 2;
 		}
 		else System.out.println("Cet tour est deja au niveau max !");

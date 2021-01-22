@@ -10,7 +10,7 @@ public class WolfBoss extends Monster {
     private int nbrInvocation = 0;                      // Nombre d'invocation deja effectué
 
     public WolfBoss (Position p) {
-		super(p , (float)0.04 , (float)0.0018, 500, 50, false);
+		super(p , (float)0.04 , (float)0.00225, 600, 35, false);
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class WolfBoss extends Monster {
         
         // Chargement & declenchement de l'Invocation
         if((time - lastInvocation) > cooldown) chargeInvocation();
-        if( time - lastInvocation == 16) invocation();
+        if( time - lastInvocation == 25) invocation();
 
         // Affichage de l'animation d'invocation du Boss
         if((time - lastInvocation) >= 0 && (time - lastInvocation) < 16)  drawInvocation();
@@ -83,8 +83,8 @@ public class WolfBoss extends Monster {
             World.getMonsters().add(m);
         }
 
-        if(life >= 445) life += 55;
-        else life += 500 ;
+        if(life <= 550) life += 50;
+        else life = 600;
 
         nbrInvocation++;
 

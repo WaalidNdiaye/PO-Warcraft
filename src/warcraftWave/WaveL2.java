@@ -16,69 +16,71 @@ public class WaveL2{
      * Fait spawn les monstre en fonction de la variable World.time
      */
     public static void buildWave(){
-        if(World.getTime() == 380){
+        if(World.getTimeWave() == 380){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 400){
+        if(World.getTimeWave() == 400){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 420){
+        if(World.getTimeWave() == 420){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 430){
+        if(World.getTimeWave() == 440){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(World.getTime() == 440){
+        if(World.getTimeWave() == 460){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 460){
+        if(World.getTimeWave() == 480){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 480){
+        if(World.getTimeWave() == 500){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 490){
+        if(World.getTimeWave() == 520){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(World.getTime() == 500){
+        if(World.getTimeWave() == 540){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 520){
+        if(World.getTimeWave() == 560){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 540){
+        if(World.getTimeWave() == 580){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 550){
+        if(World.getTimeWave() == 600){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(World.getTime() == 560){
+        if(World.getTimeWave() == 620){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 580){
+        if(World.getTimeWave() == 640){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 600){
+        if(World.getTimeWave() == 660){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTime() == 6100){
+        if(World.getTimeWave() == 680){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
+        if(World.getTimeWave() == 681)
+            World.setEndSpawnMonsters(true);
     }
 }

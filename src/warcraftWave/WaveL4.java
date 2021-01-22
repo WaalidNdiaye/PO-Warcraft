@@ -16,9 +16,11 @@ public class WaveL4{
      * Fait spawn les monstre en fonction de la variable World.time
      */
     public static void buildWave(){
-        if(World.getTime() == 1240){
+        if(World.getTimeWave() == 1240){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new WolfBoss(p));
         }
+        if(World.getTimeWave() == 1241)
+            World.setEndSpawnMonsters(true);
     }
 }

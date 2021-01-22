@@ -12,7 +12,7 @@ public class FinalBoss extends Monster {
     private float healRange = (float)0.1;               // Portée de sa capacité a soigner les monstres autours 
 
     public FinalBoss (Position p) {
-		super(p , (float)0.06 , (float)0.0015, 700, 0, true);
+		super(p , (float)0.06 , (float)0.001875, 800, 0, true);
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class FinalBoss extends Monster {
         
         // Chargement & declenchement de l'Invocation
         if((time - lastInvocation) > cooldown) chargeInvocation();
-        if(time - lastInvocation == 9) heal();
+        if(time - lastInvocation == 25) heal();
         if( time - lastInvocation == 32) invocation();
 
         // Affichage de l'animation d'invocation du Boss
@@ -113,8 +113,8 @@ public class FinalBoss extends Monster {
 
         }
 
-        if(life <= 640) life += 80;
-        else life += 700 ;
+        if(life <= 730) life += 70;
+        else life += 800 ;
 
         nbrInvocation++;
 

@@ -7,9 +7,19 @@ import warcraftMain.World;
 public class LandMonster extends Monster {
 
 	public LandMonster (Position p) {
-		super(p , (float)0.055 , (float)0.002, 125, 3, false);
-		if(World.getCurrentW() >= 5)
-			life = 205;
+		super(p , (float)0.055 , (float)0.0025, 125, 3, false);
+		//Pour les vagues 3 et 5 la vie des LandMonsters est egale a 125+(125/2)
+		//Pour les vagues 3 et 5 la vitesse des LandMonsters est egale a 0.0025+(0.0025/5)
+		if(World.getCurrentW() == 3 || World.getCurrentW() == 5) {
+			life = 187;
+			speed = (float)0.0030;
+		}
+		//Pour les vagues 6 et 7 la vie des LandMonsters est egale a 187+(187/2)
+		//Pour les vagues 6 et 7 la vitesse des LandMonsters est egale a 0.0030+(0.0030/5)
+		if(World.getCurrentW() == 6 || World.getCurrentW() == 7) {
+			life = 280;
+			speed = (float)0.0036;
+		}
 	}
 	
 	// Affichage du monstre 

@@ -23,27 +23,29 @@ public class World {
 	private static BuildingTopology building = new BuildingTopology();		// Liste de la postion des cases où un batiment (ou un chemin) est situé
 	
 	// Informations utilise pour le fonctionnement des vagues
-	private static int nbWaves;												// Nombre de vague que le joueur souhaite jouer
+	private static int nbWaves = 1;											// Nombre de vague que le joueur souhaite jouer
 	private static int currentW = 1;										// Vague actuelle
+	private static int timeWave = 0;										// Repere chronologique exclusive pour l'avance des vagues
+	private static boolean endSpawnMonsters = false;						// Indique si on a fini de faire spawn tout les monstres d'une vague
 	private static List<Monster> monsters = new ArrayList<Monster>();		// Liste des monstres
 	private static List <Tower> towers = new ArrayList<Tower>();			// Liste des tours presentes sur le plateau de jeu
 	private static List<Position> path;										// Liste des positions du chemin utilise durant la vague en cours
 
 	// Informations de l inventaire du joueur
-	private static int life = 10;											// Nombre de points de vie du joueur
+	private static int life = 15;											// Nombre de points de vie du joueur
 	private static int coin = 105;											// Argent (pour acheter les tours)
 	private static List<Infos> infosToDraw = new ArrayList<Infos>();		// Liste des information a afficher 
 	
 	// Actions du joueur
 	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
-	private static float mouseX = -1;
-	private static float mouseY = -1;
-	private static Position pMouse = new Position(mouseX, mouseY); 			//Postion de la souri (initialisé en dehors du plateau)
+	private static float mouseX = -1;										// Position X de la souris
+	private static float mouseY = -1;										// Position Y de la souris
+	private static Position pMouse = new Position(mouseX, mouseY); 			// Postion de la souri (initialisé en dehors du plateau)
 	
 	// Partie
+	private static boolean sousMenu = false;								// Indique si le sous menu "i" est ouvert ou non
 	private static boolean start = false;									// Condition pour que la partie commence
 	private static boolean pause = false;									// Indique si le jeu est en pause
-	private static boolean sousMenu = false;								// Indique si le sous menu "i" est ouvert ou non
 	private static boolean end = false;										// Condition pour terminer la partie
 	private static boolean win = false;										// Indique si le joueur a gagne
 	private static boolean lose = false;									// Indique si le joueur a perdu
@@ -100,6 +102,12 @@ public class World {
 	public static int getTime(){
 		return time;
 	}
+	public static int getTimeWave(){
+		return timeWave;
+	}
+	public static void setEndSpawnMonsters(boolean end) {
+		endSpawnMonsters = end;
+	}
 	public static List<Position> getPath(){
 		return path ;
 	}
@@ -112,10 +120,9 @@ public class World {
 	
 	/**
 	 * Initialisation du plateau de jeu
-	 * 		- Initialisation du spawn
-	 * 				--> a la case num 8 du plateau de jeu
-	 *  	- Initialisation du chateau
-	 * 				--> a la case num 352 du plateau de jeu
+	 * 
+	 * 	- Init de la position du spawn (case 8)
+	 * 	- Init de la position du chateau (case 352)
 	 */
 	public World() {
 		square = Square.setBoard();
@@ -134,13 +141,24 @@ public class World {
 					//	//////	   //	//   //	   //	   ///	   ///		//
 					//******************************************************//
 	/**
-	 * Definit le background du menu principal
+	 * Dessine le menu du jeu
 	 */
 	public static void drawMenu() {
 		StdDraw.picture(0.5, 0.5, "images/menu.png", 1, 1);
-		StdDraw.picture(Square.normalizedX(mouseX), Square.normalizedY(mouseY), "images/select.png", squareWidth, squareHeight);
+		
 		if(sousMenu)
 			StdDraw.picture(0.5, 0.5, "images/i.png", 1, 1);
+		
+		// Affiche le carre de selection seulement sur les case voulu
+		if(Square.compareNormalized(mouseX, square.get(125).getX(), mouseY, square.get(125).getY())
+				|| Square.compareNormalized(mouseX, square.get(140).getX(), mouseY, square.get(140).getY())
+				|| Square.compareNormalized(mouseX, square.get(155).getX(), mouseY, square.get(155).getY())
+				|| Square.compareNormalized(mouseX, square.get(170).getX(), mouseY, square.get(170).getY())
+				|| Square.compareNormalized(mouseX, square.get(185).getX(), mouseY, square.get(185).getY())
+				|| Square.compareNormalized(mouseX, square.get(200).getX(), mouseY, square.get(200).getY())
+				|| Square.compareNormalized(mouseX, square.get(215).getX(), mouseY, square.get(215).getY())
+				|| Square.compareNormalized(mouseX, square.get(230).getX(), mouseY, square.get(230).getY()))
+			StdDraw.picture(Square.normalizedX(mouseX), Square.normalizedY(mouseY), "images/select.png", squareWidth, squareHeight);
 	}
 	
 	/**
@@ -153,8 +171,9 @@ public class World {
 
 	/**
 	 * Affiche differentes informations a l ecran
-	 * 		- la vie du joueur (life)
-	 * 		- l argent qu il possede dans son inventaire (coin)
+	 * 
+	 * 	- la vie du joueur (life)
+	 * 	- l argent qu il possede dans son inventaire (coin)
 	 */
 	public static void drawInfos() {
 		StdDraw.picture(0.92, 0.92, "images/SupportDrawInfos.png" , 0.13, 0.13);
@@ -173,12 +192,10 @@ public class World {
 		StdDraw.text(0.91, 0.95, String.valueOf(life + " HP"));
 
 		// Affichage de l'animation de coeur a coter 
-		if(life == 20) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/00.png" , 0.035, 0.06);
-		if(life < 20 && life > 15) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/01.png" , 0.035, 0.06);
-		if(life <= 15 && life > 11) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/02.png" , 0.035, 0.06);
-		if(life <= 11 && life > 8) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/03.png" , 0.035, 0.06);
-		if(life <= 8 && life > 4) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/04.png" , 0.035, 0.06);
-		if(life <= 4) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/05.png" , 0.035, 0.06);
+		if(life <= 15 && life > 11) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/00.png" , 0.035, 0.06);
+		if(life <= 11 && life > 8) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/01.png" , 0.035, 0.06);
+		if(life <= 8 && life > 4) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/02.png" , 0.035, 0.06);
+		if(life <= 4) StdDraw.picture(0.941, 0.951, "images/Animation/HeartAnimation/03.png" , 0.035, 0.06);
 	}
 	
 	/**
@@ -189,27 +206,28 @@ public class World {
 		Font font = new Font("Sans Serif", Font.PLAIN, 16);
   		StdDraw.setFont(font);
 		StdDraw.text(0.91, 0.90 , String.valueOf(coin + " coins "));
+		
 		StdDraw.picture(0.95, 0.901, "images/Animation/CoinAnimation/" + time % 6 + ".png" , 0.06, 0.06);
 	}
 
 	/**
-	 * Affiche les 4 dernier messages destiné au joueur (comme dans la console):
+	 * Affiche les quatres derniers messages destine au joueur (comme dans la console)
 	 * 
+	 * 	- Affiche les messages sous forme de liste (le dernier en premier, l'avant dernier en second, ect)
+	 * 	- Si le message est trop long il est affiche sur deux lignes
 	 */
 	public static void drawTerminal() {
 		Font font = new Font("Average", Font.ITALIC, 14);
 		StdDraw.setFont(font);
 		
-		// Affiche le dernier message (dernier element de la liste infosToDraw)
 		if((infosToDraw.size() - 1) > -1) {
-			// Si la chaine de caractere du message est trop longue elle est afficher sur 2 lignes 
 			if(infosToDraw.get(infosToDraw.size() - 1).getMessage().length() > 35){
 				StdDraw.text(0.08, 0.8 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(35)));
 				StdDraw.text(0.08, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(0 , 35)));
 			}
 			else StdDraw.text(0.08, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage()));
 		}
-		// Affiche l'avant dernier message (avant dernier element de la liste infosToDraw)
+
 		if((infosToDraw.size() - 2) > -1) {
 			if(infosToDraw.get(infosToDraw.size() - 2).getMessage().length() > 35){
 				StdDraw.text(0.08, 0.835 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(35)));
@@ -217,6 +235,7 @@ public class World {
 			}
 			else StdDraw.text(0.08, 0.85 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage()));
 		}
+		
 		if((infosToDraw.size() - 3) > -1) {
 			if(infosToDraw.get(infosToDraw.size() - 3).getMessage().length() > 35){
 				StdDraw.text(0.08, 0.87 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(35)));
@@ -224,6 +243,7 @@ public class World {
 			}
 			else StdDraw.text(0.08, 0.885 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage()));
 		}
+		
 		if((infosToDraw.size() - 4) > -1) {
 			if(infosToDraw.get(infosToDraw.size() - 4).getMessage().length() > 35){
 				StdDraw.text(0.08, 0.905 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(35)));
@@ -231,40 +251,25 @@ public class World {
 			}
 			else StdDraw.text(0.08, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage()));
 		}
-		
-	}
-
-
-
-	/**
-	 * Comme son nom l'indique, cette fonction permet d'afficher dans le terminal les différentes possibilités
-	 * offertes au joueur pour intéragir avec le clavier
-	 */
-	public static void printCommands() {
-		System.out.println("Press A to select Arrow Tower (cost 30c).");
-		System.out.println("Press B to select Cannon Tower (cost 55c).");
-		System.out.println("Press G to select Guardian  (cost 100g).");
-		System.out.println("Press E to update a tower (cost 100g).");
-		System.out.println("Click on the grass to build it.");
-		System.out.println("Press S to start.");
 	}
 
 	/**
-	 * Fonction qui recupere le positionnement de la souris et permet d'afficher une image de tour en temps reel
-	 * cela lorsque le joueur appuis sur une touche specifique :
+	 * Recupere le positionnement de la souris et permet d'afficher une image de gardien en temps reel
 	 * 
-	 * 		- 'a' --> affiche une tour d archers et sa porte
-	 * 		- 'b' --> affiche une tour de bombes et sa porte
-	 * 		- 'g' --> affiche un gardien et sa porte
+	 * 	- Affiche un gardien archer si le joueur a appuye sur "a"
+	 * 	- Affiche un gardien bombardie si le joueur a appuye sur "b"
+	 * 	- Affiche un gardien si le joueur a appuye sur "g"
+	 * 	- Affiche la porte des gardien si il place son curseur sur celui-ci
 	 * 
-	 * 		- affiche la porte d une tour si on passe notre souris dessus
+	 * La condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
 	 */
 	public static void drawMouse() {
+		// Hauteur a rajouter pour l'affichage du defenceur 
+		float heigth ;
+		
 		switch (key) {
 		case 'a' :
 			if(canCreatTower(pMouse, 25, false) && !end && !pause) {
-				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
-				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
 				if(building.isBuilding(pMouse)) heigth = (float) 0.03 ;
 				else heigth = (float) 0.01 ;
 
@@ -277,8 +282,6 @@ public class World {
 			break;
 		case 'b' :
 			if(canCreatTower(pMouse, 55, false ) && !end && !pause){
-				// Condition building.isBuilding(pMouse) renseigne si le defenseur est sur un batiment ou non (influe sur l'affichage)
-				float heigth ;												// Hauteur a rajouter pour l'affichage du defenceur 
 				if(building.isBuilding(pMouse)) heigth = (float) 0.015 ;
 				else heigth = 0;
 
@@ -301,7 +304,6 @@ public class World {
 			break;
 		}
 		
-		// Affiche la portée de la tour lorsque l'on passe la souris dessus 
 		if(towers != null){
 			for(Tower t : towers)
 				if(pMouse.equalsP(t.getP() )) {
@@ -322,17 +324,16 @@ public class World {
 	 * Met a jour toutes les informations du plateau de jeu :
 	 * 
 	 * Si start est faux
-	 * 		- le menu
+	 * 	- le menu
 	 * 
 	 * sinon
-	 * 		- le background
-	 * 		- les vagues
-	 * 		- la position de la souris
-	 * 		- time
-	 * 		- les infos
-	 * 		- les listes de monstres et tours
-	 * 
-	 * @return les points de vie restants du joueur
+	 * 	- le background
+	 * 	- les vagues
+	 * 	- la position de la souris
+	 * 	- time
+	 * 	- timeWave si le dernier monstre de la vague n'a pas spawn
+	 * 	- les infos
+	 * 	- les listes de monstres et tours
 	 */
 	public static void update() {
 		if(!start)
@@ -346,6 +347,8 @@ public class World {
 			 	pMouse.setX(Square.normalizedX(mouseX));
 				pMouse.setY(Square.normalizedY(mouseY));
 				time++;
+				if(!endSpawnMonsters)
+					timeWave++;
 				drawInfos();
 				updateMonsters();
 				updateTowers();
@@ -415,6 +418,7 @@ public class World {
 			this.message = message ;
 		}	
 	}
+	
 	/**
 	 * Supprime les messages d'informations au bout de 100 update
 	 */
@@ -447,17 +451,14 @@ public class World {
 	 * Ici nous utilisons une boucle for qui parcours la liste de monstre a l'envers, cela nous permet d'eviter
 	 * un crash du programme lors de la suppression d un monstre au debut de la liste
 	 * 
-	 * 		- update du monstre
-	 * 
-	 * 		- Si le monstre meurt
-	 * 			--> Le joueur gagne des coins
-	 * 			--> Supprime le monstre
-	 * 
-	 * 		- Si le monstre est arrive au chateau
-	 * 			--> Enleve 1 point de vie au joueur
-	 * 			--> Supprime le monstre
-	 * 
-	 * 		- Modifie la position du monstre en fonction de son parametre nextP et la liste Path
+	 * 	- update du monstre
+	 * 	- Si le monstre meurt
+	 * 		--> Le joueur gagne des coins
+	 * 		--> Supprime le monstre
+	 * 	- Si le monstre est arrive au chateau
+	 * 		--> Enleve 1 point de vie au joueur
+	 * 		--> Supprime le monstre
+	 * 	- Modifie la position du monstre en fonction de son parametre nextP et la liste Path
 	 */
 	public static void updateMonsters() {
 		for(int i = monsters.size() - 1 ; i >=0 ; i--){
@@ -489,11 +490,11 @@ public class World {
 	}
 	
 	/**
-	 * Verifie si il est possible de creer une tour avec les differentes conditions en porametre
-	 * @param p 		- a la position p
-	 * @param cost 		- avec les coin disponibles dans l inventaire
-	 * @param drawInfos - si tel est le cas modifier l affichage des coin
-	 * @return
+	 * Verifie si il est possible de creer une tour
+	 * @param p position
+	 * @param cost prix de la tour
+	 * @param drawInfos information a modifier
+	 * @return true si une tour peut etre cree sinon false
 	 */
 	public static boolean canCreatTower(Position p , int cost , boolean drawInfos){
 		if(building.onPath(p)){
@@ -512,25 +513,28 @@ public class World {
 			addInfo("Il vous faut plus d'argent ! ");
 			return false ;
 		}
-		
 		return true;
 	}
 	
 	/**
-	 * Si le joueur n a plus de vie alors la partie prend fin
+	 * Verifie si la partie est fini
+	 * 	- Si le joueur n'a plus de points de vie
+	 * 	- Si la derniere vague a ete remporte
+	 * @param endWave indique si la derniere vague est fini
 	 */
 	public static void updateEnd(boolean endWave) {
 		if(life <= 0) {
 			StdDraw.picture(0.5, 0.5, "images/wave/lose.png", 1, 1);
+			pause = true;
 			lose = true;
-			endWave = false ;
 		}
 		
 		if(endWave) {
 			StdDraw.picture(0.5, 0.5, "images/wave/win.png", 1, 1);
+			pause = true;
 			win = true;
-			endWave = false ;
 		}
+		endWave = false;
 	}
 
 					//**************************************************************//
@@ -543,14 +547,14 @@ public class World {
 	/**
 	 * Recupere la touche appuyee par l utilisateur effectue l action associe puis affiche les informations pour la touche selectionnee
 	 * 
-	 * 		- 'a' --> tour d archers
-	 * 		- 'b' --> tour de bombes
-	 * 		- 'g' --> gardien
-	 * 		- 'e' --> evoluer une tour
-	 * 		- 's' --> start game
-	 * 		- 'q' --> quit game
+	 * 	- 'a' --> tour d archers
+	 * 	- 'b' --> tour de bombes
+	 * 	- 'g' --> gardien
+	 * 	- 'e' --> evoluer une tour
+	 * 	- 's' --> start game
+	 * 	- 'q' --> quit game
 	 * 
-	 * @param key la touche utilisee par le joueur
+	 * @param k touche utilisee par le joueur
 	 */
 	public static void keyPress(char k) {
 		key = Character.toLowerCase(k);
@@ -582,14 +586,14 @@ public class World {
 
 	/**
 	 * Verifie lorsque l'utilisateur clique sur sa souris si il peut:
-	 * @param x
-	 * @param y
+	 * @param x position sur l'axe X de la souris
+	 * @param y position sur l'axe Y de la souris
 	 */
 	public static void mouseClick(float x, float y) {
 		/**
 		 * 	- Ajouter une tour a la position indiquee par la souris.
 		 * 	- Ameliorer une tour existante.
-		 * 	- Puis l ajouter a� la liste des tours
+		 * 	- Puis l'ajouter a la liste des tours
 		 */
 		Position pTower = new Position(Square.normalizedX(x), Square.normalizedY(y));
 		
@@ -636,7 +640,7 @@ public class World {
 		}
 		
 		/**
-		 * 	- Si la partie n a pas commence
+		 * Si la partie n'a pas commence
 		 * 	- permet au joueur d'aller dans le sous menu
 		 * 	- initilise le nombre de vague que le joueur jouera en fonction de sa selection
 		 */
@@ -675,7 +679,7 @@ public class World {
 		}
 		
 		/**
-		 * 	- Si la partie est en pause (entre chaque vague)
+		 * Si la partie est en pause (entre chaque vague)
 		 * 	- cliquer sur le bouton indique sur le plateau de jeu pour continuer
 		 */
 		if(pause) {
@@ -697,6 +701,7 @@ public class World {
 					|| Square.compareNormalized(x, square.get(231).getX(), y, square.get(231).getY())) {
 				pause = false;
 				currentW++;
+				endSpawnMonsters = false;
 				Wave.setInitW(false);
 				if(win || lose) {
 					end = true;
@@ -708,11 +713,9 @@ public class World {
 	}
 
 	/**
-	 * Recupere la touche entree au clavier ainsi que la position de la souris et met e�jour le plateau en fonction de ces interractions
+	 * Recupere la touche entree au clavier ainsi que la position de la souris et met a jour le plateau en fonction de ces interractions
 	 */
 	public void run() {
-		printCommands();
-		
 		while(true) {
 			StdDraw.clear();
 			update();
@@ -737,12 +740,13 @@ public class World {
 	 * reinitialise les valeurs par default
 	 */
 	public static void clear (){
+		nbWaves = 1;
 		currentW = 1;
 		monsters.clear();
 		towers.clear();
 		path.clear();
-		life = 20;
-		coin = 145;
+		life = 14;
+		coin = 105;
 		key = 0;
 		start = false;
 		end = false;
@@ -751,6 +755,8 @@ public class World {
 		if(lose)
 			lose = false;
 		time = 0;
+		timeWave = 0;
+		Wave.setInitW(false);
 		StdDraw.clear();
 	}
 

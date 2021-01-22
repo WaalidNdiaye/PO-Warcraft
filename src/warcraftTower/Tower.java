@@ -21,8 +21,8 @@ public abstract class Tower {
 	protected Monster target = null ;			// Cible de la tour 
 	protected boolean onBuild ;					// Si le defenseur est sur une construction 
 
-	/*
-	 * GETTERS AND SETTERS
+	/**
+	 * Getters and Setters
 	 */
 	public int getTowerCost() {
 		return towerCost;
@@ -64,8 +64,13 @@ public abstract class Tower {
 		this.upgradeCost = upgradeCost;
 	}
 
-	/*
-	 * CONSTRUCTEUR 
+	/**
+	 * Constructeur
+	 * @param towerCost prix
+	 * @param range range d'attaque
+	 * @param cooldown cooldown entre chaque attaque
+	 * @param aerialTarget zone d'attaque
+	 * @param p position
 	 */
 	public Tower(int towerCost, float range, int cooldown, boolean aerialTarget , Position p ) {
 		this.towerCost = towerCost;
@@ -80,12 +85,10 @@ public abstract class Tower {
 		System.out.println("le defenceur est sur une tour : " + onBuild );
 	}
 	
-
 	public abstract void draw();
 
 	public abstract void upgrade();
 
 	public abstract void update();
-
 
 }

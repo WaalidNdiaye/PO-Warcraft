@@ -14,8 +14,9 @@ public class Bomb extends Projectile{
 	/*
 	 * CONSTRUCTEUR 
 	 */
+	//La vitesse des fleches egale: vitesse de base des LandMonsters*2
 	public Bomb (Position p, Monster target) {
-		super(65, (float)0.004, false, p, target, (float)0.008);
+		super(65, (float)0.005, false, p, target, (float)0.008);
 	}
 	
 	/*

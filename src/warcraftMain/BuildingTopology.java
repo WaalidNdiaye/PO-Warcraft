@@ -8,7 +8,7 @@ import java.util.Set;
 public class BuildingTopology {
 
     private List<Position> building = new ArrayList<Position>();		// Liste des postion des cases contenant batiment(pour afficher les defenceurs dessus)
-    private Set<Position> path = new LinkedHashSet<Position>();               // Liste des postion des cases sur lesquels un chemin passe (pour bloquer l'affichage des defenceurs )
+    private Set<Position> path = new LinkedHashSet<Position>();         // Liste des postion des cases sur lesquels un chemin passe (pour bloquer l'affichage des defenceurs )
 
     /*
 	 * CONSTRUCTEUR 

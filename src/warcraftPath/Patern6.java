@@ -8,9 +8,9 @@ import warcraftMain.World;
 
 public class Patern6 {
 	
-	/*
-	 * Constructeur du chemin Patern6
-	 * chemin des vagues intermediaire, ordre genere aleatoirement
+	/**
+	 * Constructeur
+	 * @return une liste de position formant un chemin que les monstres devront suivrent
 	 */
 	public static List<Position> pathconstruct() {
 		List<Position> path = new LinkedList<Position>();

@@ -16,15 +16,15 @@ public class WaveL8{
      * Fait spawn les monstre en fonction de la variable World.time
      */ 
     public static void buildWave(){
-        if(World.getTime() == 4930){
+        if(World.getTimeWave() == 4930){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new WolfBoss(p));
         }
-        if(World.getTime() == 5030){
+        if(World.getTimeWave() == 5030){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FinalBoss(p));
         }
-        if(World.getTime() == 5130){
+        if(World.getTimeWave() == 5130){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new WolfBoss(p));
         }

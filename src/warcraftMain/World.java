@@ -34,7 +34,7 @@ public class World {
 	// Informations de l inventaire du joueur
 	private static int life = 15;											// Nombre de points de vie du joueur
 	private static int coin = 105;											// Argent (pour acheter les tours)
-	private static List<Infos> infosToDraw = new ArrayList<Infos>();		// Liste des information a afficher 
+	private static Terminal terminal = new Terminal();
 	
 	// Actions du joueur
 	private static char key;												// Commande sur laquelle le joueur appuie (sur le clavier)
@@ -180,7 +180,6 @@ public class World {
 		drawLife();
 		drawCoin();
 		drawWave();
-		drawTerminal();
 	}
 
 	/**
@@ -216,50 +215,6 @@ public class World {
 		Font font = new Font("Sans Serif", Font.PLAIN, 16);
   		StdDraw.setFont(font);
 		StdDraw.text(0.92, 0.85 , String.valueOf("Vague " + currentW));
-	}
-
-	/**
-	 * Affiche les quatres derniers messages destine au joueur (comme dans la console)
-	 * 
-	 * 	- Affiche les messages sous forme de liste (le dernier en premier, l'avant dernier en second, ect)
-	 * 	- Si le message est trop long il est affiche sur deux lignes
-	 */
-	public static void drawTerminal() {
-		StdDraw.setPenColor(StdDraw.BLACK);
-		Font font = new Font("Average", Font.ITALIC, 14);
-		StdDraw.setFont(font);
-		
-		if((infosToDraw.size() - 1) > -1) {
-			if(infosToDraw.get(infosToDraw.size() - 1).getMessage().length() > 35){
-				StdDraw.text(0.08, 0.8 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(35)));
-				StdDraw.text(0.08, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(0 , 35)));
-			}
-			else StdDraw.text(0.08, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage()));
-		}
-
-		if((infosToDraw.size() - 2) > -1) {
-			if(infosToDraw.get(infosToDraw.size() - 2).getMessage().length() > 35){
-				StdDraw.text(0.08, 0.835 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(35)));
-				StdDraw.text(0.08, 0.85 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(0 , 35)));
-			}
-			else StdDraw.text(0.08, 0.85 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage()));
-		}
-		
-		if((infosToDraw.size() - 3) > -1) {
-			if(infosToDraw.get(infosToDraw.size() - 3).getMessage().length() > 35){
-				StdDraw.text(0.08, 0.87 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(35)));
-				StdDraw.text(0.08, 0.885 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(0 , 35)));
-			}
-			else StdDraw.text(0.08, 0.885 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage()));
-		}
-		
-		if((infosToDraw.size() - 4) > -1) {
-			if(infosToDraw.get(infosToDraw.size() - 4).getMessage().length() > 35){
-				StdDraw.text(0.08, 0.905 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(35)));
-				StdDraw.text(0.08, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(0 , 35)));
-			}
-			else StdDraw.text(0.08, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage()));
-		}
 	}
 
 	/**
@@ -361,12 +316,7 @@ public class World {
 				drawInfos();
 				updateMonsters();
 				updateTowers();
-				/* NOTE :
-				 * Nous avons rajouter une condition  a certain endroit du programe pour limiter les calcules 
-				 * de notre programme (sans impacter significativement le jeu)
-				 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 10 updates
-				 */
-				if(time%5 == 0) updateInfo(); 						
+				terminal.updateTerminal(time); 						
 			}
 		}
 		drawMouse();
@@ -408,50 +358,7 @@ public class World {
 		Wave.nextWave();
 	}
 	
-	/**
-	 * Cette classe permet un gestion simple des informations a afficher 
-	 */
-	private static class Infos{
-		private int time ;				
-		private String message;
 
-		public int getTime() {
-			return time;
-		}
-		public String getMessage() {
-			return message;
-		}
-
-		public Infos(String message , int time){
-			this.time = time ;
-			this.message = message ;
-		}	
-	}
-	
-	/**
-	 * Supprime les messages d'informations au bout de 100 update
-	 */
-	public static void updateInfo(){
-		for(Infos i : infosToDraw){
-			if((time - i.getTime()) > 100) {
-				infosToDraw.remove(i);
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Ajoute un message ainsi que le moment auquel il a été émis 
-	 * NOTE :
-	 * Le message n'est pas ajouté si il a deja été emis lors des 10 dernier update  
-	 */
-	public static void addInfo(String message){
-		boolean add = true ;
-		for(Infos i : infosToDraw){
-			if(i.getMessage().equals(message) && time - i.getTime() < 10) add = false ; 
-		}
-		if(add)infosToDraw.add(new Infos(message , time));
-	}
 
 	/**
 	 * Update chaque Monstre en fonction de ses attribut et de sa position
@@ -507,19 +414,19 @@ public class World {
 	 */
 	public static boolean canCreatTower(Position p , int cost , boolean drawInfos){
 		if(building.onPath(p)){
-			if(drawInfos) addInfo("Position impossible ! Vous etes sur le chemin.");
+			if(drawInfos) terminal.addInfo("Position impossible ! Vous etes sur le chemin.");
 				return false;
 		}
 		
 		for(int i = 0 ; i < towers.size() ; i++){
 			if(p.equalsP(towers.get(i).getP()) ) {
-				if(drawInfos)  addInfo("Position impossible ! Une tour est deja présente");
+				if(drawInfos)  terminal.addInfo("Position impossible ! Une tour est deja présente");
 				return false ;
 			}
 		}
 		
 		if(coin < cost) {
-			addInfo("Il vous faut plus d'argent ! ");
+			if(drawInfos) terminal.addInfo("Il vous faut plus d'argent ! ");
 			return false ;
 		}
 		return true;
@@ -570,23 +477,23 @@ public class World {
 		
 		switch (key) {
 		case 'a':
-			addInfo("Arrow Tower selected (25 coins).");
+			terminal.addInfo("Arrow Tower selected (25 coins).");
 			break;
 		case 'b':
-			addInfo("Bomb Tower selected (55 coins).");
+			terminal.addInfo("Bomb Tower selected (55 coins).");
 			break;
 		case 'g':
-			addInfo("Guardian selected (100 coins).");
+			terminal.addInfo("Guardian selected (100 coins).");
 			break;
 		case 'e':
-			addInfo("Evolution selected (40 coins).");
+			terminal.addInfo("Evolution selected (40 coins).");
 			break;
 		case 's':
-			addInfo("Starting game!");
+			terminal.addInfo("Starting game!");
 			start = true;
 			break;
 		case 'q':
-			addInfo("Exiting.");
+			terminal.addInfo("Exiting.");
 			start = false;
 			clear();
 			break;
@@ -630,10 +537,10 @@ public class World {
 							towers.add(new GuardianTower(pTower));
 							coin -= 80;
 						}
-						else addInfo("Il est possible de poser que 2 gardien !");
+						else terminal.addInfo("Il est possible de poser que 2 gardien !");
 					}
 					else {
-						addInfo("Il est impossible de poser un gardien sur un batiment !");
+						terminal.addInfo("Il est impossible de poser un gardien sur un batiment !");
 					}
 				}
 				break;
@@ -641,7 +548,7 @@ public class World {
 				for(int i = 0 ; i < towers.size() ; i++){
 					if(towers.get(i).getP().equalsP(pTower)){
 						if(towers.get(i).getUpgradeCost() <= coin )towers.get(i).upgrade();
-						else addInfo("Vous n'avez pas assez d'argent !");
+						else terminal.addInfo("Vous n'avez pas assez d'argent !");
 					}
 				}
 				break;

@@ -272,7 +272,10 @@ public class World {
 			for(Tower t : towers)
 				if(pMouse.equalsP(t.getP() )) {
 					StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), t.getRange());
-					if(t.getClass().getName() == "warcraftTower.GuardianTower") StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.1);
+					if(t.getClass().getName() == "warcraftTower.GuardianTower") {
+						StdDraw.setPenColor(StdDraw.WHITE);
+						StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.1);
+					}
 				}
 		}
 	}

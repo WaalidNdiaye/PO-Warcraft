@@ -176,9 +176,10 @@ public class World {
 	 * 	- l argent qu il possede dans son inventaire (coin)
 	 */
 	public static void drawInfos() {
-		StdDraw.picture(0.92, 0.92, "images/SupportDrawInfos.png" , 0.13, 0.13);
+		StdDraw.picture(0.92, 0.90, "images/SupportDrawInfos.png" , 0.11, 0.17);
 		drawLife();
 		drawCoin();
+		drawWave();
 		drawTerminal();
 	}
 
@@ -186,7 +187,7 @@ public class World {
 	 * Affiche la vie du joueur et une animation de vie 
 	 */
 	public static void drawLife() {
-		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.setPenColor(StdDraw.WHITE);
 		Font font = new Font("Sans Serif", Font.PLAIN, 16);
   		StdDraw.setFont(font);
 		StdDraw.text(0.91, 0.95, String.valueOf(life + " HP"));
@@ -202,12 +203,19 @@ public class World {
 	 * Affiche le nombre de coins du joueur et une animation de coin 
 	 */
 	public static void drawCoin() {
-		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.setPenColor(StdDraw.WHITE);
 		Font font = new Font("Sans Serif", Font.PLAIN, 16);
   		StdDraw.setFont(font);
 		StdDraw.text(0.91, 0.90 , String.valueOf(coin + " coins "));
 		
 		StdDraw.picture(0.95, 0.901, "images/Animation/CoinAnimation/" + time % 6 + ".png" , 0.06, 0.06);
+	}
+	
+	public static void drawWave() {
+		StdDraw.setPenColor(StdDraw.WHITE);
+		Font font = new Font("Sans Serif", Font.PLAIN, 16);
+  		StdDraw.setFont(font);
+		StdDraw.text(0.92, 0.85 , String.valueOf("Vague " + currentW));
 	}
 
 	/**
@@ -217,6 +225,7 @@ public class World {
 	 * 	- Si le message est trop long il est affiche sur deux lignes
 	 */
 	public static void drawTerminal() {
+		StdDraw.setPenColor(StdDraw.BLACK);
 		Font font = new Font("Average", Font.ITALIC, 14);
 		StdDraw.setFont(font);
 		

@@ -19,7 +19,7 @@ public abstract class Projectile {
 	protected int time = 0 ;					// Repere chronologique 
 	
 	/*
-	 * GETTERS AND SETTERS
+	 * Getters and Setters
 	 */
 	public Position getP() {
 		return p;
@@ -71,8 +71,14 @@ public abstract class Projectile {
 	}
 
 
-	/*
-	 * CONSTRUCTEUR 
+	/**
+	 * Constructeur
+	 * @param damage
+	 * @param speed
+	 * @param aerialTarget
+	 * @param p
+	 * @param target
+	 * @param size
 	 */
 	public Projectile(int damage, float speed, boolean aerialTarget, Position p, Monster target, float size) {
 		this.damage = damage;
@@ -85,7 +91,7 @@ public abstract class Projectile {
 		this.hitbox = new ProjectileHitbox(p, (float) size); 
 	}
 	
-	/*
+	/**
 	 * Calcul de la prochaine position et deplacement jusqua la prochaine position 
 	 */
 	public void move(){

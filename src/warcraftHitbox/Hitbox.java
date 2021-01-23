@@ -39,6 +39,11 @@ public class Hitbox {
 		this.bottomSide = bottomSide;
     }
     
+	/**
+	 * Constructeur
+	 * @param p position
+	 * @param size taille
+	 */
     public Hitbox(Position p , float size){
         this.size = size ;
 		leftSide = p.getX() - (this.size / 2);
@@ -47,7 +52,10 @@ public class Hitbox {
 		bottomSide = p.getY() - (this.size /2);
     }
 
-	//Renvoi true si les deux hitboxs se touche sinon renvoi false  
+	/** 
+	 * @param h
+	 * @return true si deux hitbox se touche sinon false
+	 */
     public boolean hit(Hitbox h){
 		if(this.getLeftSide() > h.getRightSide()) return false;
 		else if(this.getRightSide() < h.getLeftSide()) return false ;
@@ -56,7 +64,10 @@ public class Hitbox {
 		else return true ;
 	}
 	
-	// Met a jour la position de la hitbox
+	/**
+	 * Mets a jour la position de la hitbox
+	 * @param p position
+	 */
 	public void move(Position p){
 		leftSide = p.getX() - (this.size / 2);
 		rightSide = p.getX() + (this.size / 2); 

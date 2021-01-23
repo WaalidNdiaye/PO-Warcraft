@@ -6,8 +6,6 @@ import warcraftMain.StdDraw;
 
 public abstract class Monster {
 
-
-	
 	protected Position p;				// Position du monstre à l'instant t
 	protected float speed;				// Vitesse du monstre
 	protected Position nextP;			// Position du monstre à l'instant t+1
@@ -16,15 +14,15 @@ public abstract class Monster {
 	protected boolean flying ;			// Monstre volant
 	protected int life;					// Point de vie du monstre 
 	protected int lifeMax;				// Point de vie max du monstre 
-	protected float lifeRatio = 1;			// Ratio entre life et lifeMax
+	protected float lifeRatio = 1;		// Ratio entre life et lifeMax
 	protected int dropCoin;				// Argent gagné lors de la mort du monstre 
 	protected MonsterHitbox hitbox;		// Hitbox
 	protected float size;				// Taille de la Hitbox
-	protected int time = 100;				// Permert d'afficher cycliquement les monstres 
+	protected int time = 100;			// Permert d'afficher cycliquement les monstres 
 
 	
 	/*
-	 * GETTERS AND SETTERS
+	 * Getters and Setters
 	 */
 	public Position getP() {
 		return p;
@@ -87,6 +85,15 @@ public abstract class Monster {
 		this.dropCoin = dropCoin;
 	}
 	
+	/**
+	 * Constructeur d'un monstre
+	 * @param p position
+	 * @param size taille de la hitbox
+	 * @param speed vitesse
+	 * @param life points de vie
+	 * @param dropCoin coin drop a sa mort
+	 * @param flying si le monstre vol ou non
+	 */
 	public Monster(Position p, float size, float speed, int life, int dropCoin, boolean flying) {
 		this.p = p;
 		this.size = size; 
@@ -100,14 +107,15 @@ public abstract class Monster {
 	}
 	
 	/**
-	 * Déplace le monstre en fonction de sa vitesse sur l'axe des x et des y et de sa prochaine position.
+	 * Deplace le monstre en fonction de sa vitesse sur l'axe des x et des y et de sa prochaine position.
 	 */
 	public void move() {
 		// Mesure sur quel axe le monstre se dirige.
 		float dx = nextP.getX() - p.getX();
 		float dy = nextP.getY() - p.getY();
+		
 		if (dy + dx != 0){
-			// Mesure la distance à laquelle le monstre à pu se déplacer.
+			// Mesure la distance a�laquelle le monstre à pu se déplacer.
 			float ratioX = dx/(Math.abs(dx) + Math.abs(dy));
 			float ratioY = dy/(Math.abs(dx) + Math.abs(dy));
 
@@ -128,6 +136,10 @@ public abstract class Monster {
 		checkpoint++;
 	}
 
+	/**
+	 * regarde si le monstre a ete touche
+	 * @param damage degats pris par le monstre
+	 */
 	public void hit(int damage){
 		life -= damage;
 		lifeRatio = (float) life/lifeMax;
@@ -151,13 +163,16 @@ public abstract class Monster {
 			float bornInf = (float)((i - 1)*born );
 			float bornSupp = (float)(i*born);
 			if(i < 10) {
-				if(lifeRatio > bornInf && lifeRatio <= bornSupp) StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/0" + i + ".png", 0.02 , 0.02);
+				if(lifeRatio > bornInf && lifeRatio <= bornSupp)
+					StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/0" + i + ".png", 0.02 , 0.02);
 			}
 			else {
-				if(lifeRatio > bornInf && lifeRatio <= bornSupp)  StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/" + i + ".png", 0.02 , 0.02);
+				if(lifeRatio > bornInf && lifeRatio <= bornSupp)
+					StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/" + i + ".png", 0.02 , 0.02);
 			}
 		}
-		if(lifeRatio > 14*born)  StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/15.png", 0.02 , 0.02);
+		if(lifeRatio > 14*born)
+			StdDraw.picture(p.getX(), p.getY() + 0.035, "images/Monster/DrawLifeAnimation/15.png", 0.02 , 0.02);
 		
 	}
 

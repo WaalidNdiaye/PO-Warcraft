@@ -11,11 +11,13 @@ public class Bomb extends Projectile{
 	private int hitTime = -1;													// Heure de la colisition avec un monstre (si pas de colition alors -1)
 	private Position explosivePosition ;										// Position de l'explosion
 	
-	/*
-	 * CONSTRUCTEUR 
+	/**
+	 * Constructeur
+	 * @param p position
+	 * @param target cible visé par la bombe
 	 */
-	//La vitesse des fleches egale: vitesse de base des LandMonsters*2
 	public Bomb (Position p, Monster target) {
+		//La vitesse des fleches egale: vitesse de base des LandMonsters*2
 		super(65, (float)0.005, false, p, target, (float)0.008);
 	}
 	
@@ -26,24 +28,26 @@ public class Bomb extends Projectile{
 		StdDraw.picture(p.getX(), p.getY(), "images/Tower/Bomb.png", size , size);
 	}
 
-	/*
+	/**
 	 * Affiche une explosion 
 	 */
 	public void drawExplosion(){
 		if (hitTime != -1  && (time - hitTime) < 24){
-			if(time - hitTime < 10) StdDraw.picture(explosivePosition.getX() + 0.005 ,explosivePosition.getY()+ 0.005 , "images/Tower/BombExplosionAnimation/0" + (time - hitTime) + ".png", explosiveRange , explosiveRange );
-			else StdDraw.picture(explosivePosition.getX() + 0.005 ,  explosivePosition.getY() + 0.005 , "images/Tower/BombExplosionAnimation/" + (time - hitTime) + ".png", explosiveRange, explosiveRange );
+			if(time - hitTime < 10)
+				StdDraw.picture(explosivePosition.getX() + 0.005 ,explosivePosition.getY()+ 0.005 , "images/Tower/BombExplosionAnimation/0" + (time - hitTime) + ".png", explosiveRange , explosiveRange );
+			else
+				StdDraw.picture(explosivePosition.getX() + 0.005 ,  explosivePosition.getY() + 0.005 , "images/Tower/BombExplosionAnimation/" + (time - hitTime) + ".png", explosiveRange, explosiveRange );
 		}
 	}
 
-	/*
+	/**
 	 * Renvoi le temps restant avant de pouvoir detruire le projectile
 	 */
 	public int getTimeRemainig() {
 		return time - hitTime - 24;
 	}
 
-	/*
+	/**
 	 * Ameliore les caracteristiques du projectile
 	 */
 	public void upgrade (){
@@ -51,7 +55,7 @@ public class Bomb extends Projectile{
 		damage += 1;
 	}
 
-	/*
+	/**
 	 * Mise a jour du projectile
 	 */
 	public void update(){
@@ -76,10 +80,8 @@ public class Bomb extends Projectile{
 				drawExplosion();
 			} 
 		}
-		else drawExplosion();
-		
+		else
+			drawExplosion();
 	}
-
-
 
 }

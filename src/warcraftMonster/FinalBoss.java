@@ -11,16 +11,22 @@ public class FinalBoss extends Monster {
     private Random random = new Random();               // Classe pour generer des nombres aleatoire
     private float healRange = (float)0.1;               // Portée de sa capacité a soigner les monstres autours 
 
+    /**
+     * Constructeur
+     * @param p position
+     */
     public FinalBoss (Position p) {
 		super(p , (float)0.06 , (float)0.001875, 800, 0, true);
 	}
 	
 	/**
-	 * Affichage du monstre qui avance 
+	 * Affichage du monstre 
 	 */
 	public void draw() {
-        if(time % 14 < 10) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FinalBossAnimation/0" + time % 14 +  ".png", size * 2, size * 2.5);
-        else  StdDraw.picture(p.getX(), p.getY(), "images/Monster/FinalBossAnimation/" + time % 14 +  ".png", size * 2, size * 2.5);
+        if(time % 14 < 10)
+        	StdDraw.picture(p.getX(), p.getY(), "images/Monster/FinalBossAnimation/0" + time % 14 +  ".png", size * 2, size * 2.5);
+        else
+        	StdDraw.picture(p.getX(), p.getY(), "images/Monster/FinalBossAnimation/" + time % 14 +  ".png", size * 2, size * 2.5);
     }
 
     /**
@@ -39,12 +45,16 @@ public class FinalBoss extends Monster {
         time++;
         
         // Chargement & declenchement de l'Invocation
-        if((time - lastInvocation) > cooldown) chargeInvocation();
-        if(time - lastInvocation == 25) heal();
-        if( time - lastInvocation == 32) invocation();
+        if((time - lastInvocation) > cooldown)
+        	chargeInvocation();
+        if(time - lastInvocation == 25)
+        	heal();
+        if( time - lastInvocation == 32)
+        	invocation();
 
         // Affichage de l'animation d'invocation du Boss
-        if((time - lastInvocation) >= 0 && (time - lastInvocation) < 40)  drawInvocation();
+        if((time - lastInvocation) >= 0 && (time - lastInvocation) < 40)
+        	drawInvocation();
         else{
             move();
 	    	draw();
@@ -55,29 +65,26 @@ public class FinalBoss extends Monster {
     }
 
     /**
-	 * Marque un repère chronologique pour declecher l'invocation
+	 * Marque un repere chronologique pour declecher l'invocation
 	 */
     public void chargeInvocation(){
         lastInvocation = time ;
     }
 
     /**
-	 * Invocation 
+	 * Invocation
+	 * 	- A chaque nouvelle invocation, il invoque un monstre (al�atoire) de plus et se regenere de 80 Hp
+	 * 	- Il les fait spawn a une position al�atoire non loin de lui
 	 */
     public void invocation (){
-
-        // A chaque nouvelle invocation, il invoque un monstre de plus et se regenere de 80 Hp
         for(int i = 0 ; i <= nbrInvocation ; i++){
-
-            // Creation d'un nouveau monstre (choisi aleatoirement)
             int type = random.nextInt(4);
 
+            //Spawn LandMonster
             if(type == 1){
-                 // Genere 2 nouvelle position non loin de FinalMonster
                 Position newP1 = generatP();
                 Position newP2 = generatP();
                 
-                // Creation de 2 LandMonster 
                 Monster m1 = new LandMonster(newP1);
                 m1.setNextP(nextP);
                 World.getMonsters().add(m1);
@@ -86,12 +93,12 @@ public class FinalBoss extends Monster {
                 m2.setNextP(nextP);
                 World.getMonsters().add(m2);
             }
+            
+            //Spawn FlyingMonster
             if(type == 2){
-                // Genere 2 nouvelle position non loin de FinalMonster
                 Position newP1 = generatP();
                 Position newP2 = generatP();
 
-                // Creation de 2 FlyingMonster
                 Monster m1 = new FlyingMonster(newP1);
                 m1.setNextP(nextP);
                 World.getMonsters().add(m1);
@@ -100,41 +107,39 @@ public class FinalBoss extends Monster {
                 m2.setNextP(nextP);
                 World.getMonsters().add(m2);
             }
+            
+            //Spawn WolfMonster
             if(type == 3){
-                 // Genere une nouvelle position non loin de FinalMonster
                 Position newP = generatP();
 
-                // Creation de 1 VogadorMonster
                 Monster m = new WolfMonster(newP);
                 m.setNextP(nextP);
                 World.getMonsters().add(m);
 
             }
-
         }
-
-        if(life <= 730) life += 70;
-        else life += 800 ;
+        if(life <= 730)
+        	life += 70;
+        else
+        	life += 800 ;
 
         nbrInvocation++;
-
     }
 
     /**
-	 * Soigne & et renforce les monstres a portée de ca capacité 
+	 * Soigne et renforce les monstres a portee de ca capacite 
 	 */
     public void heal(){
         for(Monster m : World.getMonsters()){
-            if(p.dist(m.getP()) <= healRange) m.setLife(m.getLife() + 80 );
+            if(p.dist(m.getP()) <= healRange)
+            	m.setLife(m.getLife() + 80);
         }
     }
-
 
     /**
 	 * Genere aletoirement une position non loin de FINALBOSS
 	 */
     public Position generatP(){
-        // Genere aleatoirement une nouvelle position pas loin de la position de FINALBOSS, pour le nouveau monstre 
         int nbX = random.nextInt(7);
         int nbY = random.nextInt(7);
 
@@ -143,4 +148,5 @@ public class FinalBoss extends Monster {
 
         return new Position(newX , newY);
     }
+    
 }

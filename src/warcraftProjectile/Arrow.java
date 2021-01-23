@@ -10,8 +10,10 @@ public class Arrow extends Projectile{
 
 	private double angleRotation ;
 
-	/*
-	 * CONSTRUCTEUR 
+	/**
+	 * Constructeur
+	 * @param p position
+	 * @param cible monstre que le projectile cible
 	 */
 	public Arrow (Position p , Monster cible) {
 		//La vitesse des fleches egale: vitesse de base des FlyingMonsters*2
@@ -19,45 +21,44 @@ public class Arrow extends Projectile{
 		this.angleRotation = angleCalculation();
 	}
 
-	/*
-	 * Fonction d'affichage 
+	/**
+	 * Affichage du projectile
 	 */
 	public  void draw() {
 		StdDraw.picture(p.getX(), p.getY(), "images/Tower/ArcheryTower/ArrowAnimation/" + time % 7 + ".png", size  , size * 0.6 , this.angleRotation);
 	}
 	
-	/*
-	 * Ameliore les caracteristiques du projectile
+	/**
+	 * Upgrade du projectile
 	 */
 	public void upgrade (){
 		level++;
 		damage += 1;
 	}
 
-	/*
-	 * Mise a jour du projectile
+	/**
+	 * Update du projectile
+	 * Met a jour la rotation de l'image en fonction de la postion de la cible 
+	 * NOTE :
+	 * Nous avons rajouter une condition pour limiter les calcules de notre programme (sans impacter significativement le jeu)
+	 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 10 updates
 	 */
 	public void update(){
 		time++;
 		move();
 
-		/* Met a jour la rotation de l'image en fonction de la postion de la cible 
-		 * NOTE :
-		 * Nous avons rajouter une condition pour limiter les calcules de notre programme (sans impacter significativement le jeu)
-		 * au lieux de s'executer a chaque update ces instructions s'executent toutes les 10 updates
-		 */
-		if(time%10 == 0) this.angleRotation = angleCalculation();
+		if(time%10 == 0)
+			this.angleRotation = angleCalculation();
 
 		draw();
 		
-		// Verifie si le projectile a toucher sa cible 
 		if(hitbox.hit(target.getHitbox())){
 			target.hit(damage);
 			hit = true;
 		} 
 	}
 
-	/*
+	/**
 	 * Calcul et renvoie l'angle de rotation de l'image de fleche en fonction de la position de cible
 	 */
 	public double angleCalculation(){
@@ -101,6 +102,4 @@ public class Arrow extends Projectile{
 		}
 	}
 	
-	
-
 }

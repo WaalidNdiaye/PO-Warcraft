@@ -9,6 +9,10 @@ public class WolfBoss extends Monster {
     private int cooldown = 125 ;                        // Temps de rechargement
     private int nbrInvocation = 0;                      // Nombre d'invocation deja effectué
 
+    /**
+     * Constructeur
+     * @param p position
+     */
     public WolfBoss (Position p) {
 		super(p , (float)0.04 , (float)0.00225, 600, 35, false);
 	}
@@ -17,8 +21,10 @@ public class WolfBoss extends Monster {
 	 * Affichage du monstre qui avance 
 	 */
 	public void draw() {
-        if(time % 16 < 10) StdDraw.picture(p.getX(), p.getY(), "images/Monster/WolfBossAnimation/0" + time % 16 +  ".png", size * 2, size * 2.5);
-        else  StdDraw.picture(p.getX(), p.getY(), "images/Monster/WolfBossAnimation/" + time % 16 +  ".png", size * 2, size * 2.5);
+        if(time % 16 < 10)
+        	StdDraw.picture(p.getX(), p.getY(), "images/Monster/WolfBossAnimation/0" + time % 16 +  ".png", size * 2, size * 2.5);
+        else
+        	StdDraw.picture(p.getX(), p.getY(), "images/Monster/WolfBossAnimation/" + time % 16 +  ".png", size * 2, size * 2.5);
     }
 
     /**
@@ -37,36 +43,36 @@ public class WolfBoss extends Monster {
         time++;
         
         // Chargement & declenchement de l'Invocation
-        if((time - lastInvocation) > cooldown) chargeInvocation();
-        if( time - lastInvocation == 25) invocation();
+        if((time - lastInvocation) > cooldown)
+        	chargeInvocation();
+        if( time - lastInvocation == 25)
+        	invocation();
 
         // Affichage de l'animation d'invocation du Boss
-        if((time - lastInvocation) >= 0 && (time - lastInvocation) < 16)  drawInvocation();
+        if((time - lastInvocation) >= 0 && (time - lastInvocation) < 16)
+        	drawInvocation();
         else{
             move();
 	    	draw();
         }
-
 		drawLife();
 		checkpoint++;
     }
 
     /**
-	 * Marque un repère chronologique pour declecher l'invocation
+	 * Marque un repere chronologique pour declecher l'invocation
 	 */
     public void chargeInvocation(){
         lastInvocation = time ;
     }
 
     /**
-	 * Invocation 
+	 * Invocation
+	 * 	- A chaque nouvelle invocation, il invoque un wolfMonster de plus et se regenere de 80 Hp
+	 * 	- Il les fait spawn a une position al�atoire non loin de lui
 	 */
     public void invocation (){
-
-        // A chaque nouvelle invocation, il invoque un monstre de plus et se regenere de 80 Hp
         for(int i = 0 ; i <= nbrInvocation ; i++){
-
-            // Genere aleatoirement une nouvelle position pas loin de la position de WolfBoss, pour le nouveau monstre 
             Random random = new Random();
             int nbX = random.nextInt(6);
             int nbY = random.nextInt(6);
@@ -75,18 +81,18 @@ public class WolfBoss extends Monster {
             float newY = p.getY() + (float)(0.01 * nbY) ;
 
             Position newP = new Position(newX , newY);
-
-            // Creation d'un nouveau monstre 
+            
             Monster m = new WolfMonster(newP);
             m.setNextP(nextP);
 
             World.getMonsters().add(m);
         }
-
-        if(life <= 550) life += 50;
-        else life = 600;
+        if(life <= 550)
+        	life += 50;
+        else
+        	life = 600;
 
         nbrInvocation++;
-
     }
+    
 }

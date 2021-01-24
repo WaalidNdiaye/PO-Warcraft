@@ -38,41 +38,41 @@ public class Terminal {
 	 * 	- Si le message est trop long il est affiche sur deux lignes
 	 */
 	public void drawTerminal() {
-        StdDraw.picture(0.077, 0.90, "images/SupportDrawInfos.png" , 0.16 , 0.3);
+        StdDraw.picture(0.079, 0.871, "images/SupportTerminal.png" , 0.154 , 0.247);
 		StdDraw.setPenColor(StdDraw.WHITE);
-		Font font = new Font("Average", Font.ITALIC, 14);
+		Font font = new Font("Average", Font.PLAIN, 13);
 		StdDraw.setFont(font);
 		
 		if((infosToDraw.size() - 1) > -1) {
 			if(infosToDraw.get(infosToDraw.size() - 1).getMessage().length() > 35){
-				StdDraw.text(0.075, 0.8 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(35)));
-				StdDraw.text(0.075, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(0 , 35)));
+				StdDraw.text(0.076, 0.767 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(35)));
+				StdDraw.text(0.076, 0.781 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage().substring(0 , 35)));
 			}
-			else StdDraw.text(0.075, 0.815 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage()));
+			else StdDraw.text(0.076, 0.774 , String.valueOf(infosToDraw.get(infosToDraw.size() - 1).getMessage()));
 		}
 
 		if((infosToDraw.size() - 2) > -1) {
 			if(infosToDraw.get(infosToDraw.size() - 2).getMessage().length() > 35){
-				StdDraw.text(0.075, 0.835 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(35)));
-				StdDraw.text(0.075, 0.85 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(0 , 35)));
+				StdDraw.text(0.076, 0.832 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(35)));
+				StdDraw.text(0.076, 0.846 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage().substring(0 , 35)));
 			}
-			else StdDraw.text(0.075, 0.85 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage()));
+			else StdDraw.text(0.076, 0.839 , String.valueOf(infosToDraw.get(infosToDraw.size() - 2).getMessage()));
 		}
 		
 		if((infosToDraw.size() - 3) > -1) {
 			if(infosToDraw.get(infosToDraw.size() - 3).getMessage().length() > 35){
-				StdDraw.text(0.075, 0.87 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(35)));
-				StdDraw.text(0.075, 0.885 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(0 , 35)));
+				StdDraw.text(0.076, 0.897 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(35)));
+				StdDraw.text(0.076, 0.911 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage().substring(0 , 35)));
 			}
-			else StdDraw.text(0.075, 0.885 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage()));
+			else StdDraw.text(0.076, 0.904 , String.valueOf(infosToDraw.get(infosToDraw.size() - 3).getMessage()));
 		}
 		
 		if((infosToDraw.size() - 4) > -1) {
 			if(infosToDraw.get(infosToDraw.size() - 4).getMessage().length() > 35){
-				StdDraw.text(0.075, 0.905 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(35)));
-				StdDraw.text(0.075, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(0 , 35)));
+				StdDraw.text(0.076, 0.962 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(35)));
+				StdDraw.text(0.076, 0.976 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage().substring(0 , 35)));
 			}
-			else StdDraw.text(0.075, 0.92 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage()));
+			else StdDraw.text(0.076, 0.969 , String.valueOf(infosToDraw.get(infosToDraw.size() - 4).getMessage()));
 		}
     }
 

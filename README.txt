@@ -42,7 +42,7 @@ NOTE: LE MANUEL D'UTILISATION DU JEU SE TROUVE DANS LE MENU
       - BOMB : Dégats : 65 / Vitesse : 0.004 / Dégats de zone : OUI
 
   - AUTEURS
-NDIAYE Tangi: Développeur (Hitbox, Monstre et Projectiles/Gardiens), L1 2ans - 2ème année;
+NDIAYE Tangi: Développeur (Hitbox, Monstre et Projectiles/Protecteur), L1 2ans - 2ème année;
 PACARY Hassan: Développeur (Menu, implémentation des éléments du jeu sur le plateau de jeu et chemins), L1 2ans - 2ème année.
 
   - CONTRIBUTEUR

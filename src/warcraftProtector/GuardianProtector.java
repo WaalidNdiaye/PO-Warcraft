@@ -163,7 +163,7 @@ public class GuardianProtector extends Protector {
 			
 			if(time - lastShot == 30){
 				for(Monster m : World.getMonsters()){
-					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone && !m.isFlying())
+					if(pZoneAttack != null && pZoneAttack.dist(m.getP()) <= rangeDamageZone && !m.isFlying())
 						m.hit(damage);
 				}
 			}
@@ -171,7 +171,7 @@ public class GuardianProtector extends Protector {
 			// Lors de la dernière phase le pic etant le plus haut inflige plus de dégat et il peut toucher les monstres volants
 			if(time - lastShot == 40){
 				for(Monster m : World.getMonsters()){
-					if(pZoneAttack.dist(m.getP()) <= rangeDamageZone )
+					if(pZoneAttack != null &&pZoneAttack.dist(m.getP()) <= rangeDamageZone )
 						m.hit(damage + 20 );
 				}
 			}

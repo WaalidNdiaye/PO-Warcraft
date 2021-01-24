@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import warcraftMonster.Monster;
 import warcraftWave.*;
-import warcraftTower.*;
+import warcraftProtector.*;
 import java.awt.Font;
 
 public class World {
@@ -28,7 +28,7 @@ public class World {
 	private static int timeWave = 0;										// Repere chronologique exclusive pour l'avance des vagues
 	private static boolean endSpawnMonsters = false;						// Indique si on a fini de faire spawn tout les monstres d'une vague
 	private static List<Monster> monsters = new ArrayList<Monster>();		// Liste des monstres
-	private static List <Tower> towers = new ArrayList<Tower>();			// Liste des tours presentes sur le plateau de jeu
+	private static List <Protector> protectors = new ArrayList<Protector>();			// Liste des tours presentes sur le plateau de jeu
 	private static List<Position> path;										// Liste des positions du chemin utilise durant la vague en cours
 
 	// Informations de l inventaire du joueur
@@ -84,8 +84,8 @@ public class World {
 	public static void setMonsters(List<Monster> m){
 		monsters = m;
 	}
-	public static void setTowers(List<Tower> t){
-		towers = t;
+	public static void setprotectors(List<Protector> t){
+		protectors = t;
 	}
 	public static void setPath(List<Position> p){
 		path = p;
@@ -267,12 +267,13 @@ public class World {
 			break;
 		}
 		
-		if(towers != null){
-			for(Tower t : towers)
+		if(protectors != null){
+			for(Protector t : protectors)
 				if(pMouse.equalsP(t.getP() )) {
 					StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), t.getRange());
-					if(t.getClass().getName() == "warcraftTower.GuardianTower") {
+					if(t.getClass().getName() == "warcraftProtector.GuardianProtector") {
 						StdDraw.setPenColor(StdDraw.WHITE);
+						StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.3);
 						StdDraw.circle(Square.normalizedX(mouseX), Square.normalizedX(mouseY), 0.1);
 					}
 				}
@@ -317,7 +318,7 @@ public class World {
 					timeWave++;
 				drawInfos();
 				updateMonsters();
-				updateTowers();
+				updateprotectors();
 				terminal.updateTerminal(time); 						
 			}
 		}
@@ -401,9 +402,9 @@ public class World {
 	 * Met a jour les tours
 	 * en utilisant un forEach pour parcourir la liste de tours
 	 */
-	public static void updateTowers(){
-		towers.forEach(t ->{
-			t.update();
+	public static void updateprotectors(){
+		protectors.forEach(p ->{
+			p.update();
 		});
 	}
 	
@@ -420,9 +421,9 @@ public class World {
 				return false;
 		}
 		
-		for(int i = 0 ; i < towers.size() ; i++){
-			if(p.equalsP(towers.get(i).getP()) ) {
-				if(drawInfos)  terminal.addInfo("Position impossible ! Une tour est deja présente");
+		for(int i = 0 ; i < protectors.size() ; i++){
+			if(p.equalsP(protectors.get(i).getP()) ) {
+				if(drawInfos)  terminal.addInfo("Position impossible ! Un protecteur est deja présente");
 				return false ;
 			}
 		}
@@ -488,7 +489,7 @@ public class World {
 			terminal.addInfo("Guardian selected (100 coins).");
 			break;
 		case 'e':
-			terminal.addInfo("Evolution selected (40 coins).");
+			terminal.addInfo("Evolution selected (double coins).");
 			break;
 		case 's':
 			terminal.addInfo("Starting game!");
@@ -519,13 +520,13 @@ public class World {
 			switch (key) {
 			case 'a':
 				if(canCreatTower(pTower, 25, true)) {
-					towers.add(new ArcheryTower(pTower));
+					protectors.add(new ArcheryProtector(pTower));
 					coin -= 25 ;
 				}
 				break;
 			case 'b':
 				if(canCreatTower(pTower, 55, true )) {
-					towers.add(new BombTower(pTower));
+					protectors.add(new BomberProtector(pTower));
 					coin -= 55;
 				}
 				break;
@@ -534,9 +535,9 @@ public class World {
 					if(!building.isBuilding(pTower)){
 						// Limitation des gardiens a 2 
 						int nbrGuardian = 0;
-						for(Tower t : towers) if(t.getClass().getName() == "warcraftTower.GuardianTower") nbrGuardian++ ;
+						for(Protector t : protectors) if(t.getClass().getName() == "warcraftTower.GuardianTower") nbrGuardian++ ;
 						if(nbrGuardian < 2){
-							towers.add(new GuardianTower(pTower));
+							protectors.add(new GuardianProtector(pTower));
 							coin -= 80;
 						}
 						else terminal.addInfo("Il est possible de poser que 2 gardien !");
@@ -547,9 +548,9 @@ public class World {
 				}
 				break;
 			case 'e':
-				for(int i = 0 ; i < towers.size() ; i++){
-					if(towers.get(i).getP().equalsP(pTower)){
-						if(towers.get(i).getUpgradeCost() <= coin )towers.get(i).upgrade();
+				for(int i = 0 ; i < protectors.size() ; i++){
+					if(protectors.get(i).getP().equalsP(pTower)){
+						if(protectors.get(i).getUpgradeCost() <= coin )protectors.get(i).upgrade();
 						else terminal.addInfo("Vous n'avez pas assez d'argent !");
 					}
 				}
@@ -661,7 +662,7 @@ public class World {
 		nbWaves = 1;
 		currentW = 1;
 		monsters.clear();
-		towers.clear();
+		protectors.clear();
 		path.clear();
 		life = 15;
 		coin = 105;

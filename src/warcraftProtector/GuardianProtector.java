@@ -1,11 +1,11 @@
-package warcraftTower;
+package warcraftProtector;
 
 import warcraftMain.StdDraw;
 import warcraftMain.World;
 import warcraftMonster.*;
 import warcraftMain.Position;
 
-public class GuardianTower extends Tower {
+public class GuardianProtector extends Protector {
 
 	private int damage =  85;														// Degat de l'attaque du gardien
 	private float rangeDamageZone = (float) 0.04;  									// PortÃ©e de l'attaque de zone du gardien 
@@ -16,7 +16,7 @@ public class GuardianTower extends Tower {
 	 * Constructeur d'un gardien
 	 * @param p position
 	 */
-	public GuardianTower (Position p) {
+	public GuardianProtector (Position p) {
 		super( 100, (float)0.3, 70, false, p);
 		System.out.println("\n--- Nouveau gardien creer!---");
 	}
@@ -70,7 +70,7 @@ public class GuardianTower extends Tower {
 	}
 
 	/**
-	 * Le gardien ne peut pas etre améliore
+	 * Le gardien ne peut pas etre amï¿½liore
 	 */
 	public void upgrade(){}
 

@@ -115,7 +115,7 @@ public abstract class Monster {
 		float dy = nextP.getY() - p.getY();
 		
 		if (dy + dx != 0){
-			// Mesure la distance a�laquelle le monstre à pu se déplacer.
+			// Mesure la distance a�laquelle le monstre à pu se déplacer.
 			float ratioX = dx/(Math.abs(dx) + Math.abs(dy));
 			float ratioY = dy/(Math.abs(dx) + Math.abs(dy));
 

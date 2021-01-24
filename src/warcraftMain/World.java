@@ -415,8 +415,8 @@ public class World {
 	 * @return true si une tour peut etre cree sinon false
 	 */
 	public static boolean canCreatTower(Position p , int cost , boolean drawInfos){
-		if(building.onPath(p)){
-			if(drawInfos) terminal.addInfo("Position impossible ! Vous etes sur le chemin.");
+		if(!building.canAdd(p)){
+			if(drawInfos) terminal.addInfo("Position impossible !");
 				return false;
 		}
 		

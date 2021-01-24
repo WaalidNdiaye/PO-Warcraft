@@ -33,7 +33,7 @@ public class SuccubeMonster extends Monster {
 	 */
 	public void draw() {
 
-		if(time % 40 < 10) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimation/0" + time%40 +  ".png", size*2 , size*2.5);
-		if(time % 40 >= 10) StdDraw.picture(p.getX(), p.getY(), "images/Monster/FlyingMonsterAnimation/" + time%40 +  ".png", size*2 , size*2.5);
+		if(time % 40 < 10) StdDraw.picture(p.getX(), p.getY() + 0.02, "images/Monster/FlyingMonsterAnimation/0" + time%40 +  ".png", size*2 , size*2.5);
+		if(time % 40 >= 10) StdDraw.picture(p.getX(), p.getY()  + 0.02, "images/Monster/FlyingMonsterAnimation/" + time%40 +  ".png", size*2 , size*2.5);
 	}
 }

@@ -126,7 +126,7 @@ public class World {
 	 */
 	public World() {
 		square = Square.setBoard();
-		spawn = square.get(8);
+		spawn = square.get(7);
 		chateau = square.get(352);
 
 		StdDraw.setCanvasSize(width, height);
@@ -166,7 +166,6 @@ public class World {
 	 */
 	public static void drawBackground() {
 		StdDraw.picture(0.5, 0.5, "images/background.png", 1, 1);
-		StdDraw.picture(0.02, 0.6, "images/Spawner.png", (1.0/24.0) * 4, (1.0/15.0) * 4);
 	}
 
 	/**
@@ -664,7 +663,7 @@ public class World {
 		monsters.clear();
 		towers.clear();
 		path.clear();
-		life = 14;
+		life = 15;
 		coin = 105;
 		key = 0;
 		start = false;

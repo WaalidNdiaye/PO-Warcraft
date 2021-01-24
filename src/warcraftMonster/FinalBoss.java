@@ -73,8 +73,8 @@ public class FinalBoss extends Monster {
 
     /**
 	 * Invocation
-	 * 	- A chaque nouvelle invocation, il invoque un monstre (aléatoire) de plus et se regenere de 80 Hp
-	 * 	- Il les fait spawn a une position aléatoire non loin de lui
+	 * 	- A chaque nouvelle invocation, il invoque un monstre (alï¿½atoire) de plus et se regenere de 80 Hp
+	 * 	- Il les fait spawn a une position alï¿½atoire non loin de lui
 	 */
     public void invocation (){
         for(int i = 0 ; i <= nbrInvocation ; i++){
@@ -131,7 +131,7 @@ public class FinalBoss extends Monster {
 	 */
     public void heal(){
         for(Monster m : World.getMonsters()){
-            if(p.dist(m.getP()) <= healRange)
+            if(p.dist(m.getP()) <= healRange  && m.getClass().getName() != "warcraftMonster.FinalBoss")
             	m.setLife(m.getLife() + 80);
         }
     }

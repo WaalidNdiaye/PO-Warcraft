@@ -32,8 +32,8 @@ public class LandMonster extends Monster {
 	 * Affichage du monstre 
 	 */
 	public void draw() {
-		if(time % 25 < 10) StdDraw.picture(p.getX(), p.getY(), "images/Monster/LandMonsterAnimation/0" + time%25 +  ".png", size * 0.6 , size);
-		if(time % 25 >= 10) StdDraw.picture(p.getX(), p.getY(), "images/Monster/LandMonsterAnimation/" + time%25 +  ".png", size * 0.6 , size);
+		if(time % 25 < 10) StdDraw.picture(p.getX(), p.getY() + 0.04, "images/Monster/LandMonsterAnimation/0" + time%25 +  ".png", size * 0.6 , size);
+		if(time % 25 >= 10) StdDraw.picture(p.getX(), p.getY() + 0.04, "images/Monster/LandMonsterAnimation/" + time%25 +  ".png", size * 0.6 , size);
 	}
 	
 }

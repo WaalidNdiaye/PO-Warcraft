@@ -18,7 +18,7 @@ public class WaveL1{
     public static void buildWave(){
         if(World.getTimeWave() == 100){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
+            World.getMonsters().add(new FlyingMonster(p));
         }
         if(World.getTimeWave() == 120){
             Position p = new Position(World.getSpawn());

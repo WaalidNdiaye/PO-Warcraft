@@ -146,9 +146,6 @@ public class World {
 	public static void drawMenu() {
 		StdDraw.picture(0.5, 0.5, "images/menu.png", 1, 1);
 		
-		if(sousMenu)
-			StdDraw.picture(0.5, 0.5, "images/i.png", 1, 1);
-		
 		// Affiche le carre de selection seulement sur les case voulu
 		if(Square.compareNormalized(mouseX, square.get(125).getX(), mouseY, square.get(125).getY())
 				|| Square.compareNormalized(mouseX, square.get(140).getX(), mouseY, square.get(140).getY())
@@ -159,6 +156,9 @@ public class World {
 				|| Square.compareNormalized(mouseX, square.get(215).getX(), mouseY, square.get(215).getY())
 				|| Square.compareNormalized(mouseX, square.get(230).getX(), mouseY, square.get(230).getY()))
 			StdDraw.picture(Square.normalizedX(mouseX), Square.normalizedY(mouseY), "images/select.png", squareWidth, squareHeight);
+		
+		if(sousMenu)
+			StdDraw.picture(0.5, 0.5, "images/i.png", 1, 1);
 	}
 	
 	/**

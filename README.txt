@@ -65,10 +65,11 @@ position de celui-ci.
     - Certain objet ne sont pas mit a jour a chaque boucle du jeu par exemple : le calcul de la cible la plus pour une tour ne se fait que toute les 3 boucles de jeu, le 
       calcul de la rotation de l'image d'une fleche (par rapport a sa cible) ne se fait que tout les 10 boucles de jeu...
   
+  - SOURCES
+https://docs.google.com/document/d/1R2iIJAHzfYaryEzxpeTOhtpV3Q1z__A17KqMrwSbuC0/edit?usp=sharing
+
   - CREDITS
 NOITA (jeu-vidéo), inspiration pour le titre de Succubus & Goblins
-Autres crédits : https://docs.google.com/document/d/1R2iIJAHzfYaryEzxpeTOhtpV3Q1z__A17KqMrwSbuC0/edit?usp=sharing 
-
 
 GITHUB: https://github.com/WaalidNdiaye/PO-Warcraft
 DRIVE: https://drive.google.com/drive/folders/1KUGh0dKl-Co6EqXfvqdEgERCLbbuVD3I?usp=sharing

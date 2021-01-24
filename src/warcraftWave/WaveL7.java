@@ -16,43 +16,43 @@ public class WaveL7{
      * Fait spawn les monstre en fonction de la variable World.time
      */  
     public static void buildWave(){
+        if(World.getTimeWave() == 3350){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new LandMonster(p));
+        }
+        if(World.getTimeWave() == 3400){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new LandMonster(p));
+        }
+        if(World.getTimeWave() == 3450){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new FlyingMonster(p));
+        }
+        if(World.getTimeWave() == 3500){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new FlyingMonster(p));
+        }
+        if(World.getTimeWave() == 3550){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new WolfMonster(p));
+        }
+        if(World.getTimeWave() == 3600){
+            Position p = new Position(World.getSpawn());
+            World.getMonsters().add(new WolfMonster(p));
+        }
         if(World.getTimeWave() == 3650){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
         }
-        if(World.getTimeWave() == 3670){
+        if(World.getTimeWave() == 3700){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new LandMonster(p));
-        }
-        if(World.getTimeWave() == 3690){
-            Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
-        }
-        if(World.getTimeWave() == 3710){
-            Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
-        }
-        if(World.getTimeWave() == 3730){
-            Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new WolfMonster(p));
         }
         if(World.getTimeWave() == 3750){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new WolfMonster(p));
-        }
-        if(World.getTimeWave() == 3770){
-            Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
-        }
-        if(World.getTimeWave() == 3790){
-            Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new LandMonster(p));
-        }
-        if(World.getTimeWave() == 3910){
-            Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }
-        if(World.getTimeWave() == 3830){
+        if(World.getTimeWave() == 3800){
             Position p = new Position(World.getSpawn());
             World.getMonsters().add(new FlyingMonster(p));
         }

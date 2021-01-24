@@ -11,7 +11,7 @@ public class WolfMonster extends Monster {
 	 * @param p position
 	 */
 	public WolfMonster (Position p) {
-		super(p, (float)0.08, (float)0.0035, 145, 8, false);
+		super(p, (float)0.08, (float)0.0035, 145, 5, false);
 		
 		//Pour les vagues 3 et 5 la vie des WolfMonsters est egale a 145+(145/2)
 		if(World.getCurrentW() == 3 || World.getCurrentW() == 5)

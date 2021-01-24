@@ -16,7 +16,7 @@ public class FinalBoss extends Monster {
      * @param p position
      */
     public FinalBoss (Position p) {
-		super(p , (float)0.06 , (float)0.001875, 800, 0, true);
+		super(p , (float)0.06 , (float)0.001875, 1000, 0, true);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class FinalBoss extends Monster {
         // Chargement & declenchement de l'Invocation
         if((time - lastInvocation) > cooldown)
         	chargeInvocation();
-        if(time - lastInvocation == 25)
+        if(time - lastInvocation == 17)
         	heal();
         if( time - lastInvocation == 32)
         	invocation();
@@ -118,10 +118,10 @@ public class FinalBoss extends Monster {
 
             }
         }
-        if(life <= 730)
-        	life += 70;
+        if(life <= 910)
+        	life += 90;
         else
-        	life += 800 ;
+        	life += 1000 ;
 
         nbrInvocation++;
     }

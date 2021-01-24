@@ -30,7 +30,7 @@ public class WaveL3{
         }
         if(World.getTimeWave() == 750){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 780){
             Position p = new Position(World.getSpawn());
@@ -46,7 +46,7 @@ public class WaveL3{
         }
         if(World.getTimeWave() == 870){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 940){
             Position p = new Position(World.getSpawn());
@@ -62,7 +62,7 @@ public class WaveL3{
         }
         if(World.getTimeWave() == 990){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 1020){
             Position p = new Position(World.getSpawn());
@@ -78,7 +78,7 @@ public class WaveL3{
         }
         if(World.getTimeWave() == 1110){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 1141)
             World.setEndSpawnMonsters(true);

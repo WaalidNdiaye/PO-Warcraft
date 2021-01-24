@@ -26,11 +26,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 3450){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 3500){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 3550){
             Position p = new Position(World.getSpawn());
@@ -50,11 +50,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 3750){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 3800){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 3850){
             Position p = new Position(World.getSpawn());
@@ -74,11 +74,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 3930){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 3950){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 3970){
             Position p = new Position(World.getSpawn());
@@ -98,11 +98,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 4050){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4070){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4090){
             Position p = new Position(World.getSpawn());
@@ -122,11 +122,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 4170){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4190){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4210){
             Position p = new Position(World.getSpawn());
@@ -146,11 +146,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 4290){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4310){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4330){
             Position p = new Position(World.getSpawn());
@@ -170,11 +170,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 4410){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4430){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4450){
             Position p = new Position(World.getSpawn());
@@ -194,11 +194,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 4530){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4550){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4570){
             Position p = new Position(World.getSpawn());
@@ -218,11 +218,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 4650){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4670){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4690){
             Position p = new Position(World.getSpawn());
@@ -242,11 +242,11 @@ public class WaveL7{
         }
         if(World.getTimeWave() == 4770){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4790){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FlyingMonster(p));
+            World.getMonsters().add(new SuccubeMonster(p));
         }
         if(World.getTimeWave() == 4810){
             Position p = new Position(World.getSpawn());

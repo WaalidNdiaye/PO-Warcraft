@@ -3,7 +3,7 @@ package warcraftMonster;
 import java.util.Random;
 import warcraftMain.*;
 
-public class FinalBoss extends Monster {
+public class FinalBossQueenDemon extends Monster {
 
     private int lastInvocation = 50;                    // Repere chronologique de la derniere invocation
     private int cooldown = 125 ;                        // Temps de rechargement
@@ -15,7 +15,7 @@ public class FinalBoss extends Monster {
      * Constructeur
      * @param p position
      */
-    public FinalBoss (Position p) {
+    public FinalBossQueenDemon (Position p) {
 		super(p , (float)0.06 , (float)0.001875, 1000, 0, true);
 	}
 	
@@ -94,16 +94,16 @@ public class FinalBoss extends Monster {
                 World.getMonsters().add(m2);
             }
             
-            //Spawn FlyingMonster
+            //Spawn SuccubeMonster
             if(type == 2){
                 Position newP1 = generatP();
                 Position newP2 = generatP();
 
-                Monster m1 = new FlyingMonster(newP1);
+                Monster m1 = new SuccubeMonster(newP1);
                 m1.setNextP(nextP);
                 World.getMonsters().add(m1);
 
-                Monster m2 = new FlyingMonster(newP2);
+                Monster m2 = new SuccubeMonster(newP2);
                 m2.setNextP(nextP);
                 World.getMonsters().add(m2);
             }

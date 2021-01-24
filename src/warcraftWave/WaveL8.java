@@ -22,7 +22,7 @@ public class WaveL8{
         }
         if(World.getTimeWave() == 5030){
             Position p = new Position(World.getSpawn());
-            World.getMonsters().add(new FinalBoss(p));
+            World.getMonsters().add(new FinalBossQueenDemon(p));
         }
         if(World.getTimeWave() == 5130){
             Position p = new Position(World.getSpawn());
